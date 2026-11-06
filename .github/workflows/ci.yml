@@ -24,7 +24,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
 
       - name: Install dependencies
         run: npm install
@@ -40,4 +39,3 @@ jobs:
 
       - name: Run System Diagnostics Doctor Check
         run: node apps/cli/dist/index.js plugin doctor
-

@@ -35,6 +35,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 #### Plugin SDK & Distribution System
 * Created `@projectmind/plugin-sdk` with `RuntimeResolver`, `PortableHookRunner`, `ConfigWriter`, `ManifestValidator`, and `PluginRegistry`.
+* Implemented comprehensive Update & Upgrade Manager (`UpdateManager`, `UpdateLock`, `UnifiedUpdateManifest`) directly integrated with GitHub Releases (`Rootx202/ProjectMind`).
+* Added CLI commands: `projectmind update check`, `projectmind update`, `projectmind upgrade check`, `projectmind upgrade`, `projectmind plugin outdated`, and `projectmind plugin update <agent|--all>`.
+* Cryptographic SHA-256 verification and automatic atomic rollback on failure.
+* Mutex lockfile mechanism (`.projectmind/.update.lock`) preventing concurrent updates.
 * Developed unified CLI (`projectmind plugin list`, `search`, `install`, `verify`, `update`, `disable`, `enable`, `uninstall`, `doctor`).
 * Non-destructive uninstall guarantee: agent configurations can be removed without touching or deleting `.projectmind` SQLite databases.
 * Automated packaging tool (`scripts/package-plugins.js`) producing `.tar.gz` bundles with `SHA256SUMS` and `index.json`.

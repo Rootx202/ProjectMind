@@ -14,5 +14,8 @@
     "coverage/**"
   ],
   "allowSecretIndexing": false,
-  "semanticSearchProvider": "local-hash-vectors"
+  "semanticSearchProvider": "local-hash-vectors",
+  "autoUpdateCheck": true,
+  "updateCheckIntervalHours": 24,
+  "lastUpdateCheckTimestamp": 0
 }

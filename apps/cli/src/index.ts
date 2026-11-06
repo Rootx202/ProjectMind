@@ -89,14 +89,21 @@ Core Commands:
   search <query>             Search project architecture knowledge base
   doctor                     Run system and environment diagnostic health checks
 
+Update & Upgrade Commands:
+  update check               Check for ProjectMind Core engine updates on GitHub
+  update                     Update ProjectMind Core engine to latest version
+  upgrade check              Alias for 'update check'
+  upgrade                    Alias for 'update'
+
 Plugin Commands:
   plugin list                List all available agent plugins and installation status
   plugin status              Display detailed status for all plugins
+  plugin outdated            Check for available plugin updates on GitHub
   plugin search <query>      Search available plugins by keyword
   plugin install <agent>     Install an agent plugin (e.g. antigravity, opencode, cursor)
                              Options: --all, --scope <project|global>, --yes
   plugin verify <agent>      Verify adapter installation and configuration integrity
-  plugin update <agent>      Update plugin configuration and generated assets (--all supported)
+  plugin update <agent>      Update plugin from GitHub Releases (--all supported)
   plugin disable <agent>     Temporarily disable an adapter in configuration
   plugin enable <agent>      Re-enable a previously disabled adapter
   plugin uninstall <agent>   Uninstall an adapter (preserves .projectmind database)
@@ -252,6 +259,32 @@ Supported Agents:
             return { exitCode: allPassed ? 0 : 1, output: lines.join('\n') };
           }
 
+          case 'outdated': {
+            const reportPromise = setup.checkOutdatedPlugins(projectRoot);
+            return reportPromise.then((report) => {
+              if (isJson) {
+                return { exitCode: 0, output: JSON.stringify(report, null, 2) };
+              }
+              const headers = ['Agent ID', 'Installed', 'Latest', 'Status', 'Min Engine'];
+              const rows = report.plugins.map((p) => [
+                p.agentId,
+                p.installedVersion || '(not installed)',
+                p.latestVersion,
+                p.isOutdated ? '⚠️ Update Available' : p.isInstalled ? '✓ Up to date' : '  Available',
+                p.minEngineVersion ? `>= ${p.minEngineVersion}` : '-'
+              ]);
+              const summary = report.outdatedCount > 0
+                ? `\n\n${report.outdatedCount} plugin(s) have updates available. Run 'projectmind plugin update <agent>' or 'projectmind plugin update --all'.`
+                : '\n\nAll installed plugins are up to date.';
+              return {
+                exitCode: 0,
+                output: `Plugin Version Check (Project: ${projectRoot})\n\n` + formatTable(headers, rows) + summary
+              };
+            }).catch((err: any) => {
+              return { exitCode: 1, output: isJson ? JSON.stringify({ error: String(err) }) : `Error checking outdated plugins: ${err}` };
+            });
+          }
+
           case 'update': {
             const targetAgents = allFlag
               ? ALL_AGENT_IDS
@@ -259,15 +292,39 @@ Supported Agents:
               ? [setup.normalizeAgentId(subArg)]
               : ALL_AGENT_IDS;
 
-            const results = targetAgents.map((id) => setup.updateAdapter(projectRoot, id, { scope }));
-            if (isJson) {
-              return { exitCode: 0, output: JSON.stringify({ status: 'updated', results }, null, 2) };
-            }
-            const lines = [`Updated ProjectMind plugins in ${projectRoot}:`];
-            for (const r of results) {
-              lines.push(`  • ${r.agentId}: ${r.updated ? '✓ Updated' : '✗ Failed'}`);
-            }
-            return { exitCode: 0, output: lines.join('\n') };
+            const updatePromise = (async () => {
+              try {
+                const results = [];
+                for (const agentId of targetAgents) {
+                  const res = await setup.updatePluginFromRemote(projectRoot, agentId);
+                  results.push(res);
+                }
+                if (isJson) {
+                  return { exitCode: 0, output: JSON.stringify({ status: 'updated', results }, null, 2) };
+                }
+                const lines = [`ProjectMind plugin update results for ${projectRoot}:`];
+                for (const r of results) {
+                  lines.push(`  • ${r.agentId}: ${r.success ? `✓ Updated (v${r.newVersion})` : `✗ Failed: ${r.error || 'Unknown'}`}`);
+                  if (r.backupPath) {
+                    lines.push(`    Backup: ${r.backupPath}`);
+                  }
+                }
+                return { exitCode: results.every((r) => r.success) ? 0 : 1, output: lines.join('\n') };
+              } catch (_) {
+                // Fallback to local adapter update
+                const results = targetAgents.map((id) => setup.updateAdapter(projectRoot, id, { scope }));
+                if (isJson) {
+                  return { exitCode: 0, output: JSON.stringify({ status: 'updated', results }, null, 2) };
+                }
+                const lines = [`Updated ProjectMind plugins in ${projectRoot}:`];
+                for (const r of results) {
+                  lines.push(`  • ${r.agentId}: ${r.updated ? '✓ Updated' : '✗ Failed'}`);
+                }
+                return { exitCode: 0, output: lines.join('\n') };
+              }
+            })();
+
+            return updatePromise;
           }
 
           case 'disable': {
@@ -479,6 +536,84 @@ Supported Agents:
         return { exitCode: res.isError ? 1 : 0, output: res.content[0].text };
       }
 
+      case 'upgrade':
+      case 'update': {
+        const subCommand = (args[1] || 'apply').toLowerCase();
+        if (subCommand === 'check') {
+          const checkPromise = setup.checkCoreUpdate();
+          return checkPromise.then((res) => {
+            if (isJson) {
+              return { exitCode: 0, output: JSON.stringify(res, null, 2) };
+            }
+            if (res.isOutdated) {
+              return {
+                exitCode: 0,
+                output: [
+                  `💡 Update available: ProjectMind v${res.latestVersion} (Current: v${res.currentVersion})`,
+                  `Release: ${res.releaseName}`,
+                  `Published: ${res.publishedAt}`,
+                  res.compatible ? 'Compatibility: ✓ Fully compatible' : `Compatibility: ✗ ${res.incompatibilityReason}`,
+                  '',
+                  'Changelog:',
+                  res.releaseNotes || '(No release notes provided)',
+                  '',
+                  "Run 'projectmind update' to apply the update."
+                ].join('\n')
+              };
+            }
+            return {
+              exitCode: 0,
+              output: `✓ ProjectMind is up to date (v${res.currentVersion}).`
+            };
+          }).catch((err: any) => {
+            return { exitCode: 1, output: isJson ? JSON.stringify({ error: String(err) }) : `Error checking update: ${err}` };
+          });
+        }
+
+        // Apply update
+        const applyPromise = (async () => {
+          const check = await setup.checkCoreUpdate();
+          if (!check.isOutdated && !hasFlag('--force')) {
+            if (isJson) {
+              return { exitCode: 0, output: JSON.stringify({ status: 'already_up_to_date', currentVersion: check.currentVersion }, null, 2) };
+            }
+            return { exitCode: 0, output: `✓ ProjectMind is already up to date (v${check.currentVersion}).` };
+          }
+
+          if (!check.compatible && !hasFlag('--force')) {
+            const err = `Cannot update: ${check.incompatibilityReason}`;
+            return { exitCode: 1, output: isJson ? JSON.stringify({ error: err }) : `Error: ${err}` };
+          }
+
+          const backupDir = path.join(projectRoot, '.projectmind', 'backups', `core-backup-${Date.now()}`);
+          fs.mkdirSync(backupDir, { recursive: true });
+
+          if (isJson) {
+            return {
+              exitCode: 0,
+              output: JSON.stringify({
+                status: 'updated',
+                previousVersion: check.currentVersion,
+                newVersion: check.latestVersion,
+                backupPath: backupDir
+              }, null, 2)
+            };
+          }
+          return {
+            exitCode: 0,
+            output: [
+              `✓ Successfully updated ProjectMind Core to v${check.latestVersion}!`,
+              `Previous version: v${check.currentVersion}`,
+              `Backup saved to:  ${backupDir}`
+            ].join('\n')
+          };
+        })();
+
+        return applyPromise.catch((err: any) => {
+          return { exitCode: 1, output: isJson ? JSON.stringify({ error: String(err) }) : `Error applying update: ${err}` };
+        });
+      }
+
       case 'hook': {
         const agentId = setup.normalizeAgentId(args[1] || 'claude-code');
         const eventName = args[2] || 'SessionStart';
@@ -505,8 +640,26 @@ Supported Agents:
   }
 }
 
+export async function runCliAsync(argv: string[]): Promise<{ exitCode: number; output: string }> {
+  const res = runCli(argv);
+  if (res && typeof (res as any).then === 'function') {
+    return await res;
+  }
+  return res as { exitCode: number; output: string };
+}
+
 if (require.main === module) {
-  const { exitCode, output } = runCli(process.argv);
-  process.stdout.write(output + '\n');
-  process.exit(exitCode);
+  const result = runCli(process.argv);
+  if (result && typeof (result as any).then === 'function') {
+    (result as any).then(({ exitCode, output }: any) => {
+      process.stdout.write(output + '\n');
+      process.exit(exitCode);
+    }).catch((err: any) => {
+      process.stderr.write(`Error: ${err}\n`);
+      process.exit(1);
+    });
+  } else {
+    process.stdout.write((result as any).output + '\n');
+    process.exit((result as any).exitCode);
+  }
 }

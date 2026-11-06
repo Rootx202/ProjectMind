@@ -9,7 +9,9 @@ import {
 } from '@projectmind/agent-sdk';
 import {
   PluginRegistry, PluginManifest, RuntimeResolver,
-  getOsDirectoryLayout, detectPlatform, ConfigWriter
+  getOsDirectoryLayout, detectPlatform, ConfigWriter,
+  UpdateManager, UpdateManagerOptions, CoreUpdateCheckResult,
+  OutdatedPluginsReport, PluginUpdateResult
 } from '@projectmind/plugin-sdk';
 import { AntigravityAdapter } from '@projectmind/adapter-antigravity';
 import { CodexAdapter } from '@projectmind/adapter-codex';
@@ -517,5 +519,50 @@ export class SetupManager {
       },
       adapterStatuses
     };
+  }
+
+  public getUpdateManager(options?: UpdateManagerOptions): UpdateManager {
+    return new UpdateManager(options);
+  }
+
+  public async checkCoreUpdate(options?: UpdateManagerOptions): Promise<CoreUpdateCheckResult> {
+    const updater = this.getUpdateManager(options);
+    return updater.checkCoreUpdate();
+  }
+
+  public async checkOutdatedPlugins(projectRoot: string, options?: UpdateManagerOptions): Promise<OutdatedPluginsReport> {
+    const updater = this.getUpdateManager(options);
+    const resolvedRoot = path.resolve(projectRoot);
+    const adapters = this.getAllAdapters().map((a) => ({
+      agentId: a.agentId,
+      displayName: a.displayName,
+      verified: a.verify(resolvedRoot).verified
+    }));
+    return updater.checkOutdatedPlugins(resolvedRoot, adapters);
+  }
+
+  public async updatePluginFromRemote(
+    projectRoot: string,
+    agentId: string,
+    options?: { targetVersion?: string; force?: boolean; updaterOptions?: UpdateManagerOptions }
+  ): Promise<PluginUpdateResult> {
+    const normalized = this.normalizeAgentId(agentId);
+    const adapter = this.getAdapter(normalized);
+    const updater = this.getUpdateManager(options?.updaterOptions);
+    return updater.updatePlugin(path.resolve(projectRoot), normalized, adapter, options);
+  }
+
+  public async updateAllPluginsFromRemote(
+    projectRoot: string,
+    options?: { updaterOptions?: UpdateManagerOptions }
+  ): Promise<PluginUpdateResult[]> {
+    const updater = this.getUpdateManager(options?.updaterOptions);
+    const resolvedRoot = path.resolve(projectRoot);
+    const adapters = this.getAllAdapters().map((a) => ({
+      agentId: a.agentId,
+      adapter: a,
+      verified: a.verify(resolvedRoot).verified
+    }));
+    return updater.updateAllPlugins(resolvedRoot, adapters);
   }
 }

@@ -1,8 +1,50 @@
-# ProjectMind — Universal AI Project Intelligence Engine
+<p align="center">
+  <img src="docs/assets/logo.svg" alt="ProjectMind Logo" width="720" style="border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.5);" />
+</p>
+
+<h1 align="center">ProjectMind</h1>
+<p align="center"><b>Universal Local-First AI Project Intelligence &amp; Persistent 3-Layer Memory Engine</b></p>
+<p align="center">
+  <a href="https://github.com/Rootx202/ProjectMind/releases"><img src="https://img.shields.io/badge/version-1.0.0-blue.svg" alt="Version 1.0.0" /></a>
+  <a href="https://github.com/Rootx202/ProjectMind"><img src="https://img.shields.io/badge/tests-62%20passed-brightgreen.svg" alt="Tests 62 Passed" /></a>
+  <a href="#agent-compatibility-matrix"><img src="https://img.shields.io/badge/agents-9%20supported-purple.svg" alt="9 Supported Agents" /></a>
+  <a href="SECURITY.md"><img src="https://img.shields.io/badge/security-local--first-emerald.svg" alt="Local First" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-orange.svg" alt="License MIT" /></a>
+</p>
+
+---
 
 ProjectMind is a local-first, privacy-preserving project intelligence and persistent context engine that enables AI coding agents to understand, remember, and work with software repositories without repeatedly scanning the entire codebase.
 
 ProjectMind is **not** a separate AI coding agent or chatbot. It is an autonomous intelligence and persistent memory layer used directly by your existing coding agents ([Google Antigravity](https://antigravity.google/docs/mcp/), [OpenAI Codex](https://learn.chatgpt.com/docs/extend/mcp), [Anthropic Claude Code](https://code.claude.com/docs/en/hooks), [Google Gemini CLI](https://geminicli.com/docs/tools/mcp-server/), [Cursor](https://cursor.com/docs/hooks), [GitHub Copilot in VS Code](https://code.visualstudio.com/docs/agents/reference/mcp-configuration), [OpenCode](https://opencode.ai/docs/mcp), [Hermes Agent](https://hermes-agent.nousresearch.com/docs/mcp), and [DeepSeek Harness / Hermes](https://github.com/deepseek-ai/deepseek-harness)).
+
+## Architecture & Visual Overview
+
+ProjectMind's modular architecture decouples high-level AI agent interaction from local persistent storage and selective retrieval.
+
+### System Architecture
+The 4-tier stack integrates coding agents via native hooks and MCP protocols into a unified core engine backed by local SQLite3 storage:
+<p align="center">
+  <img src="docs/assets/diagrams/system-architecture.svg" alt="ProjectMind System Architecture" width="100%" />
+</p>
+
+### 3-Layer Persistent Memory Architecture
+Memory is partitioned into three strictly isolated tiers to ensure ultra-fast bootstrapping, fact verification, and prevent hallucination contamination:
+<p align="center">
+  <img src="docs/assets/diagrams/3-layer-memory.svg" alt="ProjectMind 3-Layer Memory Architecture" width="100%" />
+</p>
+
+### Smart Auto Mode Lifecycle Workflow
+Continuous autonomous synchronization runs behind the scenes during normal development sessions without manual user commands:
+<p align="center">
+  <img src="docs/assets/diagrams/smart-auto-workflow.svg" alt="ProjectMind Smart Auto Lifecycle Workflow" width="100%" />
+</p>
+
+### Universal Agent Integration Matrix
+Grounded adapter support for 9 distinct AI coding agent ecosystems across hooks, MCP servers, rules, and skills:
+<p align="center">
+  <img src="docs/assets/diagrams/agent-integration-matrix.svg" alt="ProjectMind Universal Agent Integration Matrix" width="100%" />
+</p>
 
 ## Key Capabilities
 
@@ -64,7 +106,7 @@ ProjectMind provides cross-platform installers for Linux, macOS, and Windows:
 # 1. Compile all packages, adapters, and apps
 node scripts/build.js
 
-# 2. Run the complete automated test suite (50/50 tests passing)
+# 2. Run the complete automated test suite (62/62 tests passing)
 node scripts/test.js
 
 # 3. Package all 9 plugins with SHA-256 checksums
@@ -94,6 +136,21 @@ projectmind plugin verify antigravity
 # Update adapter configuration and regenerate hook runners
 projectmind plugin update antigravity
 
+# Check for outdated plugins against GitHub Releases
+projectmind plugin outdated
+
+# Update a specific plugin or all plugins from GitHub Releases
+projectmind plugin update claude-code
+projectmind plugin update --all
+
+# Check for ProjectMind Core engine updates on GitHub
+projectmind update check
+projectmind upgrade check
+
+# Update ProjectMind Core engine
+projectmind update
+projectmind upgrade
+
 # Temporarily disable an adapter in configuration
 projectmind plugin disable antigravity
 
@@ -105,6 +162,34 @@ projectmind plugin uninstall antigravity
 ```
 
 After installation, open your project in your coding agent and work normally. You never need to run `projectmind scan`, `projectmind context`, or `projectmind sync` manually during ordinary development.
+
+## Visual Walkthrough & CLI Execution
+
+The following screenshots capture real terminal outputs from ProjectMind CLI running locally:
+
+### 1. Diagnostics & Environment Health Check (`projectmind plugin doctor`)
+Validates Node.js runtime, filesystem read/write permissions, and inspects detection status across all 9 agent platforms:
+<p align="center">
+  <img src="docs/assets/screenshots/cli-doctor.svg" alt="ProjectMind Plugin Diagnostics" width="100%" />
+</p>
+
+### 2. Multi-Agent Ecosystem Status (`projectmind plugin list`)
+Displays all 9 supported coding agent integrations, installed plugins, detected environments, and adapter capabilities:
+<p align="center">
+  <img src="docs/assets/screenshots/cli-plugin-list.svg" alt="ProjectMind Plugin List" width="100%" />
+</p>
+
+### 3. Selective Context Retrieval & Token Budgeting (`projectmind context`)
+Demonstrates intelligent task scoping, module dependency multi-hop traversal, and token budget allocation (using only 768 tokens of a 4,000 token budget for multi-module tasks):
+<p align="center">
+  <img src="docs/assets/screenshots/cli-context.svg" alt="ProjectMind Context Retrieval" width="100%" />
+</p>
+
+### 4. Continuous Update Management (`projectmind update check` & `plugin outdated`)
+Verifies Core engine updates and individual plugin versions directly against official GitHub Releases with SHA-256 integrity verification:
+<p align="center">
+  <img src="docs/assets/screenshots/cli-update-outdated.svg" alt="ProjectMind Update Management" width="100%" />
+</p>
 
 ## Documentation Guides
 

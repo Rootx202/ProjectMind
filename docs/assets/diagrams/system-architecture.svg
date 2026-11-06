@@ -1,0 +1,214 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0f19"/>
+      <stop offset="50%" stop-color="#111827"/>
+      <stop offset="100%" stop-color="#070a12"/>
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1f2937" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#111827" stop-opacity="0.9"/>
+    </linearGradient>
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#ec4899"/>
+    </linearGradient>
+    <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="820" rx="16" fill="url(#bgGrad)"/>
+  <rect x="1" y="1" width="1198" height="818" rx="15" fill="none" stroke="#1e293b" stroke-width="1.5"/>
+
+  <!-- Title Section -->
+  <g transform="translate(60, 45)">
+    <rect x="0" y="0" width="48" height="48" rx="10" fill="url(#cyanGrad)"/>
+    <path d="M14 24h20M24 14v20M17 17l14 14M31 17L17 31" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+    <text x="64" y="28" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="700" fill="#f8fafc">ProjectMind System Architecture</text>
+    <text x="64" y="46" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="400" fill="#94a3b8">Universal Local-First AI Project Intelligence &amp; 3-Layer Persistent Memory Architecture</text>
+  </g>
+
+  <!-- Layer 1: AI Coding Agents -->
+  <g transform="translate(60, 115)">
+    <rect width="1080" height="110" rx="12" fill="url(#cardGrad)" stroke="#334155" stroke-width="1" filter="url(#shadow)"/>
+    <text x="24" y="26" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700" fill="#38bdf8" letter-spacing="1">TIER 1: SUPPORTED AI CODING AGENTS (9 PLATFORMS)</text>
+    
+    <!-- Agent Pills -->
+    <g transform="translate(24, 42)">
+      <g transform="translate(0, 0)">
+        <rect width="105" height="48" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+        <text x="52" y="24" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#f1f5f9" text-anchor="middle">Antigravity</text>
+        <text x="52" y="38" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">Plugin + Hooks</text>
+      </g>
+      <g transform="translate(115, 0)">
+        <rect width="105" height="48" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+        <text x="52" y="24" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#f1f5f9" text-anchor="middle">Claude Code</text>
+        <text x="52" y="38" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">CLAUDE.md + MCP</text>
+      </g>
+      <g transform="translate(230, 0)">
+        <rect width="105" height="48" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+        <text x="52" y="24" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#f1f5f9" text-anchor="middle">Cursor</text>
+        <text x="52" y="38" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">v1 Hooks + Rules</text>
+      </g>
+      <g transform="translate(345, 0)">
+        <rect width="105" height="48" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+        <text x="52" y="24" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#f1f5f9" text-anchor="middle">OpenAI Codex</text>
+        <text x="52" y="38" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">config.toml + Skill</text>
+      </g>
+      <g transform="translate(460, 0)">
+        <rect width="105" height="48" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+        <text x="52" y="24" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#f1f5f9" text-anchor="middle">Gemini CLI</text>
+        <text x="52" y="38" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">JSON Stdout Hooks</text>
+      </g>
+      <g transform="translate(575, 0)">
+        <rect width="105" height="48" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+        <text x="52" y="24" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#f1f5f9" text-anchor="middle">GitHub Copilot</text>
+        <text x="52" y="38" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">VS Code + Prompts</text>
+      </g>
+      <g transform="translate(690, 0)">
+        <rect width="105" height="48" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+        <text x="52" y="24" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#f1f5f9" text-anchor="middle">OpenCode</text>
+        <text x="52" y="38" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">opencode.json MCP</text>
+      </g>
+      <g transform="translate(805, 0)">
+        <rect width="105" height="48" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+        <text x="52" y="24" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#f1f5f9" text-anchor="middle">Hermes Agent</text>
+        <text x="52" y="38" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">HERMES.md Loop</text>
+      </g>
+      <g transform="translate(920, 0)">
+        <rect width="112" height="48" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+        <text x="56" y="24" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#f1f5f9" text-anchor="middle">DeepSeek Harness</text>
+        <text x="56" y="38" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">dsh Plugin + Hooks</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Connecting Lines -->
+  <path d="M600 225v30" stroke="#06b6d4" stroke-width="2" stroke-dasharray="4,4"/>
+
+  <!-- Layer 2: Protocol & Integration Bus -->
+  <g transform="translate(60, 255)">
+    <rect width="1080" height="95" rx="12" fill="url(#cardGrad)" stroke="#334155" stroke-width="1" filter="url(#shadow)"/>
+    <text x="24" y="24" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700" fill="#a855f7" letter-spacing="1">TIER 2: PROTOCOL &amp; INTEGRATION INTERFACE</text>
+    
+    <g transform="translate(24, 38)">
+      <rect x="0" y="0" width="320" height="42" rx="8" fill="#2e1065" stroke="#7e22ce" stroke-width="1"/>
+      <text x="160" y="20" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#e9d5ff" text-anchor="middle">JSON-RPC 2.0 MCP Server (22 Tools)</text>
+      <text x="160" y="34" font-family="system-ui, sans-serif" font-size="9" fill="#c084fc" text-anchor="middle">Discovery • Retrieval • Impact • ADRs • Token Budget</text>
+
+      <rect x="345" y="0" width="240" height="42" rx="8" fill="#1e1b4b" stroke="#4338ca" stroke-width="1"/>
+      <text x="465" y="20" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#e0e7ff" text-anchor="middle">Autonomous Skills</text>
+      <text x="465" y="34" font-family="system-ui, sans-serif" font-size="9" fill="#a5b4fc" text-anchor="middle">Canonical SKILL.md Bundles</text>
+
+      <rect x="610" y="0" width="240" height="42" rx="8" fill="#042f2e" stroke="#0f766e" stroke-width="1"/>
+      <text x="730" y="20" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#ccfbf1" text-anchor="middle">Lifecycle Hooks Dispatcher</text>
+      <text x="730" y="34" font-family="system-ui, sans-serif" font-size="9" fill="#5eead4" text-anchor="middle">SessionStart • PreInvocation • PostToolUse</text>
+
+      <rect x="875" y="0" width="157" height="42" rx="8" fill="#082f49" stroke="#0284c7" stroke-width="1"/>
+      <text x="953" y="20" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#e0f2fe" text-anchor="middle">CLI &amp; Setup</text>
+      <text x="953" y="34" font-family="system-ui, sans-serif" font-size="9" fill="#7dd3fc" text-anchor="middle">Diagnostics &amp; Doctor</text>
+    </g>
+  </g>
+
+  <!-- Connecting Lines -->
+  <path d="M600 350v30" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="4,4"/>
+
+  <!-- Layer 3: Engine Core & Intelligence Pipeline -->
+  <g transform="translate(60, 380)">
+    <rect width="1080" height="175" rx="12" fill="url(#cardGrad)" stroke="#334155" stroke-width="1" filter="url(#shadow)"/>
+    <text x="24" y="26" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700" fill="#10b981" letter-spacing="1">TIER 3: CORE INTELLIGENCE PIPELINE &amp; ENGINE</text>
+
+    <g transform="translate(24, 44)">
+      <!-- Box 1 -->
+      <rect x="0" y="0" width="190" height="110" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <text x="16" y="26" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#38bdf8">Smart Auto Mode</text>
+      <text x="16" y="46" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Zero manual commands</text>
+      <text x="16" y="64" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• State machine engine</text>
+      <text x="16" y="82" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Warm reuse (0 rescans)</text>
+      <text x="16" y="100" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Safe fail-open boundaries</text>
+
+      <!-- Box 2 -->
+      <rect x="210" y="0" width="190" height="110" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <text x="226" y="26" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#a78bfa">7-Stage Bootstrap</text>
+      <text x="226" y="46" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Repo inventory &amp; configs</text>
+      <text x="226" y="64" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Module topology graph</text>
+      <text x="226" y="82" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Symbols, routes, models</text>
+      <text x="226" y="100" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• SHA-256 fingerprints</text>
+
+      <!-- Box 3 -->
+      <rect x="420" y="0" width="190" height="110" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <text x="436" y="26" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#34d399">Impact Analysis</text>
+      <text x="436" y="46" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Direct &amp; transitive deps</text>
+      <text x="436" y="64" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Reverse dependents</text>
+      <text x="436" y="82" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Blast-radius score (0-100)</text>
+      <text x="436" y="100" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Deep analysis trigger</text>
+
+      <!-- Box 4 -->
+      <rect x="630" y="0" width="190" height="110" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <text x="646" y="26" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#fbbf24">Hybrid Retrieval</text>
+      <text x="646" y="46" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• SQLite FTS5 BM25 search</text>
+      <text x="646" y="64" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Local hash-vector rerank</text>
+      <text x="646" y="82" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Token-budget enforcer</text>
+      <text x="646" y="100" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Compact context digest</text>
+
+      <!-- Box 5 -->
+      <rect x="840" y="0" width="192" height="110" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <text x="856" y="26" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#f87171">Security Engine</text>
+      <text x="856" y="46" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Secret &amp; token redaction</text>
+      <text x="856" y="64" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Path traversal defense</text>
+      <text x="856" y="82" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Symlink boundary lock</text>
+      <text x="856" y="100" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Prompt-injection filter</text>
+    </g>
+  </g>
+
+  <!-- Connecting Lines -->
+  <path d="M600 555v30" stroke="#10b981" stroke-width="2" stroke-dasharray="4,4"/>
+
+  <!-- Layer 4: 3-Layer Persistent Memory -->
+  <g transform="translate(60, 585)">
+    <rect width="1080" height="185" rx="12" fill="url(#cardGrad)" stroke="#334155" stroke-width="1" filter="url(#shadow)"/>
+    <text x="24" y="26" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700" fill="#f59e0b" letter-spacing="1">TIER 4: THREE-LAYER PERSISTENT LOCAL STORAGE (.projectmind/projectmind.db)</text>
+
+    <g transform="translate(24, 44)">
+      <!-- Layer 1 -->
+      <rect x="0" y="0" width="330" height="118" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+      <rect x="12" y="12" width="22" height="22" rx="4" fill="#3b82f6"/>
+      <text x="23" y="27" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">L1</text>
+      <text x="42" y="27" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">Layer 1: Core Memory</text>
+      <text x="14" y="52" font-family="system-ui, sans-serif" font-size="11" fill="#94a3b8">Permanent ultra-compact project identity:</text>
+      <text x="14" y="70" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Stable Project ID, Name, Verified Commit</text>
+      <text x="14" y="86" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Tech Stack, Architecture summary, Key constraints</text>
+      <text x="14" y="102" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Zero-drift moving project path reconciliation</text>
+
+      <!-- Layer 2 -->
+      <rect x="350" y="0" width="345" height="118" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+      <rect x="362" y="12" width="22" height="22" rx="4" fill="#8b5cf6"/>
+      <text x="373" y="27" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">L2</text>
+      <text x="392" y="27" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">Layer 2: Project Knowledge</text>
+      <text x="364" y="52" font-family="system-ui, sans-serif" font-size="11" fill="#94a3b8">Searchable SQLite + FTS5 BM25 Knowledge Base:</text>
+      <text x="364" y="70" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Modules, public exported symbols, dependencies</text>
+      <text x="364" y="86" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• HTTP API route catalog, DB schemas &amp; models</text>
+      <text x="364" y="102" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• ADRs with provenance &amp; verification status</text>
+
+      <!-- Layer 3 -->
+      <rect x="715" y="0" width="317" height="118" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+      <rect x="727" y="12" width="22" height="22" rx="4" fill="#10b981"/>
+      <text x="738" y="27" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">L3</text>
+      <text x="757" y="27" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">Layer 3: Task Context</text>
+      <text x="729" y="52" font-family="system-ui, sans-serif" font-size="11" fill="#94a3b8">Strictly isolated ephemeral context state:</text>
+      <text x="729" y="70" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Token-budgeted retrieval packages</text>
+      <text x="729" y="86" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Scope: none | file | module | cross | deep</text>
+      <text x="729" y="102" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Task assumptions never pollute Layer 2 knowledge</text>
+    </g>
+  </g>
+</svg>
+

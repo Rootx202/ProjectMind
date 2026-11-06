@@ -1,0 +1,186 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0f19"/>
+      <stop offset="50%" stop-color="#111827"/>
+      <stop offset="100%" stop-color="#070a12"/>
+    </linearGradient>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#ef4444"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000000" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="800" rx="16" fill="url(#bgGrad)"/>
+  <rect x="1" y="1" width="1198" height="798" rx="15" fill="none" stroke="#1e293b" stroke-width="1.5"/>
+
+  <!-- Header -->
+  <g transform="translate(60, 45)">
+    <rect x="0" y="0" width="48" height="48" rx="10" fill="url(#headerGrad)"/>
+    <!-- Grid Icon -->
+    <path d="M15 15h7v7h-7z M26 15h7v7h-7z M15 26h7v7h-7z M26 26h7v7h-7z" stroke="#ffffff" stroke-width="2" stroke-linejoin="round" fill="none"/>
+    <text x="64" y="28" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="700" fill="#f8fafc">Universal Agent Integration Matrix</text>
+    <text x="64" y="46" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="400" fill="#94a3b8">Multi-Agent Protocol Capabilities, Configuration Artifacts &amp; Lifecycle Hook Support (9 Platforms)</text>
+  </g>
+
+  <!-- TABLE CONTAINER -->
+  <g transform="translate(60, 115)">
+    <!-- Header Row -->
+    <rect width="1080" height="45" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="24" y="27" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#94a3b8">AGENT PLATFORM</text>
+    <text x="270" y="27" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#94a3b8" text-anchor="middle">HOOKS</text>
+    <text x="360" y="27" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#94a3b8" text-anchor="middle">MCP PROTOCOL</text>
+    <text x="470" y="27" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#94a3b8" text-anchor="middle">RULES / PROMPTS</text>
+    <text x="580" y="27" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#94a3b8" text-anchor="middle">SKILLS / TOOLS</text>
+    <text x="670" y="27" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#94a3b8">CONFIG ARTIFACTS / SPECIFICATION</text>
+    <text x="1010" y="27" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#94a3b8" text-anchor="middle">PLUGIN ID</text>
+
+    <!-- ROW 1: Google Antigravity -->
+    <g transform="translate(0, 52)">
+      <rect width="1080" height="58" rx="6" fill="#111827" stroke="#1f2937"/>
+      <circle cx="20" cy="29" r="6" fill="#3b82f6"/>
+      <text x="36" y="28" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">Google Antigravity</text>
+      <text x="36" y="44" font-family="system-ui, sans-serif" font-size="10.5" fill="#64748b">DeepMind Agent IDE &amp; CLI</text>
+      <text x="270" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="360" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="470" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="580" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="670" y="26" font-family="monospace" font-size="11" fill="#38bdf8">.agents/plugins/projectmind/plugin.json</text>
+      <text x="670" y="43" font-family="monospace" font-size="10" fill="#64748b">.agents/mcp_config.json, AGENTS.md, skills</text>
+      <rect x="945" y="16" width="120" height="26" rx="4" fill="#1e293b"/>
+      <text x="1005" y="33" font-family="monospace" font-size="11" fill="#cbd5e1" text-anchor="middle">antigravity</text>
+    </g>
+
+    <!-- ROW 2: Anthropic Claude Code -->
+    <g transform="translate(0, 116)">
+      <rect width="1080" height="58" rx="6" fill="#0d1117" stroke="#1f2937"/>
+      <circle cx="20" cy="29" r="6" fill="#d97706"/>
+      <text x="36" y="28" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">Anthropic Claude Code</text>
+      <text x="36" y="44" font-family="system-ui, sans-serif" font-size="10.5" fill="#64748b">Claude CLI Agent &amp; Terminal</text>
+      <text x="270" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="360" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="470" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="580" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="670" y="26" font-family="monospace" font-size="11" fill="#38bdf8">.claude/hooks.json, .claude/mcp.json</text>
+      <text x="670" y="43" font-family="monospace" font-size="10" fill="#64748b">CLAUDE.md, .claude/skills/projectmind/</text>
+      <rect x="945" y="16" width="120" height="26" rx="4" fill="#1e293b"/>
+      <text x="1005" y="33" font-family="monospace" font-size="11" fill="#cbd5e1" text-anchor="middle">claude-code</text>
+    </g>
+
+    <!-- ROW 3: Cursor IDE -->
+    <g transform="translate(0, 180)">
+      <rect width="1080" height="58" rx="6" fill="#111827" stroke="#1f2937"/>
+      <circle cx="20" cy="29" r="6" fill="#8b5cf6"/>
+      <text x="36" y="28" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">Cursor IDE &amp; Agent CLI</text>
+      <text x="36" y="44" font-family="system-ui, sans-serif" font-size="10.5" fill="#64748b">Anysphere Cursor AI IDE</text>
+      <text x="270" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="360" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="470" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="580" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="670" y="26" font-family="monospace" font-size="11" fill="#38bdf8">.cursor/hooks.json, .cursor/mcp.json</text>
+      <text x="670" y="43" font-family="monospace" font-size="10" fill="#64748b">.cursorrules, .cursor/skills/projectmind/</text>
+      <rect x="945" y="16" width="120" height="26" rx="4" fill="#1e293b"/>
+      <text x="1005" y="33" font-family="monospace" font-size="11" fill="#cbd5e1" text-anchor="middle">cursor</text>
+    </g>
+
+    <!-- ROW 4: Google Gemini CLI -->
+    <g transform="translate(0, 244)">
+      <rect width="1080" height="58" rx="6" fill="#0d1117" stroke="#1f2937"/>
+      <circle cx="20" cy="29" r="6" fill="#06b6d4"/>
+      <text x="36" y="28" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">Google Gemini CLI</text>
+      <text x="36" y="44" font-family="system-ui, sans-serif" font-size="10.5" fill="#64748b">Google Gemini Developer CLI</text>
+      <text x="270" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="360" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="470" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="580" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="670" y="26" font-family="monospace" font-size="11" fill="#38bdf8">.gemini/settings.json (Hooks + MCP)</text>
+      <text x="670" y="43" font-family="monospace" font-size="10" fill="#64748b">GEMINI.md (Strict JSON stdout runner)</text>
+      <rect x="945" y="16" width="120" height="26" rx="4" fill="#1e293b"/>
+      <text x="1005" y="33" font-family="monospace" font-size="11" fill="#cbd5e1" text-anchor="middle">gemini-cli</text>
+    </g>
+
+    <!-- ROW 5: OpenAI Codex -->
+    <g transform="translate(0, 308)">
+      <rect width="1080" height="58" rx="6" fill="#111827" stroke="#1f2937"/>
+      <circle cx="20" cy="29" r="6" fill="#10b981"/>
+      <text x="36" y="28" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">OpenAI Codex</text>
+      <text x="36" y="44" font-family="system-ui, sans-serif" font-size="10.5" fill="#64748b">OpenAI CLI / IDE / Desktop</text>
+      <text x="270" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#64748b" text-anchor="middle">—</text>
+      <text x="360" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="470" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="580" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="670" y="26" font-family="monospace" font-size="11" fill="#38bdf8">.codex/mcp.json, CODEX.md</text>
+      <text x="670" y="43" font-family="monospace" font-size="10" fill="#64748b">.codex/skills/projectmind/SKILL.md</text>
+      <rect x="945" y="16" width="120" height="26" rx="4" fill="#1e293b"/>
+      <text x="1005" y="33" font-family="monospace" font-size="11" fill="#cbd5e1" text-anchor="middle">codex</text>
+    </g>
+
+    <!-- ROW 6: GitHub Copilot -->
+    <g transform="translate(0, 372)">
+      <rect width="1080" height="58" rx="6" fill="#0d1117" stroke="#1f2937"/>
+      <circle cx="20" cy="29" r="6" fill="#6366f1"/>
+      <text x="36" y="28" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">GitHub Copilot</text>
+      <text x="36" y="44" font-family="system-ui, sans-serif" font-size="10.5" fill="#64748b">VS Code &amp; Copilot Workspace</text>
+      <text x="270" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#64748b" text-anchor="middle">—</text>
+      <text x="360" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="470" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="580" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="670" y="26" font-family="monospace" font-size="11" fill="#38bdf8">.github/copilot-instructions.md</text>
+      <text x="670" y="43" font-family="monospace" font-size="10" fill="#64748b">.vscode/mcp.json, .github/prompts/</text>
+      <rect x="945" y="16" width="120" height="26" rx="4" fill="#1e293b"/>
+      <text x="1005" y="33" font-family="monospace" font-size="11" fill="#cbd5e1" text-anchor="middle">github-copilot</text>
+    </g>
+
+    <!-- ROW 7: OpenCode -->
+    <g transform="translate(0, 436)">
+      <rect width="1080" height="58" rx="6" fill="#111827" stroke="#1f2937"/>
+      <circle cx="20" cy="29" r="6" fill="#ec4899"/>
+      <text x="36" y="28" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">OpenCode</text>
+      <text x="36" y="44" font-family="system-ui, sans-serif" font-size="10.5" fill="#64748b">anomalyco / opencode.ai</text>
+      <text x="270" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="360" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="470" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="580" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="670" y="26" font-family="monospace" font-size="11" fill="#38bdf8">.opencode/hooks.json, .opencode/mcp.json</text>
+      <text x="670" y="43" font-family="monospace" font-size="10" fill="#64748b">OPENCODE.md, .opencode/skills/projectmind/</text>
+      <rect x="945" y="16" width="120" height="26" rx="4" fill="#1e293b"/>
+      <text x="1005" y="33" font-family="monospace" font-size="11" fill="#cbd5e1" text-anchor="middle">opencode</text>
+    </g>
+
+    <!-- ROW 8: Hermes Agent -->
+    <g transform="translate(0, 500)">
+      <rect width="1080" height="58" rx="6" fill="#0d1117" stroke="#1f2937"/>
+      <circle cx="20" cy="29" r="6" fill="#14b8a6"/>
+      <text x="36" y="28" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">Hermes Agent</text>
+      <text x="36" y="44" font-family="system-ui, sans-serif" font-size="10.5" fill="#64748b">Nous Research Agent Framework</text>
+      <text x="270" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="360" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="470" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="580" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="670" y="26" font-family="monospace" font-size="11" fill="#38bdf8">.hermes/hooks.json, .hermes/mcp.json</text>
+      <text x="670" y="43" font-family="monospace" font-size="10" fill="#64748b">HERMES.md, .hermes/skills/projectmind/</text>
+      <rect x="945" y="16" width="120" height="26" rx="4" fill="#1e293b"/>
+      <text x="1005" y="33" font-family="monospace" font-size="11" fill="#cbd5e1" text-anchor="middle">hermes-agent</text>
+    </g>
+
+    <!-- ROW 9: DeepSeek Harness -->
+    <g transform="translate(0, 564)">
+      <rect width="1080" height="58" rx="6" fill="#111827" stroke="#1f2937"/>
+      <circle cx="20" cy="29" r="6" fill="#3b82f6"/>
+      <text x="36" y="28" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">DeepSeek Harness</text>
+      <text x="36" y="44" font-family="system-ui, sans-serif" font-size="10.5" fill="#64748b">DeepSeek AI Coding Framework</text>
+      <text x="270" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="360" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="470" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="580" y="34" font-family="system-ui, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">✓</text>
+      <text x="670" y="26" font-family="monospace" font-size="11" fill="#38bdf8">.dsh/hooks.json, .dsh/mcp.json</text>
+      <text x="670" y="43" font-family="monospace" font-size="10" fill="#64748b">DEEPSEEK.md, .dsh/skills/projectmind/</text>
+      <rect x="945" y="16" width="120" height="26" rx="4" fill="#1e293b"/>
+      <text x="1005" y="33" font-family="monospace" font-size="11" fill="#cbd5e1" text-anchor="middle">deepseek-harness</text>
+    </g>
+  </g>
+</svg>

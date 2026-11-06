@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 540" width="100%" height="100%">
+  <defs>
+    <linearGradient id="termGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#000000" flood-opacity="0.7"/>
+    </filter>
+  </defs>
+
+  <!-- Terminal Window Outer -->
+  <g filter="url(#shadow)">
+    <rect width="920" height="540" rx="10" fill="url(#termGrad)" stroke="#334155" stroke-width="1"/>
+    
+    <!-- Title Bar -->
+    <path d="M0 10C0 4.477 4.477 0 10 0h900c5.523 0 10 4.477 10 10v28H0V10z" fill="#1e293b"/>
+    <circle cx="20" cy="19" r="6" fill="#ef4444"/>
+    <circle cx="38" cy="19" r="6" fill="#f59e0b"/>
+    <circle cx="56" cy="19" r="6" fill="#10b981"/>
+    <text x="460" y="24" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#94a3b8" text-anchor="middle">terminal — projectmind update check &amp; plugin outdated</text>
+  </g>
+
+  <!-- Terminal Body -->
+  <g transform="translate(24, 62)" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="12">
+    <!-- First Command -->
+    <text y="0">
+      <tspan fill="#10b981" font-weight="700">user@workspace</tspan><tspan fill="#64748b">:</tspan><tspan fill="#38bdf8" font-weight="700">~/projectmind</tspan><tspan fill="#f1f5f9">$ projectmind update check</tspan>
+    </text>
+    <text y="24" fill="#34d399" font-weight="600">✓ ProjectMind is up to date (v1.0.0).</text>
+
+    <!-- Second Command -->
+    <text y="58">
+      <tspan fill="#10b981" font-weight="700">user@workspace</tspan><tspan fill="#64748b">:</tspan><tspan fill="#38bdf8" font-weight="700">~/projectmind</tspan><tspan fill="#f1f5f9">$ projectmind plugin outdated</tspan>
+    </text>
+
+    <text y="88" fill="#94a3b8">Plugin Version Check (Project: /home/user/projectmind)</text>
+    <text y="116" fill="#38bdf8" font-weight="700">
+      <tspan x="0">Agent ID</tspan>
+      <tspan x="180">Installed</tspan>
+      <tspan x="350">Latest</tspan>
+      <tspan x="440">Status</tspan>
+      <tspan x="580">Min Engine</tspan>
+    </text>
+    <text y="132" fill="#475569">----------------  ---------------  ------  ------------  ----------</text>
+
+    <text y="152">
+      <tspan x="0" fill="#f8fafc">antigravity</tspan>
+      <tspan x="180" fill="#cbd5e1">1.0.0</tspan>
+      <tspan x="350" fill="#cbd5e1">1.0.0</tspan>
+      <tspan x="440" fill="#34d399">✓ Up to date</tspan>
+      <tspan x="580" fill="#94a3b8">&gt;= 1.0.0</tspan>
+    </text>
+
+    <text y="174">
+      <tspan x="0" fill="#f8fafc">codex</tspan>
+      <tspan x="180" fill="#64748b">(not installed)</tspan>
+      <tspan x="350" fill="#cbd5e1">1.0.0</tspan>
+      <tspan x="440" fill="#38bdf8">  Available</tspan>
+      <tspan x="580" fill="#94a3b8">&gt;= 1.0.0</tspan>
+    </text>
+
+    <text y="196">
+      <tspan x="0" fill="#f8fafc">claude-code</tspan>
+      <tspan x="180" fill="#64748b">(not installed)</tspan>
+      <tspan x="350" fill="#cbd5e1">1.0.0</tspan>
+      <tspan x="440" fill="#38bdf8">  Available</tspan>
+      <tspan x="580" fill="#94a3b8">&gt;= 1.0.0</tspan>
+    </text>
+
+    <text y="218">
+      <tspan x="0" fill="#f8fafc">gemini-cli</tspan>
+      <tspan x="180" fill="#64748b">(not installed)</tspan>
+      <tspan x="350" fill="#cbd5e1">1.0.0</tspan>
+      <tspan x="440" fill="#38bdf8">  Available</tspan>
+      <tspan x="580" fill="#94a3b8">&gt;= 1.0.0</tspan>
+    </text>
+
+    <text y="240">
+      <tspan x="0" fill="#f8fafc">cursor</tspan>
+      <tspan x="180" fill="#64748b">(not installed)</tspan>
+      <tspan x="350" fill="#cbd5e1">1.0.0</tspan>
+      <tspan x="440" fill="#38bdf8">  Available</tspan>
+      <tspan x="580" fill="#94a3b8">&gt;= 1.0.0</tspan>
+    </text>
+
+    <text y="262">
+      <tspan x="0" fill="#f8fafc">github-copilot</tspan>
+      <tspan x="180" fill="#64748b">(not installed)</tspan>
+      <tspan x="350" fill="#cbd5e1">1.0.0</tspan>
+      <tspan x="440" fill="#38bdf8">  Available</tspan>
+      <tspan x="580" fill="#94a3b8">&gt;= 1.0.0</tspan>
+    </text>
+
+    <text y="284">
+      <tspan x="0" fill="#f8fafc">opencode</tspan>
+      <tspan x="180" fill="#64748b">(not installed)</tspan>
+      <tspan x="350" fill="#cbd5e1">1.0.0</tspan>
+      <tspan x="440" fill="#38bdf8">  Available</tspan>
+      <tspan x="580" fill="#94a3b8">&gt;= 1.0.0</tspan>
+    </text>
+
+    <text y="306">
+      <tspan x="0" fill="#f8fafc">hermes-agent</tspan>
+      <tspan x="180" fill="#64748b">(not installed)</tspan>
+      <tspan x="350" fill="#cbd5e1">1.0.0</tspan>
+      <tspan x="440" fill="#38bdf8">  Available</tspan>
+      <tspan x="580" fill="#94a3b8">&gt;= 1.0.0</tspan>
+    </text>
+
+    <text y="328">
+      <tspan x="0" fill="#f8fafc">deepseek-harness</tspan>
+      <tspan x="180" fill="#64748b">(not installed)</tspan>
+      <tspan x="350" fill="#cbd5e1">1.0.0</tspan>
+      <tspan x="440" fill="#38bdf8">  Available</tspan>
+      <tspan x="580" fill="#94a3b8">&gt;= 1.0.0</tspan>
+    </text>
+
+    <text y="366" fill="#34d399">All installed plugins are up to date.</text>
+
+    <text y="404">
+      <tspan fill="#10b981" font-weight="700">user@workspace</tspan><tspan fill="#64748b">:</tspan><tspan fill="#38bdf8" font-weight="700">~/projectmind</tspan><tspan fill="#f1f5f9">$ </tspan><tspan fill="#38bdf8">█</tspan>
+    </text>
+  </g>
+</svg>

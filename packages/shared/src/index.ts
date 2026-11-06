@@ -161,6 +161,9 @@ export interface ProjectMindConfig {
   excludePatterns: string[];
   allowSecretIndexing: false;
   semanticSearchProvider?: 'none' | 'local-hash-vectors' | 'custom';
+  autoUpdateCheck?: boolean;
+  updateCheckIntervalHours?: number;
+  lastUpdateCheckTimestamp?: number;
 }
 
 export const DEFAULT_CONFIG: ProjectMindConfig = {
@@ -168,6 +171,9 @@ export const DEFAULT_CONFIG: ProjectMindConfig = {
   defaultContextBudgetTokens: 4000,
   maxToolOutputChars: 16000,
   smartAutoMode: true,
+  autoUpdateCheck: true,
+  updateCheckIntervalHours: 24,
+  lastUpdateCheckTimestamp: 0,
   excludePatterns: [
     'node_modules/**',
     '.git/**',

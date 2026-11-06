@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 450" width="100%" height="100%">
+  <defs>
+    <!-- الخلفية الداكنة -->
+    <style>
+      .bg { fill: #0B0F14; }
+      .text-project { fill: #FFFFFF; font-family: 'Inter', 'Montserrat', 'Segoe UI', sans-serif; font-weight: 700; font-size: 80px; letter-spacing: -0.02em; }
+      .text-mind { fill: #E2E8F0; font-family: 'Inter', 'Montserrat', 'Segoe UI', sans-serif; font-weight: 400; font-size: 80px; letter-spacing: -0.025em; }
+      .node { fill: #00E5FF; }
+      .node-blue { fill: #3B82F6; }
+      .node-purple { fill: #8B5CF6; }
+    </style>
+
+    <!-- التدرجات اللونية لتصميم الشعار -->
+    <linearGradient id="cyan-blue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00E5FF" />
+      <stop offset="50%" stop-color="#3B82F6" />
+      <stop offset="100%" stop-color="#8B5CF6" />
+    </linearGradient>
+
+    <linearGradient id="purple-fade" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#8B5CF6" />
+      <stop offset="60%" stop-color="#3B82F6" />
+      <stop offset="100%" stop-color="#00E5FF" />
+    </linearGradient>
+  </defs>
+
+  <!-- الخلفية الداكنة -->
+  <rect width="1000" height="450" rx="16" class="bg" />
+
+  <!-- مجموعة الشعار (العلامة البصرية والخط) -->
+  <g transform="translate(60, 0)">
+    
+    <!-- الأيقونة الهندسية (الذكاء الاصطناعي وهيكلة المشاريع) -->
+    <g id="logo-mark" transform="translate(0, 100)">
+      <!-- المربع المائل الخلفي الداعم للهيكلية -->
+      <rect x="52" y="52" width="146" height="146" rx="12" transform="rotate(45 125 125)" fill="none" stroke="url(#purple-fade)" stroke-width="4" stroke-dasharray="8 6" opacity="0.6" />
+
+      <!-- الشبكة العصبية والهيكلية المترابطة (خطوط ومسارات) -->
+      <!-- المسار الخارجي للمربع -->
+      <rect x="40" y="40" width="170" height="170" rx="16" transform="rotate(45 125 125)" fill="none" stroke="url(#cyan-blue)" stroke-width="7" stroke-linejoin="round" />
+      
+      <!-- المتاهة الداخلية (الروابط والبرمجة) -->
+      <path d="M 125,25 L 125,75 L 75,75 L 75,125 L 125,125 L 125,175 M 125,175 L 175,175 L 175,125 L 135,125" fill="none" stroke="#3B82F6" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M 40,125 L 95,125 L 95,155 L 125,155 L 125,210" fill="none" stroke="#00E5FF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M 210,125 L 155,125 L 155,95 L 125,95 L 125,40" fill="none" stroke="#8B5CF6" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+
+      <!-- العقد العصبية (مراكز المعالجة والبيانات) -->
+      <!-- العقدة العلوية -->
+      <circle cx="125" cy="25" r="9" class="node-blue" stroke="#0B0F14" stroke-width="3" />
+      <!-- العقدة السفلية -->
+      <circle cx="125" cy="225" r="9" class="node-purple" stroke="#0B0F14" stroke-width="3" />
+      <!-- العقدة اليسرى -->
+      <circle cx="25" cy="125" r="9" class="node" stroke="#0B0F14" stroke-width="3" />
+      <!-- العقدة اليمنى -->
+      <circle cx="225" cy="125" r="9" class="node" stroke="#0B0F14" stroke-width="3" />
+      
+      <!-- عقد داخلية -->
+      <circle cx="75" cy="75" r="7" class="node" />
+      <circle cx="175" cy="175" r="7" class="node-purple" />
+      <circle cx="125" cy="125" r="10" fill="url(#cyan-blue)" stroke="#0B0F14" stroke-width="3" />
+      <circle cx="95" cy="155" r="5" class="node-blue" />
+      <circle cx="155" cy="95" r="5" class="node-blue" />
+    </g>
+
+    <!-- النص الشعار "ProjectMind" -->
+    <g id="logo-text" transform="translate(300, 252)">
+      <!-- كلمة Project بالخط العريض والأبيض -->
+      <text class="text-project">Project</text>
+      <!-- كلمة Mind بالخط الرفيع والملون/الفاتح متصلة بها -->
+      <text x="278" class="text-mind" fill="url(#cyan-blue)">Mind</text>
+    </g>
+    
+  </g>
+</svg>

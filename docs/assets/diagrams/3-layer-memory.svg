@@ -1,0 +1,165 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0f19"/>
+      <stop offset="50%" stop-color="#111827"/>
+      <stop offset="100%" stop-color="#070a12"/>
+    </linearGradient>
+    <linearGradient id="layer1Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e3a8a" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.85"/>
+    </linearGradient>
+    <linearGradient id="layer2Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#581c87" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.85"/>
+    </linearGradient>
+    <linearGradient id="layer3Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#064e3b" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.85"/>
+    </linearGradient>
+    <linearGradient id="blueAccent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#60a5fa"/>
+    </linearGradient>
+    <linearGradient id="purpleAccent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#c084fc"/>
+    </linearGradient>
+    <linearGradient id="emeraldAccent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#34d399"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000000" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="760" rx="16" fill="url(#bgGrad)"/>
+  <rect x="1" y="1" width="1198" height="758" rx="15" fill="none" stroke="#1e293b" stroke-width="1.5"/>
+
+  <!-- Header -->
+  <g transform="translate(60, 45)">
+    <rect x="0" y="0" width="48" height="48" rx="10" fill="url(#purpleAccent)"/>
+    <!-- Stack icon -->
+    <path d="M14 18l10-5 10 5-10 5-10-5z M14 24l10 5 10-5 M14 30l10 5 10-5" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <text x="64" y="28" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="700" fill="#f8fafc">ProjectMind 3-Layer Persistent Memory</text>
+    <text x="64" y="46" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="400" fill="#94a3b8">Strict Architectural Separation of Core Identity, Verified Knowledge Base &amp; Task Context</text>
+  </g>
+
+  <!-- LAYER 1 CARD -->
+  <g transform="translate(60, 115)">
+    <rect width="1080" height="175" rx="12" fill="url(#layer1Grad)" stroke="#3b82f6" stroke-width="1.2" stroke-opacity="0.6" filter="url(#shadow)"/>
+    <rect x="24" y="20" width="32" height="32" rx="6" fill="url(#blueAccent)"/>
+    <text x="40" y="41" font-family="system-ui, sans-serif" font-size="14" font-weight="800" fill="#ffffff" text-anchor="middle">L1</text>
+    <text x="68" y="34" font-family="system-ui, sans-serif" font-size="16" font-weight="700" fill="#93c5fd">Layer 1: Core Memory (Permanent Project Identity)</text>
+    <text x="68" y="52" font-family="system-ui, sans-serif" font-size="12" fill="#94a3b8">Ultra-compact, low-latency header loaded on every agent interaction • Zero context-drift across machine moves</text>
+
+    <!-- Details Grid -->
+    <g transform="translate(24, 72)">
+      <rect x="0" y="0" width="245" height="84" rx="8" fill="#0f172a" fill-opacity="0.8" stroke="#1e293b"/>
+      <text x="14" y="24" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#38bdf8">STABLE PROJECT IDENTITY</text>
+      <text x="14" y="44" font-family="system-ui, sans-serif" font-size="11" fill="#cbd5e1">• Unique Project UUID</text>
+      <text x="14" y="62" font-family="system-ui, sans-serif" font-size="11" fill="#cbd5e1">• Deterministic Repo Fingerprint</text>
+      <text x="14" y="80" font-family="system-ui, sans-serif" font-size="10" fill="#64748b">Stable even if path changes</text>
+
+      <rect x="260" y="0" width="245" height="84" rx="8" fill="#0f172a" fill-opacity="0.8" stroke="#1e293b"/>
+      <text x="274" y="24" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#38bdf8">TECH STACK &amp; BOUNDARIES</text>
+      <text x="274" y="44" font-family="system-ui, sans-serif" font-size="11" fill="#cbd5e1">• Languages &amp; Frameworks</text>
+      <text x="274" y="62" font-family="system-ui, sans-serif" font-size="11" fill="#cbd5e1">• Package Managers &amp; Runtime</text>
+      <text x="274" y="80" font-family="system-ui, sans-serif" font-size="10" fill="#64748b">Detected via auto-inspectors</text>
+
+      <rect x="520" y="0" width="245" height="84" rx="8" fill="#0f172a" fill-opacity="0.8" stroke="#1e293b"/>
+      <text x="534" y="24" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#38bdf8">ARCHITECTURE CONSTRAINTS</text>
+      <text x="534" y="44" font-family="system-ui, sans-serif" font-size="11" fill="#cbd5e1">• Non-negotiable repository rules</text>
+      <text x="534" y="62" font-family="system-ui, sans-serif" font-size="11" fill="#cbd5e1">• Security boundaries &amp; invariants</text>
+      <text x="534" y="80" font-family="system-ui, sans-serif" font-size="10" fill="#64748b">Injected into agent prompt rules</text>
+
+      <rect x="780" y="0" width="250" height="84" rx="8" fill="#0f172a" fill-opacity="0.8" stroke="#1e293b"/>
+      <text x="794" y="24" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#38bdf8">LIFECYCLE STATE</text>
+      <text x="794" y="44" font-family="system-ui, sans-serif" font-size="11" fill="#cbd5e1">• fresh | bootstrapped | degraded</text>
+      <text x="794" y="62" font-family="system-ui, sans-serif" font-size="11" fill="#cbd5e1">• Schema v3 Migration Lock</text>
+      <text x="794" y="80" font-family="system-ui, sans-serif" font-size="10" fill="#64748b">Instant recovery from corruption</text>
+    </g>
+  </g>
+
+  <!-- LAYER 2 CARD -->
+  <g transform="translate(60, 310)">
+    <rect width="1080" height="195" rx="12" fill="url(#layer2Grad)" stroke="#8b5cf6" stroke-width="1.2" stroke-opacity="0.6" filter="url(#shadow)"/>
+    <rect x="24" y="20" width="32" height="32" rx="6" fill="url(#purpleAccent)"/>
+    <text x="40" y="41" font-family="system-ui, sans-serif" font-size="14" font-weight="800" fill="#ffffff" text-anchor="middle">L2</text>
+    <text x="68" y="34" font-family="system-ui, sans-serif" font-size="16" font-weight="700" fill="#d8b4fe">Layer 2: Project Knowledge Base (SQLite + FTS5 BM25 Engine)</text>
+    <text x="68" y="52" font-family="system-ui, sans-serif" font-size="12" fill="#94a3b8">Searchable, persistent graph of verified facts • Provenance tracked • Zero whole-repo rescan required</text>
+
+    <!-- Details Grid -->
+    <g transform="translate(24, 72)">
+      <rect x="0" y="0" width="245" height="102" rx="8" fill="#0f172a" fill-opacity="0.8" stroke="#1e293b"/>
+      <text x="14" y="22" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#c084fc">MODULES &amp; SYMBOLS</text>
+      <text x="14" y="42" font-family="system-ui, sans-serif" font-size="10.5" fill="#cbd5e1">• Exported classes &amp; functions</text>
+      <text x="14" y="60" font-family="system-ui, sans-serif" font-size="10.5" fill="#cbd5e1">• Inter-module dependencies</text>
+      <text x="14" y="78" font-family="system-ui, sans-serif" font-size="10.5" fill="#cbd5e1">• Reverse dependents tree</text>
+      <text x="14" y="94" font-family="system-ui, sans-serif" font-size="9.5" fill="#64748b">Verified AST parsing</text>
+
+      <rect x="260" y="0" width="245" height="102" rx="8" fill="#0f172a" fill-opacity="0.8" stroke="#1e293b"/>
+      <text x="274" y="22" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#c084fc">API &amp; DATA CONTRACTS</text>
+      <text x="274" y="42" font-family="system-ui, sans-serif" font-size="10.5" fill="#cbd5e1">• REST, GraphQL &amp; gRPC endpoints</text>
+      <text x="274" y="60" font-family="system-ui, sans-serif" font-size="10.5" fill="#cbd5e1">• Database tables &amp; ORM schemas</text>
+      <text x="274" y="78" font-family="system-ui, sans-serif" font-size="10.5" fill="#cbd5e1">• Public interface contracts</text>
+      <text x="274" y="94" font-family="system-ui, sans-serif" font-size="9.5" fill="#64748b">Schema change detection</text>
+
+      <rect x="520" y="0" width="245" height="102" rx="8" fill="#0f172a" fill-opacity="0.8" stroke="#1e293b"/>
+      <text x="534" y="22" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#c084fc">ARCHITECTURAL DECISIONS</text>
+      <text x="534" y="42" font-family="system-ui, sans-serif" font-size="10.5" fill="#cbd5e1">• ADRs &amp; Context rationale</text>
+      <text x="534" y="60" font-family="system-ui, sans-serif" font-size="10.5" fill="#cbd5e1">• Accepted / Superceded status</text>
+      <text x="534" y="78" font-family="system-ui, sans-serif" font-size="10.5" fill="#cbd5e1">• Impacted modules mapping</text>
+      <text x="534" y="94" font-family="system-ui, sans-serif" font-size="9.5" fill="#64748b">Preserves institutional memory</text>
+
+      <rect x="780" y="0" width="250" height="102" rx="8" fill="#0f172a" fill-opacity="0.8" stroke="#1e293b"/>
+      <text x="794" y="22" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#c084fc">PROVENANCE &amp; HASHES</text>
+      <text x="794" y="42" font-family="system-ui, sans-serif" font-size="10.5" fill="#cbd5e1">• verified | inferred | outdated</text>
+      <text x="794" y="60" font-family="system-ui, sans-serif" font-size="10.5" fill="#cbd5e1">• Content-SHA256 tracking</text>
+      <text x="794" y="78" font-family="system-ui, sans-serif" font-size="10.5" fill="#cbd5e1">• Confidence score: 0.0 – 1.0</text>
+      <text x="794" y="94" font-family="system-ui, sans-serif" font-size="9.5" fill="#64748b">Only validated facts survive</text>
+    </g>
+  </g>
+
+  <!-- LAYER 3 CARD -->
+  <g transform="translate(60, 525)">
+    <rect width="1080" height="185" rx="12" fill="url(#layer3Grad)" stroke="#10b981" stroke-width="1.2" stroke-opacity="0.6" filter="url(#shadow)"/>
+    <rect x="24" y="20" width="32" height="32" rx="6" fill="url(#emeraldAccent)"/>
+    <text x="40" y="41" font-family="system-ui, sans-serif" font-size="14" font-weight="800" fill="#ffffff" text-anchor="middle">L3</text>
+    <text x="68" y="34" font-family="system-ui, sans-serif" font-size="16" font-weight="700" fill="#a7f3d0">Layer 3: Task Context (Isolated Ephemeral Working Memory)</text>
+    <text x="68" y="52" font-family="system-ui, sans-serif" font-size="12" fill="#94a3b8">Token-budgeted, task-scoped context packages • Automatically purged • Protects Layer 2 from hallucination pollution</text>
+
+    <!-- Details Grid -->
+    <g transform="translate(24, 72)">
+      <rect x="0" y="0" width="245" height="92" rx="8" fill="#0f172a" fill-opacity="0.8" stroke="#1e293b"/>
+      <text x="14" y="22" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#34d399">TASK RETRIEVAL SCOPING</text>
+      <text x="14" y="42" font-family="system-ui, sans-serif" font-size="10.5" fill="#cbd5e1">• none: general questions</text>
+      <text x="14" y="58" font-family="system-ui, sans-serif" font-size="10.5" fill="#cbd5e1">• file / module / cross_module</text>
+      <text x="14" y="74" font-family="system-ui, sans-serif" font-size="10.5" fill="#cbd5e1">• deep_analysis: multi-hop</text>
+      <text x="14" y="88" font-family="system-ui, sans-serif" font-size="9.5" fill="#64748b">Dynamic relevance grading</text>
+
+      <rect x="260" y="0" width="245" height="92" rx="8" fill="#0f172a" fill-opacity="0.8" stroke="#1e293b"/>
+      <text x="274" y="22" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#34d399">STRICT TOKEN BUDGETING</text>
+      <text x="274" y="42" font-family="system-ui, sans-serif" font-size="10.5" fill="#cbd5e1">• Budget cap: 2k – 8k tokens</text>
+      <text x="274" y="58" font-family="system-ui, sans-serif" font-size="10.5" fill="#cbd5e1">• High-signal summaries</text>
+      <text x="274" y="74" font-family="system-ui, sans-serif" font-size="10.5" fill="#cbd5e1">• Exact interface signatures</text>
+      <text x="274" y="88" font-family="system-ui, sans-serif" font-size="9.5" fill="#64748b">Eliminates 90%+ prompt bloat</text>
+
+      <rect x="520" y="0" width="245" height="92" rx="8" fill="#0f172a" fill-opacity="0.8" stroke="#1e293b"/>
+      <text x="534" y="22" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#34d399">IMPACT &amp; CHANGE TRACKING</text>
+      <text x="534" y="42" font-family="system-ui, sans-serif" font-size="10.5" fill="#cbd5e1">• Pre-edit blast radius check</text>
+      <text x="534" y="58" font-family="system-ui, sans-serif" font-size="10.5" fill="#cbd5e1">• Affected dependent modules</text>
+      <text x="534" y="74" font-family="system-ui, sans-serif" font-size="10.5" fill="#cbd5e1">• Breaking signature warnings</text>
+      <text x="534" y="88" font-family="system-ui, sans-serif" font-size="9.5" fill="#64748b">Calculated via call graph</text>
+
+      <rect x="780" y="0" width="250" height="92" rx="8" fill="#0f172a" fill-opacity="0.8" stroke="#1e293b"/>
+      <text x="794" y="22" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#34d399">ISOLATION WALL</text>
+      <text x="794" y="42" font-family="system-ui, sans-serif" font-size="10.5" fill="#cbd5e1">• Ephemeral task assumptions</text>
+      <text x="794" y="58" font-family="system-ui, sans-serif" font-size="10.5" fill="#cbd5e1">• Purged when task completes</text>
+      <text x="794" y="74" font-family="system-ui, sans-serif" font-size="10.5" fill="#cbd5e1">• Only committed diffs reach L2</text>
+      <text x="794" y="88" font-family="system-ui, sans-serif" font-size="9.5" fill="#64748b">Zero cross-task contamination</text>
+    </g>
+  </g>
+</svg>

@@ -85,13 +85,16 @@ If developing or building directly from source:
 git clone https://github.com/Rootx202/ProjectMind.git
 cd ProjectMind
 
-# 2. Build the packages and compile TypeScript
+# 2. Install dependencies & link npm workspaces
+npm install
+
+# 3. Build the packages and compile TypeScript
 node scripts/build.js
 
-# 3. Verify the installation with test suite (89 tests)
+# 4. Verify the installation with test suite (93 tests passing)
 node scripts/test.js
 
-# 4. Link binary globally (optional)
+# 5. Link binary globally (optional)
 npm link
 # or add ./apps/cli/dist/index.js to your PATH
 ```

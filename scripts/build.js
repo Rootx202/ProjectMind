@@ -84,7 +84,7 @@ function ensurePackageJson(pkgDir, pkgName) {
   if (!fs.existsSync(pkgJsonPath)) {
     fs.writeFileSync(pkgJsonPath, JSON.stringify({
       name: pkgName,
-      version: '1.0.0',
+      version: '1.1.0',
       main: './dist/index.js',
       types: './src/index.ts',
       license: 'MIT'
@@ -102,6 +102,38 @@ function ensurePackageJson(pkgDir, pkgName) {
   if (!pkg.types) { pkg.types = './src/index.ts'; changed = true; }
   if (!pkg.license) { pkg.license = 'MIT'; changed = true; }
   if (changed) fs.writeFileSync(pkgJsonPath, JSON.stringify(pkg, null, 2) + '\n');
+}
+
+function ensureWorkspaceLinks() {
+  const scopeDir = path.join(ROOT, 'node_modules', '@projectmind');
+  fs.mkdirSync(scopeDir, { recursive: true });
+
+  for (const group of WORKSPACE_GROUPS) {
+    const groupDir = path.join(ROOT, group);
+    if (!fs.existsSync(groupDir)) continue;
+    for (const item of fs.readdirSync(groupDir, { withFileTypes: true })) {
+      if (!item.isDirectory()) continue;
+      const pkgDir = path.join(groupDir, item.name);
+      if (!fs.existsSync(path.join(pkgDir, 'package.json'))) continue;
+
+      const linkName = group === 'adapters'
+        ? `adapter-${item.name}`
+        : item.name;
+      const linkPath = path.join(scopeDir, linkName);
+      const targetRel = path.relative(scopeDir, pkgDir);
+
+      try {
+        const stat = fs.lstatSync(linkPath);
+        if (!stat.isSymbolicLink()) {
+          // not a symlink, leave alone
+        }
+      } catch (_) {
+        try {
+          fs.symlinkSync(targetRel, linkPath, 'junction');
+        } catch (_) {}
+      }
+    }
+  }
 }
 
 function cleanDir(dir) {
@@ -163,10 +195,34 @@ function buildAll() {
     }
   }
 
-  if (!hasWorkspaceLinks) {
-    console.warn('[ProjectMind Build] Warning: npm workspace links are missing under node_modules/@projectmind. Run `npm install` so `@projectmind/*` imports resolve.');
+  ensureWorkspaceLinks();
+
+  const requiredModules = [
+    '@projectmind/shared',
+    '@projectmind/storage',
+    '@projectmind/core',
+    '@projectmind/indexing',
+    '@projectmind/knowledge',
+    '@projectmind/retrieval',
+    '@projectmind/context-engine',
+    '@projectmind/agent-sdk',
+    '@projectmind/plugin-sdk',
+    '@projectmind/mcp-server',
+    '@projectmind/setup',
+    '@projectmind/diagnostics',
+    '@projectmind/cli'
+  ];
+
+  for (const mod of requiredModules) {
+    try {
+      require.resolve(mod, { paths: [ROOT] });
+    } catch (err) {
+      throw new Error(`Build verification failed: workspace module '${mod}' cannot be resolved. Run 'npm install' or ensure workspace symlinks exist. ${err.message}`);
+    }
   }
+
   console.log(`[ProjectMind Build] Successfully compiled ${totalCompiled} TypeScript files.`);
+  console.log(`[ProjectMind Build] Verified all ${requiredModules.length} internal workspace modules are resolvable.`);
 }
 
 try {

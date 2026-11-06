@@ -1,7 +1,21 @@
 {
   "name": "@projectmind/setup",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "./dist/index.js",
   "types": "./src/index.ts",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@projectmind/adapter-antigravity": "*",
+    "@projectmind/adapter-claude-code": "*",
+    "@projectmind/adapter-codex": "*",
+    "@projectmind/adapter-cursor": "*",
+    "@projectmind/adapter-deepseek-harness": "*",
+    "@projectmind/adapter-gemini-cli": "*",
+    "@projectmind/adapter-github-copilot": "*",
+    "@projectmind/adapter-hermes-agent": "*",
+    "@projectmind/adapter-opencode": "*",
+    "@projectmind/agent-sdk": "*",
+    "@projectmind/plugin-sdk": "*",
+    "@projectmind/shared": "*"
+  }
 }

@@ -83,14 +83,23 @@ if ($majorVersion -lt 18) {
 Write-Host "[✓] Node.js v$nodeVersion detected (>= 18.0.0)" -ForegroundColor Green
 
 # 3. Detect Local Repo Checkout or Setup
-$ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$ScriptDir = if ($MyInvocation.MyCommand -and $MyInvocation.MyCommand.Path) { Split-Path -Parent $MyInvocation.MyCommand.Path } else { "" }
 $isLocalRepo = $false
 
-if (Test-Path (Join-Path $ScriptDir "package.json")) {
+if ($ScriptDir -and (Test-Path (Join-Path $ScriptDir "package.json"))) {
     $pkgJson = Get-Content (Join-Path $ScriptDir "package.json") -Raw | ConvertFrom-Json
     if ($pkgJson.name -eq "projectmind") {
         $isLocalRepo = $true
         $RepoRoot = $ScriptDir
+        Write-Host "[✓] Detected local repository checkout at: $RepoRoot" -ForegroundColor Green
+    }
+}
+
+if ((-not $isLocalRepo) -and (Test-Path (Join-Path (Get-Location) "package.json"))) {
+    $pkgJson = Get-Content (Join-Path (Get-Location) "package.json") -Raw | ConvertFrom-Json
+    if ($pkgJson.name -eq "projectmind") {
+        $isLocalRepo = $true
+        $RepoRoot = (Get-Location).Path
         Write-Host "[✓] Detected local repository checkout at: $RepoRoot" -ForegroundColor Green
     }
 }
@@ -181,6 +190,10 @@ if ((-not $NoVerify) -and (-not $DryRun)) {
     Write-Host ""
     Write-Host "Running ProjectMind system diagnostics..." -ForegroundColor Cyan
     & node $CliScript plugin doctor
+    if ($LASTEXITCODE -ne 0) {
+        Write-Error "ProjectMind system diagnostics failed. Installation is incomplete or damaged."
+        exit 1
+    }
 }
 
 Write-Host ""

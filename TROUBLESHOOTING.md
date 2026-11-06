@@ -121,6 +121,34 @@ projectmind init
 
 ---
 
+### Issue 7: `Cannot find module '@projectmind/shared'` or Missing Workspace Links
+**Symptoms**:
+Running tests, diagnostics, or CLI commands fails with:
+```
+Error: Cannot find module '@projectmind/shared'
+or: npm workspace links are missing under node_modules/@projectmind
+```
+
+**Causes**:
+1. When developing inside a local repository clone, `npm install` was run without linking npm workspaces, or symlinks under `node_modules/@projectmind/` are absent.
+2. The project was executed before running `node scripts/build.js`, so compiled entry points (`dist/index.js`) do not exist.
+
+**Solution**:
+Run the deterministic setup steps from the repository root:
+```bash
+# 1. Install and link all workspace packages natively
+npm install
+
+# 2. Build packages and verify resolution
+node scripts/build.js
+
+# 3. Confirm health with the diagnostic doctor
+node apps/cli/dist/index.js plugin doctor
+```
+`scripts/build.js` automatically creates missing workspace symlinks under `node_modules/@projectmind/` and executes a post-build verification step asserting that all 13 `@projectmind/*` packages can be resolved with `require.resolve()`. If any module fails to resolve, the build halts immediately with an error.
+
+---
+
 ## 3. Recovery Commands Summary
 
 | Goal | Command |

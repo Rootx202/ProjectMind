@@ -5,8 +5,9 @@ set -euo pipefail
 
 VERSION="1.1.0"
 REPO="Rootx202/ProjectMind"
-DEFAULT_INSTALL_DIR="${HOME}/.projectmind"
-BIN_DIR="${HOME}/.local/bin"
+USER_HOME="${HOME:-${USERPROFILE:-/tmp}}"
+DEFAULT_INSTALL_DIR="${PROJECTMIND_HOME:-${USER_HOME}/.projectmind}"
+BIN_DIR="${USER_HOME}/.local/bin"
 
 TARGET_AGENT=""
 INSTALL_ALL=false
@@ -28,7 +29,7 @@ Options:
                         github-copilot, deepseek-harness, hermes-agent, opencode)
   --all                Install integrations for all 9 supported agents
   --prefix <dir>       Installation directory (default: ~/.projectmind)
-  --bin-dir <dir>      Binary symlink directory (default: ~/.local/bin)
+  --bin-dir <dir>      Binary wrapper directory (default: ~/.local/bin)
   --dry-run            Simulate installation steps without modifying files
   --no-verify          Skip post-install diagnostic verification
   -h, --help           Show this help message
@@ -98,43 +99,112 @@ if [[ "${NODE_MAJOR}" -lt 18 ]]; then
 fi
 echo "✓ Node.js v${NODE_VER} detected (>= 18.0.0)"
 
-# 2. Determine execution context (local clone vs remote install)
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-IS_LOCAL_REPO=false
+# Check npm
+if ! command -v npm >/dev/null 2>&1; then
+  echo "Error: npm is required to install ProjectMind runtime." >&2
+  exit 1
+fi
 
-if [[ -f "${SCRIPT_DIR}/package.json" ]] && grep -q '"name": "projectmind"' "${SCRIPT_DIR}/package.json" 2>/dev/null; then
+# 2. Determine execution context (local clone vs remote pipe/curl install)
+IS_LOCAL_REPO=false
+REPO_ROOT=""
+
+# Safely check BASH_SOURCE without triggering unbound variable under set -u
+SCRIPT_SOURCE="${BASH_SOURCE[0]:-}"
+if [[ -n "${SCRIPT_SOURCE}" ]] && [[ -f "${SCRIPT_SOURCE}" ]]; then
+  DETECTED_DIR="$(cd "$(dirname "${SCRIPT_SOURCE}")" && pwd)"
+  if [[ -f "${DETECTED_DIR}/package.json" ]] && grep -q '"name": "projectmind"' "${DETECTED_DIR}/package.json" 2>/dev/null; then
+    IS_LOCAL_REPO=true
+    REPO_ROOT="${DETECTED_DIR}"
+  fi
+fi
+
+# Fallback: check current directory if script was piped into bash (curl | bash) inside an existing clone
+if [[ "${IS_LOCAL_REPO}" = false ]] && [[ -f "$(pwd)/package.json" ]] && grep -q '"name": "projectmind"' "$(pwd)/package.json" 2>/dev/null; then
   IS_LOCAL_REPO=true
-  REPO_ROOT="${SCRIPT_DIR}"
-  echo "✓ Detected local repository at: ${REPO_ROOT}"
+  REPO_ROOT="$(pwd)"
 fi
 
 # 3. Setup directories
 if [[ "${DRY_RUN}" = true ]]; then
-  echo "[Dry-Run] Would create directory: ${PREFIX}"
-  echo "[Dry-Run] Would create directory: ${BIN_DIR}"
+  echo "[Dry-Run] Target install prefix: ${PREFIX}"
+  echo "[Dry-Run] Target bin directory:  ${BIN_DIR}"
 else
   mkdir -p "${PREFIX}" "${BIN_DIR}"
 fi
 
-# 4. Build or Link ProjectMind Runtime
+# 4. Build or Install ProjectMind Runtime
 if [[ "${IS_LOCAL_REPO}" = true ]]; then
+  echo "✓ Detected local repository checkout at: ${REPO_ROOT}"
   CLI_SCRIPT="${REPO_ROOT}/apps/cli/dist/index.js"
-  if [[ ! -f "${CLI_SCRIPT}" ]]; then
-    echo "Building ProjectMind packages..."
-    if [[ "${DRY_RUN}" = false ]]; then
-      node "${REPO_ROOT}/scripts/build.js"
+  
+  if [[ "${DRY_RUN}" = false ]]; then
+    # Ensure npm workspace packages are linked
+    SCOPE_DIR="${REPO_ROOT}/node_modules/@projectmind"
+    if [[ ! -d "${SCOPE_DIR}" ]] || [[ ! -e "${SCOPE_DIR}/shared" ]]; then
+      echo "Linking npm workspaces..."
+      (
+        cd "${REPO_ROOT}"
+        npm install --prefer-offline 2>/dev/null || npm install
+      )
     fi
+    
+    # Always ensure packages are built
+    echo "Building ProjectMind packages..."
+    node "${REPO_ROOT}/scripts/build.js"
+  else
+    echo "[Dry-Run] Would link workspaces and build packages in ${REPO_ROOT}"
   fi
 else
-  echo "Setting up ProjectMind runtime in ${PREFIX}..."
-  # If distributed via npm or archive, unpack to prefix
+  echo "Installing ProjectMind standalone runtime to ${PREFIX}..."
   CLI_SCRIPT="${PREFIX}/apps/cli/dist/index.js"
+  
+  if [[ "${DRY_RUN}" = false ]]; then
+    ARCHIVE_URL="https://github.com/${REPO}/releases/download/v${VERSION}/projectmind-full.tar.gz"
+    ARCHIVE_FILE="${PREFIX}/projectmind-full.tar.gz"
+    DOWNLOADED=false
+    
+    if command -v curl >/dev/null 2>&1; then
+      if curl -fsSL "${ARCHIVE_URL}" -o "${ARCHIVE_FILE}" 2>/dev/null; then
+        DOWNLOADED=true
+      fi
+    elif command -v wget >/dev/null 2>&1; then
+      if wget -q "${ARCHIVE_URL}" -O "${ARCHIVE_FILE}" 2>/dev/null; then
+        DOWNLOADED=true
+      fi
+    fi
+    
+    if [[ "${DOWNLOADED}" = true ]] && [[ -s "${ARCHIVE_FILE}" ]]; then
+      echo "Extracting release archive..."
+      tar -xzf "${ARCHIVE_FILE}" -C "${PREFIX}"
+      rm -f "${ARCHIVE_FILE}"
+    else
+      echo "Release archive not reachable. Cloning repository..."
+      if command -v git >/dev/null 2>&1; then
+        rm -rf "${PREFIX}"
+        mkdir -p "${PREFIX}"
+        git clone --depth 1 "https://github.com/${REPO}.git" "${PREFIX}"
+      else
+        echo "Error: Failed to download release archive and git is not installed." >&2
+        exit 1
+      fi
+    fi
+    
+    echo "Configuring runtime dependencies..."
+    (
+      cd "${PREFIX}"
+      npm install --omit=dev --prefer-offline 2>/dev/null || npm install --omit=dev
+      node scripts/build.js
+    )
+  else
+    echo "[Dry-Run] Would download release archive, extract to ${PREFIX}, and build runtime."
+  fi
 fi
 
-# 5. Create / Update symlink in bin directory
+# 5. Create executable wrapper in BIN_DIR
 CLI_BIN="${BIN_DIR}/projectmind"
 if [[ "${DRY_RUN}" = true ]]; then
-  echo "[Dry-Run] Would link ${CLI_SCRIPT} -> ${CLI_BIN}"
+  echo "[Dry-Run] Would create executable wrapper ${CLI_BIN} -> ${CLI_SCRIPT}"
 else
   mkdir -p "${BIN_DIR}"
   cat << 'RUNNER_EOF' > "${CLI_BIN}"
@@ -147,7 +217,6 @@ else
   exit 1
 fi
 RUNNER_EOF
-  # Replace placeholder with absolute CLI path
   sed -i "s|__TARGET_CLI_PATH__|${CLI_SCRIPT}|g" "${CLI_BIN}"
   chmod +x "${CLI_BIN}"
   echo "✓ Installed executable: ${CLI_BIN}"
@@ -158,7 +227,7 @@ case ":${PATH}:" in
   *:"${BIN_DIR}":*) ;;
   *)
     echo ""
-    echo "Notice: ${BIN_DIR} is not in your PATH."
+    echo "Notice: ${BIN_DIR} is not in your current PATH."
     echo "Add it to your shell configuration file (~/.bashrc or ~/.zshrc):"
     echo "  export PATH=\"${BIN_DIR}:\$PATH\""
     echo ""
@@ -189,7 +258,11 @@ fi
 if [[ "${NO_VERIFY}" = false ]] && [[ "${DRY_RUN}" = false ]]; then
   echo ""
   echo "Running ProjectMind system diagnostics..."
-  node "${CLI_SCRIPT}" plugin doctor || true
+  if ! node "${CLI_SCRIPT}" plugin doctor; then
+    echo "" >&2
+    echo "Error: ProjectMind diagnostics failed. Installation is incomplete or broken." >&2
+    exit 1
+  fi
 fi
 
 echo ""
@@ -197,4 +270,3 @@ echo "=========================================================="
 echo "ProjectMind installation completed successfully!"
 echo "Run 'projectmind --help' to get started."
 echo "=========================================================="
-

@@ -1,7 +1,14 @@
 {
   "name": "@projectmind/context-engine",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "./dist/index.js",
   "types": "./src/index.ts",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@projectmind/impact-analysis": "*",
+    "@projectmind/indexing": "*",
+    "@projectmind/retrieval": "*",
+    "@projectmind/shared": "*",
+    "@projectmind/storage": "*"
+  }
 }

@@ -108,7 +108,7 @@ async function main() {
 ProjectMind v1.1.0 delivers critical enterprise and production guarantees across context freshness, update integrity, code indexing, and multi-agent memory persistence.
 
 ### Key Highlights
-- **100% Passing Automated Tests**: 89 automated tests passing (0 failures), covering clean-room build, multi-agent memory events, and updater security.
+- **100% Passing Automated Tests**: 93 automated tests passing (0 failures), covering clean-room build, multi-agent memory events, installer pipe/local execution, and updater security.
 - **Snapshot-Bound Fresh Context (P0.1)**: Freshness is evaluated *before* cache lookup; outdated context is never returned silently.
 - **Verified Package Updates & Cryptographic Checksum Enforcement (P0.2 & P0.3)**: SHA-256 is strictly enforced for all remote updates. Downloaded bundles are verified and staged before atomic activation with full rollback protection.
 - **TypeScript/JavaScript AST & Path Resolver (P1.1 & P1.2)**: Streaming full-file hashing guarantees changes at file tails are never missed. AST structural parser extracts interfaces, types, multi-line exports, and tsconfig path aliases.
@@ -154,3 +154,4 @@ main().catch((err) => {
   console.error('Release publication failed:', err);
   process.exit(1);
 });
+

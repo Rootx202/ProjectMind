@@ -35,7 +35,7 @@ const EXCLUDED_SEGMENTS = new Set([
   'dist', 'dist-tests', '.agents', '.claude', '.codex', '.cursor', '.gemini',
   '.deepseek', '.dsh', '.hermes', '.opencode', '.vscode', 'coverage'
 ]);
-const EXCLUDED_FILES = new Set(['.DS_Store', 'Thumbs.db']);
+const EXCLUDED_FILES = new Set(['.DS_Store', 'Thumbs.db', 'PROJECTMIND_REPAIR_REPORT.md']);
 const EXCLUDED_SUFFIXES = ['.log', '.db', '.db-wal', '.db-shm', '.bak', '.tsbuildinfo'];
 
 function sha256(data) {

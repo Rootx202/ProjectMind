@@ -187,7 +187,7 @@ Core، MCP، Adapters، Scenarios 1–8، Plugins، Portable Runtime، Installer
 
 | الأصل | الحجم | SHA-256 |
 |---|---:|---|
-| `projectmind-full.tar.gz` | 238,135 | `526fde2a4834383540bd142769c5a0ea25ad7b6fed6c23f08b2da75c319b07a7` |
+| `projectmind-full.tar.gz` | 230,634 | `f744a68d9565dc4eabee7a926c6123c51879c04ac8dad906d4f0f6ca96acd5f6` |
 | `antigravity-1.1.0.tar.gz` | 2,587 | `ad240baf03f9e8519d980f4df4d3bc20a3465c38c1bd0a4c0bc866475ff1ab7f` |
 | `claude-code-1.1.0.tar.gz` | 2,585 | `4016fb21afb7447d6c87911a87fdf2a7b6d812c447b72bf2bab5b9ea6c4ac305` |
 | `codex-1.1.0.tar.gz` | 2,596 | `2f6efbdbdf57aa34542251068a44cb14a6fec78caa6b7154c215c5df5ed45e2c` |
@@ -197,11 +197,11 @@ Core، MCP، Adapters، Scenarios 1–8، Plugins، Portable Runtime، Installer
 | `github-copilot-1.1.0.tar.gz` | 2,586 | `24554b42b109c6dab57cb1ca8899390f8d797385b85e9833c98261c06ea83b92` |
 | `hermes-agent-1.1.0.tar.gz` | 2,606 | `ac5d6cde6e6c38e476c063707786e76973df538ad2b3fb1758faf5eec340f394` |
 | `opencode-1.1.0.tar.gz` | 2,566 | `d7999c26316600cbb7b099c5d0753957d75d6d1b0662487d4b4f6a514c85ba86` |
-| `index.json` | 6,703 | `d0de2c0982412f96ceef25416102fc0cfd17b4ca8cfb3ef89ddd94e28f088a82` |
+| `index.json` | 6,703 | `f457f1d9312cdea5ef0993a26f9f470d7a92d383766a95f2ef70837c8494bace` |
 
 بالإضافة إلى `release-manifest.json`. تم التحقق من `SHA256SUMS` بـ `sha256sum -c` بنجاح.
 
-**حتمية البناء:** بعد إصلاح طابع الوقت في رؤوس tar واحترام `SOURCE_DATE_EPOCH`، أُنتج الإصدار مرتين متتاليتين بنفس `SOURCE_DATE_EPOCH`، وكانت `SHA256SUMS` **متطابقة حرفيًا**. أصول الإضافات التسعة لا تتغير بين البنائين.
+**حتمية البناء:** بعد إصلاح طابع الوقت في رؤوس tar واحترام `SOURCE_DATE_EPOCH`، أُنتج الإصدار مرتين متتاليتين بنفس `SOURCE_DATE_EPOCH`، وكانت `SHA256SUMS` **متطابقة حرفيًا**. أصول الإضافات التسعة لا تتغير بين البنائين. تقرير الإصلاح نفسه مستبعد من أرشيف المصدر لأنه سجل ما بعد الإصدار، حتى لا تتغير بصمة الأرشيف عند تحديث التقرير.
 
 ---
 

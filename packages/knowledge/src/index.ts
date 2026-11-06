@@ -227,7 +227,7 @@ export class KnowledgeEngine {
 
   private inferPlannedModulesFromPrompt(promptText: string): Array<{ name: string; purpose: string; rootPath: string }> {
     const candidates: Array<{ keyword: RegExp; name: string; purpose: string }> = [
-      { keyword: /\b(auth|login|jwt|oauth|session|permission)\b/i, name: 'auth', purpose: 'Authentication, authorization, and session management' },
+      { keyword: /\b(auth|authentication|authorization|login|log[ -]?in|sign[ -]?in|jwt|oauth|session|permission)\b/i, name: 'auth', purpose: 'Authentication, authorization, and session management' },
       { keyword: /\b(user|profile|account|role|tenant)\b/i, name: 'users', purpose: 'User accounts, roles, and profile management' },
       { keyword: /\b(db|database|prisma|sql|model|schema|repository|storage)\b/i, name: 'database', purpose: 'Database models, schema migrations, and repositories' },
       { keyword: /\b(api|route|endpoint|controller|rest|graphql)\b/i, name: 'api', purpose: 'API routes, request validation, and controllers' },

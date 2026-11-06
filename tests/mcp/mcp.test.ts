@@ -22,8 +22,20 @@ export function runMcpTests(): { passed: number; failed: number; details: string
 
   const server = new ProjectMindMcpServer(tmpDir, true);
 
-  check('1. MCP tool registration exposes all 22 required tools with valid schemas', () => {
-    assert.strictEqual(server.listTools().length, 22);
+  check('1. MCP tool registration exposes all required tools with valid schemas', () => {
+    const tools = server.listTools();
+    assert.ok(tools.length >= 27, `expected at least 27 tools, got ${tools.length}`);
+    for (const required of [
+      'initialize_project', 'get_relevant_context', 'search_project_knowledge',
+      'get_health', 'get_memory_events', 'record_memory_event',
+      'get_memory_conflicts', 'resolve_memory_conflict', 'get_context_manifest'
+    ]) {
+      assert.ok(tools.some((t) => t.name === required), `missing tool ${required}`);
+    }
+    for (const tool of tools) {
+      assert.strictEqual(tool.inputSchema.type, 'object');
+      assert.ok(tool.description.length > 10);
+    }
   });
 
   check('2. JSON-RPC 2.0 initialize handshake returns serverInfo and concise instructions', () => {
@@ -41,6 +53,12 @@ export function runMcpTests(): { passed: number; failed: number; details: string
     assert.ok((server.callTool('search_project_knowledge', { query: 'calculateInvoiceTotal' }).structuredContent.count as number) >= 1);
     assert.strictEqual(server.callTool('get_file_summary', { filePath: 'src/billing/invoice.ts' }).structuredContent.found, true);
     assert.strictEqual(server.callTool('record_architectural_decision', { title: 'Use integer cents', context: 'Rounding', decision: 'Integer cents' }).structuredContent.recorded, true);
+    const health = server.callTool('get_health', {}).structuredContent as any;
+    assert.ok(health.eventChain.valid === true, 'event chain should verify');
+    assert.ok(health.stats.events > 0);
+    const events = server.callTool('get_memory_events', { limit: 5 }).structuredContent as any;
+    assert.ok(events.count > 0);
+    assert.strictEqual(server.callTool('get_memory_conflicts', {}).structuredContent.count, 0);
   });
 
   check('4. Input validation, path traversal rejection, secret blocking, and missing project handling', () => {

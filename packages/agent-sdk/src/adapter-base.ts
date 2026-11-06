@@ -28,6 +28,57 @@ export interface AgentCapabilities {
 export interface AdapterInstallOptions {
   mcpServerScriptPath?: string;
   backupDir?: string;
+  /** Verified, atomically-installed plugin package directory (from the updater). */
+  packageDir?: string;
+  packageVersion?: string;
+  scope?: 'project' | 'global';
+  nonInteractive?: boolean;
+}
+
+interface ActivePluginAssets {
+  instructions?: string;
+  skill?: string;
+}
+
+let activePluginAssets: ActivePluginAssets = {};
+
+/**
+ * Activates content shipped inside a verified plugin archive. Adapters call
+ * `getSkillContent()` / `getInstructionSnippet()` so a downloaded update can
+ * genuinely change the integration files instead of silently re-generating
+ * the built-in defaults.
+ */
+export function setActivePluginAssets(assets: ActivePluginAssets): void {
+  activePluginAssets = { ...assets };
+}
+
+export function clearActivePluginAssets(): void {
+  activePluginAssets = {};
+}
+
+export function getSkillContent(): string {
+  return activePluginAssets.skill || CONCISE_SKILL_CONTENT;
+}
+
+export function getInstructionSnippet(): string {
+  return activePluginAssets.instructions || CONCISE_INSTRUCTION_SNIPPET;
+}
+
+export function loadPluginAssets(packageDir: string): ActivePluginAssets {
+  const assets: ActivePluginAssets = {};
+  for (const [key, rel] of [
+    ['instructions', path.join('assets', 'instructions.md')],
+    ['skill', path.join('assets', 'SKILL.md')]
+  ] as const) {
+    const full = path.join(packageDir, rel);
+    if (fs.existsSync(full)) {
+      const stat = fs.statSync(full);
+      if (stat.isFile() && stat.size <= 256 * 1024) {
+        assets[key] = fs.readFileSync(full, 'utf8');
+      }
+    }
+  }
+  return assets;
 }
 
 export interface AdapterInstallResult {
@@ -136,7 +187,7 @@ export function backupFileBeforeModify(projectRoot: string, targetFilePath: stri
   return backupPath;
 }
 
-export function upsertMarkdownBlockIdempotent(filePath: string, blockContent: string = CONCISE_INSTRUCTION_SNIPPET): void {
+export function upsertMarkdownBlockIdempotent(filePath: string, blockContent: string = getInstructionSnippet()): void {
   fs.mkdirSync(path.dirname(filePath), { recursive: true });
   if (!fs.existsSync(filePath)) {
     fs.writeFileSync(filePath, blockContent + '\n', 'utf8');

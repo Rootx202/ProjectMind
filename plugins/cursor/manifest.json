@@ -2,7 +2,7 @@
   "$schema": "../manifest.schema.json",
   "id": "cursor",
   "name": "ProjectMind for Cursor IDE & Agent CLI",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Project intelligence, Cursor MCP server, v1 lifecycle hooks, and projectmind.mdc rule integration.",
   "publisher": {
     "name": "Rootx202 (ProjectMind)",
@@ -19,7 +19,7 @@
   "supportedAgentVersions": ">= 1.0.0",
   "runtimeRequirements": {
     "node": ">= 18.0.0",
-    "projectmind": ">= 1.0.0"
+    "projectmind": ">= 1.1.0"
   },
   "capabilities": {
     "mcpTransport": "stdio",
@@ -63,6 +63,6 @@
   "removalInstructions": "Run `projectmind plugin uninstall cursor` to cleanly remove integration while preserving project knowledge.",
   "integrity": {
     "algorithm": "sha256",
-    "hash": "c462d02cbdca26837df2d953e2768b19a9ae64bc24d7a054d4869f322613afc1"
+    "hash": "ecab4aee4f4f539eba7b831c8b369da9d44cd8cadef9ced08b52e0dd0a9d6239"
   }
 }

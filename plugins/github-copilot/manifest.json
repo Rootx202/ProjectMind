@@ -2,7 +2,7 @@
   "$schema": "../manifest.schema.json",
   "id": "github-copilot",
   "name": "ProjectMind for GitHub Copilot (VS Code & CLI/Harness)",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Persistent project intelligence, VS Code .vscode/mcp.json, portable .mcp.json, and custom instructions for Copilot.",
   "publisher": {
     "name": "Rootx202 (ProjectMind)",
@@ -19,7 +19,7 @@
   "supportedAgentVersions": ">= 1.0.0",
   "runtimeRequirements": {
     "node": ">= 18.0.0",
-    "projectmind": ">= 1.0.0"
+    "projectmind": ">= 1.1.0"
   },
   "capabilities": {
     "mcpTransport": "stdio",
@@ -61,6 +61,6 @@
   "removalInstructions": "Run `projectmind plugin uninstall github-copilot` to cleanly remove integration while preserving project knowledge.",
   "integrity": {
     "algorithm": "sha256",
-    "hash": "57d48f5a40a09dc15700e43596170e6b73ff0496ddb361b61e0d3cd7396ecbf5"
+    "hash": "53795c956edf1cf6182bf312b7d64e7af4bcdda60b1dd3427441536ec44b375c"
   }
 }

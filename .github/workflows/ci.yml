@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ main ]
 
+permissions:
+  contents: read
+
 jobs:
   build-and-test:
     name: Build & Test (Node ${{ matrix.node-version }} on ${{ matrix.os }})
@@ -24,18 +27,68 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          cache: npm
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install dependencies (reproducible)
+        run: npm ci --no-audit --no-fund
 
-      - name: Build ProjectMind Monorepo
-        run: node scripts/build.js
+      - name: Build from source
+        run: npm run build
 
-      - name: Run Complete Automated Test Suite (50 Tests)
-        run: node scripts/test.js
+      - name: Run complete test suite
+        run: npm test
 
-      - name: Package Plugins & Verify Checksums
-        run: node scripts/package-plugins.js
+      - name: Run retrieval benchmark
+        run: npm run benchmark
 
-      - name: Run System Diagnostics Doctor Check
+      - name: Run plugin diagnostics
         run: node apps/cli/dist/index.js plugin doctor
+
+  release-clean-room:
+    name: Clean-room rebuild, benchmark, and release packaging
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: npm
+
+      - name: Install, build, test, benchmark
+        run: |
+          npm ci --no-audit --no-fund
+          npm run build
+          npm test
+          npm run benchmark
+
+      - name: Package verified release artifacts
+        run: npm run release:package
+
+      - name: Rebuild from the packaged source archive in a clean directory
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/projectmind-clean-room
+          mkdir -p /tmp/projectmind-clean-room
+          tar -xzf .release/projectmind-full.tar.gz -C /tmp/projectmind-clean-room
+          cd /tmp/projectmind-clean-room
+          npm ci --no-audit --no-fund
+          npm run build
+          npm test
+          npm run benchmark
+
+      - name: Verify release checksums
+        run: |
+          set -euo pipefail
+          cd .release
+          sha256sum -c SHA256SUMS
+
+      - name: Upload release assets
+        uses: actions/upload-artifact@v4
+        with:
+          name: projectmind-release-${{ github.sha }}
+          path: .release/
+          if-no-files-found: error

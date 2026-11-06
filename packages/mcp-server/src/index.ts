@@ -104,8 +104,8 @@ export class ProjectMindMcpServer {
       },
       {
         name: 'get_relevant_context',
-        description: 'Primary Smart Auto Mode tool: classifies task scope and returns a selective, token-budgeted context package with relevant modules, files, decisions, constraints, and staleness warnings.',
-        inputSchema: { type: 'object', properties: { taskDescription: { type: 'string' }, targetFiles: { type: 'array', items: { type: 'string' } }, targetModules: { type: 'array', items: { type: 'string' } }, budgetTokens: { type: 'number' }, forceDeepAnalysis: { type: 'boolean' }, projectRoot: { type: 'string' } }, required: ['taskDescription'] }
+        description: 'Primary Smart Auto Mode tool: classifies task scope and returns a snapshot-bound, token-budgeted context package with modules, files, decisions, constraints, retrieval explanations, freshness contract, and staleness warnings.',
+        inputSchema: { type: 'object', properties: { taskDescription: { type: 'string' }, targetFiles: { type: 'array', items: { type: 'string' } }, targetModules: { type: 'array', items: { type: 'string' } }, budgetTokens: { type: 'number' }, forceDeepAnalysis: { type: 'boolean' }, asOf: { type: 'string' }, viewerNamespace: { type: 'string' }, projectRoot: { type: 'string' } }, required: ['taskDescription'] }
       },
       {
         name: 'get_module_context',
@@ -114,8 +114,8 @@ export class ProjectMindMcpServer {
       },
       {
         name: 'search_project_knowledge',
-        description: 'Searches ProjectMind knowledge base using SQLite FTS5 BM25 ranking and local semantic vector reranking across files, modules, architectural decisions, and knowledge items.',
-        inputSchema: { type: 'object', properties: { query: { type: 'string' }, entityType: { type: 'string', enum: ['file', 'module', 'decision', 'knowledge'] }, limit: { type: 'number' }, projectRoot: { type: 'string' } }, required: ['query'] }
+        description: 'Hybrid search across ProjectMind memory: SQLite FTS5 BM25, AST symbol matches, code-graph neighbours, and local feature-hash vector reranking. Returns per-hit explanations, matched terms, and evidence (path/line).',
+        inputSchema: { type: 'object', properties: { query: { type: 'string' }, entityType: { type: 'string', enum: ['file', 'module', 'decision', 'knowledge'] }, limit: { type: 'number' }, asOf: { type: 'string' }, includeGraph: { type: 'boolean' }, includeSymbols: { type: 'boolean' }, viewerNamespace: { type: 'string' }, projectRoot: { type: 'string' } }, required: ['query'] }
       },
       {
         name: 'find_related_files',
@@ -160,7 +160,7 @@ export class ProjectMindMcpServer {
       {
         name: 'update_project_knowledge',
         description: 'Creates or updates a structured Layer 2 knowledge record with explicit verification status and source references.',
-        inputSchema: { type: 'object', properties: { knowledgeId: { type: 'string' }, category: { type: 'string' }, title: { type: 'string' }, summary: { type: 'string' }, sourceFiles: { type: 'array', items: { type: 'string' } }, relatedModules: { type: 'array', items: { type: 'string' } }, verificationStatus: { type: 'string' }, confidence: { type: 'number' }, projectRoot: { type: 'string' } }, required: ['title', 'summary', 'category'] }
+        inputSchema: { type: 'object', properties: { knowledgeId: { type: 'string' }, category: { type: 'string' }, title: { type: 'string' }, summary: { type: 'string' }, sourceFiles: { type: 'array', items: { type: 'string' } }, relatedModules: { type: 'array', items: { type: 'string' } }, verificationStatus: { type: 'string' }, confidence: { type: 'number' }, namespace: { type: 'string' }, actorId: { type: 'string' }, expectedVersion: { type: 'number' }, projectRoot: { type: 'string' } }, required: ['title', 'summary', 'category'] }
       },
       {
         name: 'sync_changed_files',
@@ -189,8 +189,33 @@ export class ProjectMindMcpServer {
       },
       {
         name: 'get_context_manifest',
-        description: 'Returns the lightweight index manifest (module fingerprints, verification statuses, entity counts, and current memory state).',
+        description: 'Returns the lightweight index manifest (snapshot id, parser/chunker/embedder versions, module fingerprints, verification statuses, and entity counts).',
         inputSchema: { type: 'object', properties: { projectRoot: { type: 'string' } } }
+      },
+      {
+        name: 'get_health',
+        description: 'Returns storage health: SQLite integrity, append-only event chain verification, index manifest, cache stats, open conflicts, and latest snapshot.',
+        inputSchema: { type: 'object', properties: { projectRoot: { type: 'string' } } }
+      },
+      {
+        name: 'get_memory_events',
+        description: 'Returns the append-only memory event log, optionally filtered by entity, namespace, or time. Events cannot be updated or deleted.',
+        inputSchema: { type: 'object', properties: { entityId: { type: 'string' }, entityType: { type: 'string' }, namespace: { type: 'string' }, since: { type: 'string' }, limit: { type: 'number' }, projectRoot: { type: 'string' } } }
+      },
+      {
+        name: 'record_memory_event',
+        description: 'Appends a durable memory event (with actor identity and namespace) for facts, decisions, or task notes that must survive across agents.',
+        inputSchema: { type: 'object', properties: { operation: { type: 'string' }, entityType: { type: 'string' }, entityId: { type: 'string' }, payload: { type: 'object' }, namespace: { type: 'string' }, actorType: { type: 'string' }, actorId: { type: 'string' }, visibility: { type: 'string' }, projectRoot: { type: 'string' } }, required: ['operation', 'entityType', 'entityId'] }
+      },
+      {
+        name: 'get_memory_conflicts',
+        description: 'Lists open optimistic-concurrency conflicts produced when two writers update the same knowledge item from different versions.',
+        inputSchema: { type: 'object', properties: { status: { type: 'string', enum: ['open', 'merged', 'rejected'] }, projectRoot: { type: 'string' } } }
+      },
+      {
+        name: 'resolve_memory_conflict',
+        description: 'Resolves an open memory conflict by merging the proposal or rejecting it, with an audit note and optional applyProposal.',
+        inputSchema: { type: 'object', properties: { conflictId: { type: 'string' }, resolution: { type: 'string', enum: ['merged', 'rejected'] }, note: { type: 'string' }, applyProposal: { type: 'boolean' }, actorId: { type: 'string' }, projectRoot: { type: 'string' } }, required: ['conflictId', 'resolution'] }
       }
     ];
   }
@@ -244,6 +269,7 @@ export class ProjectMindMcpServer {
           const core = ctx.store.getCoreMemory();
           const migrations = ctx.store.getAppliedMigrations();
           const changes = core ? ctx.indexer.detectProjectChanges() : null;
+          const health = ctx.store.getHealthReport();
           result = {
             initialized: Boolean(core),
             projectRoot: ctx.projectRoot,
@@ -255,8 +281,18 @@ export class ProjectMindMcpServer {
               files: ctx.store.getAllFiles().length,
               modules: ctx.store.getAllModules().length,
               decisions: ctx.store.getDecisions().length,
-              knowledgeItems: ctx.store.getKnowledgeItems().length
+              knowledgeItems: ctx.store.getKnowledgeItems().length,
+              memoryEvents: health.stats.events,
+              openConflicts: health.stats.conflictsOpen,
+              codeSymbols: health.stats.symbols,
+              graphEdges: health.stats.graphEdges,
+              embeddings: health.stats.embeddings
             },
+            indexManifest: health.manifest,
+            latestSnapshot: health.latestSnapshot,
+            eventChain: health.eventChain,
+            cache: health.cache,
+            databaseIntegrity: health.integrity,
             pendingChanges: changes
               ? {
                   hasChanges: changes.hasChanges,
@@ -288,7 +324,9 @@ export class ProjectMindMcpServer {
             targetFiles,
             targetModules: Array.isArray(args.targetModules) ? args.targetModules.map(String) : undefined,
             budgetTokens: typeof args.budgetTokens === 'number' ? args.budgetTokens : undefined,
-            forceDeepAnalysis: Boolean(args.forceDeepAnalysis)
+            forceDeepAnalysis: Boolean(args.forceDeepAnalysis),
+            asOf: typeof args.asOf === 'string' ? args.asOf : undefined,
+            viewerNamespace: typeof args.viewerNamespace === 'string' ? args.viewerNamespace : undefined
           });
           result = pkg as unknown as Record<string, unknown>;
           break;
@@ -305,7 +343,8 @@ export class ProjectMindMcpServer {
               files: modCtx.files.map((f) => ({
                 relativePath: f.relativePath, role: f.role, summary: f.summary, exports: f.exports, verificationStatus: f.verificationStatus
               })),
-              decisions: modCtx.decisions
+              decisions: modCtx.decisions,
+              symbols: modCtx.symbols.slice(0, 150)
             };
           }
           break;
@@ -314,8 +353,22 @@ export class ProjectMindMcpServer {
           if (typeof args.query !== 'string' || !args.query.trim()) throw new Error('Validation error: query is required.');
           const limit = Math.min(50, Math.max(1, Number(args.limit || 12)));
           const entityType = typeof args.entityType === 'string' ? (args.entityType as 'file' | 'module' | 'decision' | 'knowledge') : undefined;
-          const hits = ctx.retriever.searchKnowledge(args.query, { limit, entityType });
-          result = { query: args.query, count: hits.length, results: hits };
+          const hits = ctx.retriever.searchKnowledge(args.query, {
+            limit,
+            entityType,
+            asOf: typeof args.asOf === 'string' ? args.asOf : undefined,
+            includeGraph: args.includeGraph !== false,
+            includeSymbols: args.includeSymbols !== false,
+            viewerNamespace: typeof args.viewerNamespace === 'string' ? args.viewerNamespace : undefined
+          });
+          result = {
+            query: args.query,
+            count: hits.length,
+            retrievalBackend: ctx.retriever.getEmbeddingInfo(),
+            asOf: args.asOf || null,
+            snapshotId: ctx.store.getLatestSnapshot()?.snapshotId || null,
+            results: hits
+          };
           break;
         }
         case 'find_related_files': {
@@ -392,6 +445,7 @@ export class ProjectMindMcpServer {
           }
           const knowledgeId = typeof args.knowledgeId === 'string' && args.knowledgeId.trim() ? args.knowledgeId.trim() : `ki_${computeSha256(args.title).slice(0, 10)}`;
           const verificationStatus = (args.verificationStatus as KnowledgeItemRecord['verificationStatus']) || 'inferred';
+          const existing = ctx.store.getKnowledgeItems().find((i) => i.knowledgeId === knowledgeId);
           const item: KnowledgeItemRecord = {
             knowledgeId,
             category: args.category as KnowledgeItemRecord['category'],
@@ -402,12 +456,22 @@ export class ProjectMindMcpServer {
             relatedModules: Array.isArray(args.relatedModules) ? args.relatedModules.map(String) : ['root'],
             verificationStatus,
             confidence: typeof args.confidence === 'number' ? args.confidence : verificationStatus === 'verified' ? 1.0 : 0.8,
-            version: 1,
-            lastVerifiedAt: new Date().toISOString()
+            version: existing ? existing.version + 1 : 1,
+            lastVerifiedAt: new Date().toISOString(),
+            namespace: typeof args.namespace === 'string' ? args.namespace : (existing?.namespace || 'project/shared'),
+            actorId: typeof args.actorId === 'string' ? args.actorId : 'agent/unknown'
           };
-          ctx.store.upsertKnowledgeItemsBatch([item]);
+          const expectedVersions = typeof args.expectedVersion === 'number'
+            ? { [knowledgeId]: args.expectedVersion }
+            : undefined;
+          const writeResult = ctx.store.upsertKnowledgeItemsBatch([item], {
+            actorType: 'agent',
+            actorId: item.actorId,
+            namespace: item.namespace,
+            expectedVersions
+          });
           ctx.store.invalidateCacheForModules(item.relatedModules);
-          result = { updated: true, item };
+          result = { updated: writeResult.conflicts.length === 0, item, conflicts: writeResult.conflicts };
           break;
         }
         case 'sync_changed_files': {
@@ -478,6 +542,68 @@ export class ProjectMindMcpServer {
         }
         case 'get_context_manifest': {
           result = ctx.contextEngine.getContextManifest();
+          break;
+        }
+        case 'get_health': {
+          result = ctx.store.getHealthReport() as unknown as Record<string, unknown>;
+          break;
+        }
+        case 'get_memory_events': {
+          const events = ctx.store.getMemoryEvents({
+            entityId: typeof args.entityId === 'string' ? args.entityId : undefined,
+            entityType: typeof args.entityType === 'string' ? args.entityType : undefined,
+            namespace: typeof args.namespace === 'string' ? args.namespace : undefined,
+            since: typeof args.since === 'string' ? args.since : undefined,
+            limit: typeof args.limit === 'number' ? args.limit : 50
+          });
+          result = { count: events.length, events, chain: ctx.store.verifyMemoryEventChain() };
+          break;
+        }
+        case 'record_memory_event': {
+          if (typeof args.operation !== 'string' || typeof args.entityType !== 'string' || typeof args.entityId !== 'string') {
+            throw new Error('Validation error: operation, entityType, and entityId are required.');
+          }
+          const snapshot = ctx.store.getLatestSnapshot();
+          const core = ctx.store.getCoreMemory();
+          const event = ctx.store.recordMemoryEvent({
+            projectId: core?.projectId || 'uninitialized',
+            repositoryId: ctx.projectRoot,
+            branch: snapshot?.gitBranch || '',
+            baseCommit: snapshot?.gitHead,
+            snapshotId: snapshot?.snapshotId || '',
+            actorType: (typeof args.actorType === 'string' ? args.actorType : 'agent') as any,
+            actorId: typeof args.actorId === 'string' ? args.actorId : 'agent/unknown',
+            namespace: typeof args.namespace === 'string' ? args.namespace : 'project/shared',
+            operation: args.operation as any,
+            entityType: args.entityType,
+            entityId: args.entityId,
+            payload: (args.payload as Record<string, unknown>) || {},
+            sourceRefs: Array.isArray(args.sourceRefs) ? args.sourceRefs.map(String) : [],
+            observedAt: new Date().toISOString(),
+            ingestedAt: new Date().toISOString(),
+            visibility: (typeof args.visibility === 'string' ? args.visibility : 'shared') as any
+          });
+          ctx.store.invalidateAllCache();
+          result = { recorded: true, event };
+          break;
+        }
+        case 'get_memory_conflicts': {
+          const status = (typeof args.status === 'string' ? args.status : 'open') as 'open' | 'merged' | 'rejected';
+          const conflicts = ctx.store.getConflicts(status);
+          result = { status, count: conflicts.length, conflicts };
+          break;
+        }
+        case 'resolve_memory_conflict': {
+          if (typeof args.conflictId !== 'string') throw new Error('Validation error: conflictId is required.');
+          const resolution = args.resolution === 'rejected' ? 'rejected' : 'merged';
+          const resolved = ctx.store.resolveConflict(args.conflictId, resolution, {
+            note: typeof args.note === 'string' ? args.note : undefined,
+            actorId: typeof args.actorId === 'string' ? args.actorId : 'user/unknown',
+            applyProposal: Boolean(args.applyProposal)
+          });
+          result = resolved
+            ? { resolved: true, conflict: resolved }
+            : { resolved: false, message: 'Conflict not found.' };
           break;
         }
         default:

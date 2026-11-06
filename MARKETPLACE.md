@@ -13,7 +13,7 @@ ProjectMind uses a dual distribution architecture:
 ```text
                   +-----------------------------------+
                   |  GitHub Release / Plugin Registry |
-                  |  (dist/plugins/index.json)       |
+                  |  (.release/index.json)       |
                   +-----------------+-----------------+
                                     |
           +-------------------------+-------------------------+
@@ -84,19 +84,19 @@ All plugins strictly adhere to Draft-07 JSON Schema:
 To generate release packages locally:
 
 ```bash
-node scripts/package-plugins.js
+node scripts/package-release.js
 ```
 
-Generated outputs in `dist/plugins/`:
-* `antigravity-1.0.0.tar.gz`
-* `claude-code-1.0.0.tar.gz`
-* `codex-1.0.0.tar.gz`
-* `cursor-1.0.0.tar.gz`
-* `gemini-cli-1.0.0.tar.gz`
-* `github-copilot-1.0.0.tar.gz`
-* `deepseek-harness-1.0.0.tar.gz`
-* `hermes-agent-1.0.0.tar.gz`
-* `opencode-1.0.0.tar.gz`
+Generated outputs in `.release/`:
+* `plugins/antigravity-1.1.0.tar.gz`
+* `plugins/claude-code-1.1.0.tar.gz`
+* `plugins/codex-1.1.0.tar.gz`
+* `plugins/cursor-1.1.0.tar.gz`
+* `plugins/gemini-cli-1.1.0.tar.gz`
+* `plugins/github-copilot-1.1.0.tar.gz`
+* `plugins/deepseek-harness-1.1.0.tar.gz`
+* `plugins/hermes-agent-1.1.0.tar.gz`
+* `plugins/opencode-1.1.0.tar.gz`
 * `SHA256SUMS` (Cryptographic verification checksums)
 * `index.json` (Machine-readable marketplace catalog index)
 
@@ -104,7 +104,7 @@ Generated outputs in `dist/plugins/`:
 
 ## 5. Security & Marketplace Guidelines
 
-1. **Zero External Network Calls**: ProjectMind plugins require zero network access. Any plugin requesting `permissions.network: true` is strictly prohibited.
+1. **No Plugin Network Access**: ProjectMind agent plugins require zero network permissions at runtime. Any plugin requesting `permissions.network: true` is prohibited. (The optional engine updater contacts GitHub Releases only when explicitly invoked.)
 2. **Non-Destructive Operations**: Plugins must never overwrite unrelated user settings in shared configuration files (e.g. `.mcp.json` or `opencode.json`). All modifications must be atomic and reversible via `projectmind plugin uninstall`.
 3. **Preservation of Project Knowledge**: Removal of a plugin must never delete or corrupt the `.projectmind` repository intelligence database.
 

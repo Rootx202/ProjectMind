@@ -10,7 +10,7 @@ import {
 import {
   PluginRegistry, PluginManifest, RuntimeResolver,
   getOsDirectoryLayout, detectPlatform, ConfigWriter,
-  UpdateManager, UpdateManagerOptions, CoreUpdateCheckResult,
+  UpdateManager, UpdateManagerOptions, CoreUpdateCheckResult, CoreUpdateResult,
   OutdatedPluginsReport, PluginUpdateResult
 } from '@projectmind/plugin-sdk';
 import { AntigravityAdapter } from '@projectmind/adapter-antigravity';
@@ -528,6 +528,20 @@ export class SetupManager {
   public async checkCoreUpdate(options?: UpdateManagerOptions): Promise<CoreUpdateCheckResult> {
     const updater = this.getUpdateManager(options);
     return updater.checkCoreUpdate();
+  }
+
+  public async stageCoreUpdate(projectRoot: string, options?: UpdateManagerOptions & { targetVersion?: string }): Promise<CoreUpdateResult> {
+    const updater = this.getUpdateManager(options);
+    return updater.stageCoreUpdate(path.resolve(projectRoot), options?.targetVersion);
+  }
+
+  public applyCoreUpdate(
+    installRoot: string,
+    stagedDir: string,
+    options?: { force?: boolean }
+  ): CoreUpdateResult {
+    const updater = this.getUpdateManager();
+    return updater.applyCoreUpdate(path.resolve(installRoot), stagedDir, options);
   }
 
   public async checkOutdatedPlugins(projectRoot: string, options?: UpdateManagerOptions): Promise<OutdatedPluginsReport> {

@@ -53,3 +53,11 @@ pnpm-debug.log*
 *.tmp
 .cache/
 
+
+# Repair backups and local npm cache
+.backups/
+.npm-cache/
+
+# Release outputs and ad-hoc local checks
+.release/
+.tmp-*

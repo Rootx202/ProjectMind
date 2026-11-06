@@ -2,7 +2,7 @@
   "$schema": "../manifest.schema.json",
   "id": "opencode",
   "name": "ProjectMind for OpenCode (anomalyco / opencode.ai)",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Universal local-first project intelligence, opencode.json local MCP server, and AGENTS.md rules for OpenCode.",
   "publisher": {
     "name": "Rootx202 (ProjectMind)",
@@ -19,7 +19,7 @@
   "supportedAgentVersions": ">= 1.0.0",
   "runtimeRequirements": {
     "node": ">= 18.0.0",
-    "projectmind": ">= 1.0.0"
+    "projectmind": ">= 1.1.0"
   },
   "capabilities": {
     "mcpTransport": "stdio",
@@ -63,6 +63,6 @@
   "removalInstructions": "Run `projectmind plugin uninstall opencode` to cleanly remove integration while preserving project knowledge.",
   "integrity": {
     "algorithm": "sha256",
-    "hash": "3de8a4dc7543d1ff97a3d7d347262a94c43d6eda760275a9eabe4a1280fa40fb"
+    "hash": "6c7a4e9ba096c66714b9c95d0ce83dd8b0c3e306bd429b61c274957d8da18c98"
   }
 }

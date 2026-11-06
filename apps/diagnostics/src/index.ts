@@ -12,6 +12,7 @@ export class DiagnosticsEngine {
     const projectRoot = ProjectIdentityManager.detectProjectRoot(projectRootInput || process.cwd());
     const store = new ProjectMemoryStore(projectRoot);
     const core = store.getCoreMemory();
+    const health = store.getHealthReport();
     const migrations = store.getAppliedMigrations();
     const schemaVersion = migrations.length > 0 ? migrations[migrations.length - 1].version : 0;
 
@@ -38,15 +39,26 @@ export class DiagnosticsEngine {
     });
 
     const runtimePassed = Number(process.versions.node.split('.')[0]) >= 18 && sqliteFts5Available;
-    const storagePassed = schemaVersion >= 3 && gitignoreProtected && secretLeakCheckPassed;
-    const mcpPassed = tools.length === 22 && initializeHandshakePassed;
+    const storagePassed = schemaVersion >= 4 && gitignoreProtected && secretLeakCheckPassed && health.eventChain.valid;
+    const requiredTools = ['initialize_project', 'get_relevant_context', 'search_project_knowledge', 'get_health', 'get_memory_events'];
+    const mcpPassed = tools.length >= 22 && requiredTools.every((name) => tools.some((t) => t.name === name)) && initializeHandshakePassed;
 
     return {
       healthy: runtimePassed && storagePassed && mcpPassed,
       projectMindVersion: PROJECTMIND_VERSION,
       projectRoot,
       runtimeCheck: { passed: runtimePassed, nodeVersion: process.versions.node, sqliteFts5Available },
-      storageCheck: { passed: storagePassed, initialized: Boolean(core), schemaVersion, gitignoreProtected, secretLeakCheckPassed },
+      storageCheck: {
+        passed: storagePassed,
+        initialized: Boolean(core),
+        schemaVersion,
+        gitignoreProtected,
+        secretLeakCheckPassed,
+        sqliteIntegrity: health.integrity,
+        eventChainValid: health.eventChain.valid,
+        memoryEvents: health.stats.events,
+        openConflicts: health.stats.conflictsOpen
+      },
       mcpServerCheck: { passed: mcpPassed, toolCount: tools.length, initializeHandshakePassed },
       adapterStatuses
     };

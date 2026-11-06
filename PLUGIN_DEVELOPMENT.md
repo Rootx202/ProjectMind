@@ -160,17 +160,17 @@ Create `plugins/<agent-id>/manifest.json`:
   "$schema": "../manifest.schema.json",
   "id": "my-agent",
   "name": "ProjectMind for My Custom Agent",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Project intelligence and MCP integration for My Custom Agent.",
   "publisher": {
     "name": "Rootx202 (ProjectMind)",
     "url": "https://github.com/Rootx202/ProjectMind"
   },
   "supportedPlatforms": ["linux", "windows", "darwin"],
-  "supportedAgentVersions": ">= 1.0.0",
+  "supportedAgentVersions": ">= 1.1.0",
   "runtimeRequirements": {
     "node": ">= 18.0.0",
-    "projectmind": ">= 1.0.0"
+    "projectmind": ">= 1.1.0"
   },
   "capabilities": {
     "mcpTransport": "stdio",

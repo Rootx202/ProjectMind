@@ -1,8 +1,8 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import {
-  AgentAdapter, AgentCapabilities, AdapterInstallOptions, AdapterInstallResult,
-  AdapterVerifyResult, AdapterUninstallResult, CONCISE_SKILL_CONTENT,
+  AgentAdapter, AgentCapabilities, AdapterInstallOptions, AdapterInstallResult, getSkillContent,
+  AdapterVerifyResult, AdapterUninstallResult,
   CONCISE_INSTRUCTION_SNIPPET, backupFileBeforeModify, readJsonSafe,
   writeJsonPretty, writeHookRunnerScript
 } from '@projectmind/agent-sdk';
@@ -46,7 +46,7 @@ export class AntigravityAdapter implements AgentAdapter {
 
     const skillPath = path.join(resolvedRoot, '.agents', 'skills', 'projectmind', 'SKILL.md');
     fs.mkdirSync(path.dirname(skillPath), { recursive: true });
-    fs.writeFileSync(skillPath, CONCISE_SKILL_CONTENT, 'utf8');
+    fs.writeFileSync(skillPath, getSkillContent(), 'utf8');
     filesCreatedOrUpdated.push('.agents/skills/projectmind/SKILL.md');
 
     const pluginRoot = path.join(resolvedRoot, '.agents', 'plugins', 'projectmind');
@@ -70,7 +70,7 @@ export class AntigravityAdapter implements AgentAdapter {
     filesCreatedOrUpdated.push('.agents/plugins/projectmind/plugin.json');
 
     fs.writeFileSync(path.join(pluginRoot, 'assets', 'logo.svg'), '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128"><rect width="128" height="128" rx="24" fill="#0F172A"/></svg>\n', 'utf8');
-    fs.writeFileSync(path.join(pluginRoot, 'skills', 'projectmind', 'SKILL.md'), CONCISE_SKILL_CONTENT, 'utf8');
+    fs.writeFileSync(path.join(pluginRoot, 'skills', 'projectmind', 'SKILL.md'), getSkillContent(), 'utf8');
     fs.writeFileSync(path.join(pluginRoot, 'rules', 'AGENTS.md'), CONCISE_INSTRUCTION_SNIPPET + '\n', 'utf8');
     writeJsonPretty(path.join(pluginRoot, 'mcp_config.json'), {
       mcpServers: { projectmind: { command: 'node', args: [mcpScript, '--project-root', resolvedRoot], timeoutSeconds: 180 } }

@@ -2,7 +2,7 @@
   "$schema": "../manifest.schema.json",
   "id": "hermes-agent",
   "name": "ProjectMind for Hermes Agent (Nous Research)",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Autonomous project intelligence, Native MCP client integration, HERMES.md instruction file, and self-improving memory loop.",
   "publisher": {
     "name": "Rootx202 (ProjectMind)",
@@ -19,7 +19,7 @@
   "supportedAgentVersions": ">= 1.0.0",
   "runtimeRequirements": {
     "node": ">= 18.0.0",
-    "projectmind": ">= 1.0.0"
+    "projectmind": ">= 1.1.0"
   },
   "capabilities": {
     "mcpTransport": "stdio",
@@ -63,6 +63,6 @@
   "removalInstructions": "Run `projectmind plugin uninstall hermes-agent` to cleanly remove integration while preserving project knowledge.",
   "integrity": {
     "algorithm": "sha256",
-    "hash": "3d3bf3d83284497a2730f63c11228d13522c78fb66fbdf8e1e26edb4c0fa524a"
+    "hash": "d75c5a808d40c347aef69b8162a6d85caa2c00ee44788d0c9cc1f58242b743e5"
   }
 }

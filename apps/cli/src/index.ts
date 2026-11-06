@@ -88,6 +88,10 @@ Core Commands:
   context <task>             Retrieve smart project context for a task
   search <query>             Search project architecture knowledge base
   doctor                     Run system and environment diagnostic health checks
+  health                     Show storage health, event-chain integrity, and index manifest
+  manifest                   Show the index manifest and entity counts
+  memory events              Show the append-only memory event log
+  memory conflicts           Show open optimistic-concurrency conflicts
 
 Update & Upgrade Commands:
   update check               Check for ProjectMind Core engine updates on GitHub
@@ -549,69 +553,121 @@ Supported Agents:
               return {
                 exitCode: 0,
                 output: [
-                  `💡 Update available: ProjectMind v${res.latestVersion} (Current: v${res.currentVersion})`,
+                  `Update available: ProjectMind v${res.latestVersion} (current: v${res.currentVersion})`,
                   `Release: ${res.releaseName}`,
                   `Published: ${res.publishedAt}`,
-                  res.compatible ? 'Compatibility: ✓ Fully compatible' : `Compatibility: ✗ ${res.incompatibilityReason}`,
+                  res.compatible ? 'Compatibility: compatible' : `Compatibility: incompatible (${res.incompatibilityReason})`,
+                  `Signed checksum: ${res.sha256 ? 'published' : 'MISSING (updates will be refused)'}`,
                   '',
                   'Changelog:',
                   res.releaseNotes || '(No release notes provided)',
                   '',
-                  "Run 'projectmind update' to apply the update."
+                  "Run 'projectmind update' to stage and apply (non-git installs), or 'git pull' for a checkout."
                 ].join('\n')
               };
             }
-            return {
-              exitCode: 0,
-              output: `✓ ProjectMind is up to date (v${res.currentVersion}).`
-            };
+            return { exitCode: 0, output: `ProjectMind is up to date (v${res.currentVersion}).` };
           }).catch((err: any) => {
             return { exitCode: 1, output: isJson ? JSON.stringify({ error: String(err) }) : `Error checking update: ${err}` };
           });
         }
 
-        // Apply update
         const applyPromise = (async () => {
-          const check = await setup.checkCoreUpdate();
-          if (!check.isOutdated && !hasFlag('--force')) {
-            if (isJson) {
-              return { exitCode: 0, output: JSON.stringify({ status: 'already_up_to_date', currentVersion: check.currentVersion }, null, 2) };
-            }
-            return { exitCode: 0, output: `✓ ProjectMind is already up to date (v${check.currentVersion}).` };
+          const installationRoot = process.env.PROJECTMIND_HOME
+            ? path.resolve(process.env.PROJECTMIND_HOME)
+            : path.resolve(__dirname, '..', '..', '..');
+
+          const staged = await setup.stageCoreUpdate(installationRoot);
+          if (!staged.success) {
+            const payload = { status: 'failed', ...staged };
+            return { exitCode: 1, output: isJson ? JSON.stringify(payload, null, 2) : `Error: ${staged.error}` };
           }
-
-          if (!check.compatible && !hasFlag('--force')) {
-            const err = `Cannot update: ${check.incompatibilityReason}`;
-            return { exitCode: 1, output: isJson ? JSON.stringify({ error: err }) : `Error: ${err}` };
-          }
-
-          const backupDir = path.join(projectRoot, '.projectmind', 'backups', `core-backup-${Date.now()}`);
-          fs.mkdirSync(backupDir, { recursive: true });
-
-          if (isJson) {
+          if (hasFlag('--stage')) {
+            const payload = { status: 'staged', ...staged };
             return {
               exitCode: 0,
-              output: JSON.stringify({
-                status: 'updated',
-                previousVersion: check.currentVersion,
-                newVersion: check.latestVersion,
-                backupPath: backupDir
-              }, null, 2)
+              output: isJson ? JSON.stringify(payload, null, 2) : [
+                `Verified ProjectMind v${staged.newVersion} artifact and staged it at:`,
+                `  ${staged.stagedDir}`,
+                `SHA-256: ${staged.artifactSha256}`
+              ].join('\n')
             };
           }
+
+          const applied = setup.applyCoreUpdate(installationRoot, staged.stagedDir || '', { force: hasFlag('--force') });
+          if (!applied.success) {
+            const payload = { status: 'blocked', ...applied, stagedDir: staged.stagedDir };
+            return {
+              exitCode: 1,
+              output: isJson ? JSON.stringify(payload, null, 2) : [
+                `Verified v${staged.newVersion} was staged at ${staged.stagedDir}, but it was NOT applied:`,
+                applied.error || 'unknown error'
+              ].join('\n')
+            };
+          }
+          const payload = { status: 'applied', ...applied, artifactSha256: staged.artifactSha256 };
           return {
             exitCode: 0,
-            output: [
-              `✓ Successfully updated ProjectMind Core to v${check.latestVersion}!`,
-              `Previous version: v${check.currentVersion}`,
-              `Backup saved to:  ${backupDir}`
-            ].join('\n')
+            output: isJson ? JSON.stringify(payload, null, 2) : [
+              `Applied ProjectMind v${staged.newVersion} from a verified artifact.`,
+              `Previous version: v${applied.previousVersion}`,
+              applied.backupPath ? `Backup: ${applied.backupPath}` : ''
+            ].filter(Boolean).join('\n')
           };
         })();
 
         return applyPromise.catch((err: any) => {
           return { exitCode: 1, output: isJson ? JSON.stringify({ error: String(err) }) : `Error applying update: ${err}` };
         });
+      }
+
+      case 'health': {
+        const mcp = new ProjectMindMcpServer(projectRoot, true);
+        const res = mcp.callTool('get_health', { projectRoot });
+        if (isJson) return { exitCode: res.isError ? 1 : 0, output: res.content[0].text };
+        const health = res.structuredContent as any;
+        const lines = [
+          `ProjectMind Health`,
+          `==================`,
+          `Database:       ${health.integrity === 'ok' ? 'OK' : health.integrity}`,
+          `Memory events:  ${health.stats.events} (chain ${health.eventChain.valid ? 'valid' : 'BROKEN'})`,
+          `Open conflicts: ${health.stats.conflictsOpen}`,
+          `Index snapshot: ${health.latestSnapshot ? health.latestSnapshot.snapshotId : 'none'}`,
+          `Index manifest: ${health.manifest ? `${health.manifest.parserVersion} / ${health.manifest.retrievalVersion}` : 'none'}`,
+          `Cache entries:  ${health.cache.entries}`,
+          `Files/modules:  ${health.stats.files}/${health.stats.modules}`,
+          `Symbols/edges:  ${health.stats.symbols}/${health.stats.graphEdges}`,
+          `Embeddings:     ${health.stats.embeddings}`,
+          `Event chain:    ${health.eventChain.valid ? 'VALID' : `BROKEN at ${health.eventChain.brokenAt}`}`
+        ];
+        return { exitCode: health.eventChain.valid && health.integrity === 'ok' ? 0 : 1, output: lines.join('\n') };
+      }
+
+      case 'memory': {
+        const subCommand = (args[1] || 'events').toLowerCase();
+        const mcp = new ProjectMindMcpServer(projectRoot, true);
+        if (subCommand === 'events') {
+          const res = mcp.callTool('get_memory_events', {
+            limit: Number(getFlagValue('--limit') || 25),
+            entityId: getFlagValue('--entity-id'),
+            namespace: getFlagValue('--namespace')
+          });
+          return { exitCode: res.isError ? 1 : 0, output: res.content[0].text };
+        }
+        if (subCommand === 'conflicts') {
+          const res = mcp.callTool('get_memory_conflicts', { status: getFlagValue('--status') || 'open' });
+          return { exitCode: res.isError ? 1 : 0, output: res.content[0].text };
+        }
+        return {
+          exitCode: 1,
+          output: "Unknown memory subcommand. Use 'projectmind memory events' or 'projectmind memory conflicts'."
+        };
+      }
+
+      case 'manifest': {
+        const mcp = new ProjectMindMcpServer(projectRoot, true);
+        const res = mcp.callTool('get_context_manifest', { projectRoot });
+        return { exitCode: res.isError ? 1 : 0, output: res.content[0].text };
       }
 
       case 'hook': {

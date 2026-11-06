@@ -88,7 +88,7 @@ cd ProjectMind
 # 2. Build the packages and compile TypeScript
 node scripts/build.js
 
-# 3. Verify the installation with test suite (50 tests)
+# 3. Verify the installation with test suite (89 tests)
 node scripts/test.js
 
 # 4. Link binary globally (optional)
@@ -211,16 +211,16 @@ Adapters:
 ProjectMind is 100% local-first and operates without internet connectivity:
 
 1. Download release archives from GitHub Releases:
-   * `projectmind-v1.0.0.tar.gz` (core runtime)
-   * `dist/plugins/*.tar.gz` (plugin bundles)
-   * `dist/plugins/SHA256SUMS`
+   * `projectmind-v1.1.0.tar.gz` (core runtime)
+   * `.release/plugins/*.tar.gz` (plugin bundles)
+   * `.release/SHA256SUMS`
 2. Verify integrity:
    ```bash
    sha256sum -c SHA256SUMS
    ```
 3. Unpack into target machine:
    ```bash
-   tar -xzf projectmind-v1.0.0.tar.gz -C ~/.projectmind
+   tar -xzf projectmind-v1.1.0.tar.gz -C ~/.projectmind
    ```
 4. Set `PROJECTMIND_HOME`:
    ```bash

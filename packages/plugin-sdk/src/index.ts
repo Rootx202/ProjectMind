@@ -5,4 +5,5 @@ export * from './portable-hook-runner';
 export * from './config-writer';
 export * from './manifest-validator';
 export * from './registry';
+export * from './tar';
 export * from './update-manager';

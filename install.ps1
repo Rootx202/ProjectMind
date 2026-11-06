@@ -44,7 +44,7 @@ if ($Help) {
     exit 0
 }
 
-$Version = "1.0.0"
+$Version = "1.1.0"
 Write-Host "==========================================================" -ForegroundColor Cyan
 Write-Host "ProjectMind Universal Windows Installer v$Version" -ForegroundColor Cyan
 Write-Host "==========================================================" -ForegroundColor Cyan

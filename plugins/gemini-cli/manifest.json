@@ -2,7 +2,7 @@
   "$schema": "../manifest.schema.json",
   "id": "gemini-cli",
   "name": "ProjectMind for Google Gemini CLI",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Universal project memory, MCP server, Strict JSON lifecycle hooks, and GEMINI.md instructions for Gemini CLI.",
   "publisher": {
     "name": "Rootx202 (ProjectMind)",
@@ -19,7 +19,7 @@
   "supportedAgentVersions": ">= 1.0.0",
   "runtimeRequirements": {
     "node": ">= 18.0.0",
-    "projectmind": ">= 1.0.0"
+    "projectmind": ">= 1.1.0"
   },
   "capabilities": {
     "mcpTransport": "stdio",
@@ -63,6 +63,6 @@
   "removalInstructions": "Run `projectmind plugin uninstall gemini-cli` to cleanly remove integration while preserving project knowledge.",
   "integrity": {
     "algorithm": "sha256",
-    "hash": "dbe80b1cfe814d5293993498fe5f6cb3ae408269d975519c8e9d30e35451e68e"
+    "hash": "fd019f6331b55aa8eb8b6e6f90a108e4a9dfbe8253dec772e3b5f66f881cf557"
   }
 }

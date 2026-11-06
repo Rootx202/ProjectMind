@@ -2,7 +2,7 @@
   "$schema": "../manifest.schema.json",
   "id": "deepseek-harness",
   "name": "ProjectMind for DeepSeek Harness (dsh / DeepSeek AI)",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Universal project memory, profile MCP server, profile plugin overlay, and DEEPSEEK.md instructions for DeepSeek Harness.",
   "publisher": {
     "name": "Rootx202 (ProjectMind)",
@@ -19,7 +19,7 @@
   "supportedAgentVersions": ">= 1.0.0",
   "runtimeRequirements": {
     "node": ">= 18.0.0",
-    "projectmind": ">= 1.0.0"
+    "projectmind": ">= 1.1.0"
   },
   "capabilities": {
     "mcpTransport": "stdio",
@@ -63,6 +63,6 @@
   "removalInstructions": "Run `projectmind plugin uninstall deepseek-harness` to cleanly remove integration while preserving project knowledge.",
   "integrity": {
     "algorithm": "sha256",
-    "hash": "4a1d55f110fda3178868e11f89e7ee9239266f499277131f8b1fd74755e343dd"
+    "hash": "5530fed48fd58993785e1db60c9ae60a0c7af23cf993345390145611a00e46da"
   }
 }

@@ -1,8 +1,8 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import {
-  AgentAdapter, AgentCapabilities, AdapterInstallOptions, AdapterInstallResult,
-  AdapterVerifyResult, AdapterUninstallResult, CONCISE_SKILL_CONTENT,
+  AgentAdapter, AgentCapabilities, AdapterInstallOptions, AdapterInstallResult, getSkillContent,
+  AdapterVerifyResult, AdapterUninstallResult,
   backupFileBeforeModify, readJsonSafe, writeJsonPretty,
   upsertMarkdownBlockIdempotent, removeMarkdownBlockIdempotent, writeHookRunnerScript
 } from '@projectmind/agent-sdk';
@@ -106,12 +106,12 @@ export class DeepSeekHarnessAdapter implements AgentAdapter {
 
     const dshSkillPath = path.join(resolvedRoot, '.dsh', 'skills', 'projectmind', 'SKILL.md');
     fs.mkdirSync(path.dirname(dshSkillPath), { recursive: true });
-    fs.writeFileSync(dshSkillPath, CONCISE_SKILL_CONTENT, 'utf8');
+    fs.writeFileSync(dshSkillPath, getSkillContent(), 'utf8');
     filesCreatedOrUpdated.push('.dsh/skills/projectmind/SKILL.md');
 
     const agentsSkillPath = path.join(resolvedRoot, '.agents', 'skills', 'projectmind', 'SKILL.md');
     fs.mkdirSync(path.dirname(agentsSkillPath), { recursive: true });
-    fs.writeFileSync(agentsSkillPath, CONCISE_SKILL_CONTENT, 'utf8');
+    fs.writeFileSync(agentsSkillPath, getSkillContent(), 'utf8');
     filesCreatedOrUpdated.push('.agents/skills/projectmind/SKILL.md');
 
     const verification = this.verify(resolvedRoot);

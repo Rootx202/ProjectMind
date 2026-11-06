@@ -3,7 +3,7 @@
 # https://github.com/Rootx202/ProjectMind
 set -euo pipefail
 
-VERSION="1.0.0"
+VERSION="1.1.0"
 REPO="Rootx202/ProjectMind"
 DEFAULT_INSTALL_DIR="${HOME}/.projectmind"
 BIN_DIR="${HOME}/.local/bin"

@@ -1,8 +1,8 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import {
-  AgentAdapter, AgentCapabilities, AdapterInstallOptions, AdapterInstallResult,
-  AdapterVerifyResult, AdapterUninstallResult, CONCISE_SKILL_CONTENT,
+  AgentAdapter, AgentCapabilities, AdapterInstallOptions, AdapterInstallResult, getSkillContent,
+  AdapterVerifyResult, AdapterUninstallResult,
   backupFileBeforeModify, readJsonSafe, writeJsonPretty,
   upsertMarkdownBlockIdempotent, removeMarkdownBlockIdempotent, writeHookRunnerScript
 } from '@projectmind/agent-sdk';
@@ -100,12 +100,12 @@ export class HermesAgentAdapter implements AgentAdapter {
 
     const hermesSkillPath = path.join(resolvedRoot, '.hermes', 'skills', 'projectmind', 'SKILL.md');
     fs.mkdirSync(path.dirname(hermesSkillPath), { recursive: true });
-    fs.writeFileSync(hermesSkillPath, CONCISE_SKILL_CONTENT, 'utf8');
+    fs.writeFileSync(hermesSkillPath, getSkillContent(), 'utf8');
     filesCreatedOrUpdated.push('.hermes/skills/projectmind/SKILL.md');
 
     const agentsSkillPath = path.join(resolvedRoot, '.agents', 'skills', 'projectmind', 'SKILL.md');
     fs.mkdirSync(path.dirname(agentsSkillPath), { recursive: true });
-    fs.writeFileSync(agentsSkillPath, CONCISE_SKILL_CONTENT, 'utf8');
+    fs.writeFileSync(agentsSkillPath, getSkillContent(), 'utf8');
     filesCreatedOrUpdated.push('.agents/skills/projectmind/SKILL.md');
 
     const verification = this.verify(resolvedRoot);

@@ -27,7 +27,7 @@ Thank you for your interest in contributing to **ProjectMind**! We welcome contr
    ```
 
 3. **Run the Automated Test Suite**:
-   Verify that all 50 tests pass:
+   Verify that all 89 checks pass:
    ```bash
    node scripts/test.js
    ```
@@ -43,7 +43,7 @@ Thank you for your interest in contributing to **ProjectMind**! We welcome contr
   * `impact-analysis/`: Dependency graph and reverse dependents.
   * `retrieval/`: BM25 lexical search and local vector reranker.
   * `context-engine/`: Task scope classification and token budgets.
-  * `mcp-server/`: JSON-RPC 2.0 MCP server exposing 22 tools.
+  * `mcp-server/`: JSON-RPC 2.0 MCP server exposing 27 tools.
   * `agent-sdk/`: Smart Auto Mode engine and lifecycle dispatcher.
   * `plugin-sdk/`: Portable runtime resolver, config writer, and registry.
   * `shared/`: Shared types, secret exclusion, and token estimation.
@@ -90,7 +90,7 @@ Thank you for your interest in contributing to **ProjectMind**! We welcome contr
    ```
 4. Verify plugin packaging:
    ```bash
-   node scripts/package-plugins.js
+   node scripts/package-release.js
    ```
 5. Commit with a clear commit message.
 6. Submit a Pull Request against the `main` branch on GitHub.

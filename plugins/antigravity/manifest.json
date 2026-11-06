@@ -2,7 +2,7 @@
   "$schema": "../manifest.schema.json",
   "id": "antigravity",
   "name": "ProjectMind for Google Antigravity",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Universal local-first project intelligence, persistent context engine, and autonomous lifecycle hooks for Google Antigravity.",
   "publisher": {
     "name": "Rootx202 (ProjectMind)",
@@ -19,7 +19,7 @@
   "supportedAgentVersions": ">= 1.0.0",
   "runtimeRequirements": {
     "node": ">= 18.0.0",
-    "projectmind": ">= 1.0.0"
+    "projectmind": ">= 1.1.0"
   },
   "capabilities": {
     "mcpTransport": "stdio",
@@ -62,6 +62,6 @@
   "removalInstructions": "Run `projectmind plugin uninstall antigravity` to cleanly remove integration while preserving project knowledge.",
   "integrity": {
     "algorithm": "sha256",
-    "hash": "5656dd56f413cef36a0981737e0c97f5362613e7872ebb4ea6e03378967368d9"
+    "hash": "5212aae959bf569f6f2260f1b886e16577bdaa5ab65bed548a552ec0944daf5e"
   }
 }

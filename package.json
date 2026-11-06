@@ -1,6 +1,6 @@
 {
   "name": "projectmind",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "ProjectMind — Universal Local-First AI Project Intelligence and Persistent Context Engine",
   "private": false,
   "license": "MIT",
@@ -34,6 +34,12 @@
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
     "diagnostics": "node apps/diagnostics/dist/index.js",
-    "setup": "node apps/setup/dist/index.js"
+    "setup": "node apps/setup/dist/index.js",
+    "release:package": "node scripts/package-release.js",
+    "benchmark": "node scripts/benchmark.js",
+    "test:clean": "node scripts/build.js && node scripts/test.js"
+  },
+  "dependencies": {
+    "@babel/parser": "^7.29.0"
   }
 }

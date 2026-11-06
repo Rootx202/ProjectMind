@@ -6,8 +6,13 @@ ProjectMind is designed with a strict **local-first, privacy-by-design** securit
 
 ## 1. Core Security Principles
 
-1. **Zero External Network Calls**:
-   ProjectMind runs 100% locally on your machine. It makes **zero** outbound HTTP requests, includes **zero** telemetry or tracking code, and never transmits your source code or project intelligence to any cloud service.
+1. **No Telemetry, Explicit Network Only**:
+   Indexing, retrieval, and memory writes run 100% locally and make no network
+   requests. ProjectMind contains **zero** telemetry or tracking code and never
+   transmits source code or project intelligence to a cloud service. The only
+   outbound requests are made when the user explicitly runs `projectmind update`,
+   `projectmind update check`, or `projectmind plugin update/outdated`, which
+   contact GitHub Releases to fetch a version manifest or a verified artifact.
 2. **Zero Plaintext Secret Ingestion**:
    ProjectMind's indexing engine explicitly excludes credential files, private keys, environment files, and sensitive tokens. Detected secrets are scrubbed before indexing.
 3. **Workspace Boundary Isolation**:
@@ -75,16 +80,74 @@ ProjectMind executes lifecycle hooks via thin, portable wrappers:
 
 ---
 
-## 5. Plugin Integrity & Verification
+## 5. Update & Artifact Verification
 
-All distributed plugins include SHA-256 cryptographic checksums:
-* Manifests contain an `integrity.hash` field.
-* Release archives in `dist/plugins/` are signed in `SHA256SUMS`.
-* `projectmind plugin verify <agent>` verifies that installed configuration files, hook runners, and MCP configs match expected integrity checks.
+ProjectMind treats every downloaded update as untrusted input.
 
----
+### Transport
+* Update URLs must use **HTTPS**; plain HTTP is refused unless
+  `PROJECTMIND_ALLOW_INSECURE_UPDATES=1` is explicitly set for local testing.
+* Downloads and redirects are restricted to an allowlist
+  (`api.github.com`, `github.com`, `objects.githubusercontent.com`, etc.).
+* Redirect chains are limited to 3 hops and may not downgrade to HTTP.
+* Response bodies are capped (64 MiB) and time out after 20 seconds.
 
-## 6. Reporting a Security Vulnerability
+### Integrity
+* A **SHA-256 is mandatory** for plugin and core artifacts. Missing checksums are
+  a hard failure; `PROJECTMIND_ALLOW_UNVERIFIED_UPDATES=1` exists only for
+  development and must not be used in production.
+* Comparisons use `crypto.timingSafeEqual`.
+* Plugin archives contain a `manifest.json` that lists **every file with its
+  SHA-256**. Missing, mismatched, or undeclared files fail validation.
+* `SHA256SUMS` and `index.json` are published with each GitHub Release.
+
+### Archive hardening
+The tar.gz extractor rejects:
+* absolute paths, `..` traversal, Windows drive prefixes, and null bytes;
+* symlinks, hardlinks, devices, and unsupported entry types;
+* archives exceeding entry-count, per-file, total-size, or compressed-size limits.
+
+### Install & rollback
+* A verified plugin bundle is extracted to staging, installed atomically under
+  `.projectmind/plugins/<id>/versions/<version>`, and recorded with its artifact
+  SHA-256 in `state.json`.
+* The adapter is re-run with the verified package's `assets/instructions.md` and
+  `assets/SKILL.md`; if verification fails, the previous package pointer is
+  restored and the installer is re-run.
+* Core updates are staged and verified; `applyCoreUpdate` refuses to overwrite a
+  git checkout (use `git pull`) unless explicitly forced.
+
+### Not yet implemented
+Artifact **signatures** (Sigstore/minisign) are not implemented. Integrity
+currently relies on SHA-256 values published in the same GitHub release channel.
+This is documented as a planned hardening step, not a shipped guarantee.
+
+## 6. Shared Memory Trust Boundaries
+
+* Every durable write carries `actor_type`, `actor_id`, `namespace`, `snapshot_id`,
+  and (where relevant) `source_refs`.
+* `memory_events` is append-only: SQLite triggers reject `UPDATE` and `DELETE`,
+  and a SHA-256 hash chain is verified by `projectmind health`.
+* Namespaces prevent one agent from reading another agent's or user's private
+  memory (`project/agent/<id>`, `project/user/<id>`).
+* Concurrent writers use optimistic concurrency; a stale `expectedVersion`
+  produces a reviewable conflict instead of a silent overwrite.
+* Repository content is evidence, not instructions. Sanitization strips prompt
+  injection patterns and redacts secrets before content enters retrieval output.
+* Stale snapshots cannot be served from cache: contexts carry a snapshot id and
+  `mustSyncBeforeEdit`, and the cache is invalidated on unsynchronized changes.
+
+### Data-flow contract
+
+| Operation | Network | Leaves the machine | Notes |
+|---|---|---|---|
+| Bootstrap / sync / retrieval | None | No | Local SQLite only |
+| `get_relevant_context` | None | No | Local retrieval |
+| `update check` / `plugin outdated` | GitHub API | Version metadata only | No source/context |
+| `update` / `plugin update` | GitHub Releases | No project data | Verified artifact download |
+| `/health`, `memory events` | None | No | Local diagnostics |
+
+## 7. Reporting a Security Vulnerability
 
 If you discover a security vulnerability in ProjectMind:
 1. Please do **NOT** open a public GitHub issue.

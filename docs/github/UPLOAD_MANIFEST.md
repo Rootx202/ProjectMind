@@ -1,3 +1,5 @@
+> **Historical document (v1.0.0).** Superseded by the v1.1.0 implementation and `docs/IMPLEMENTATION_STATUS.md`.
+
 # ProjectMind Upload Manifest
 
 **Upload Date:** 2026-11-06  

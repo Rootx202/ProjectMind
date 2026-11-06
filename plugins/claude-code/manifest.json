@@ -2,7 +2,7 @@
   "$schema": "../manifest.schema.json",
   "id": "claude-code",
   "name": "ProjectMind for Anthropic Claude Code",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Universal local-first project intelligence, MCP server, skills, and settings hooks for Anthropic Claude Code.",
   "publisher": {
     "name": "Rootx202 (ProjectMind)",
@@ -19,7 +19,7 @@
   "supportedAgentVersions": ">= 1.0.0",
   "runtimeRequirements": {
     "node": ">= 18.0.0",
-    "projectmind": ">= 1.0.0"
+    "projectmind": ">= 1.1.0"
   },
   "capabilities": {
     "mcpTransport": "stdio",
@@ -65,6 +65,6 @@
   "removalInstructions": "Run `projectmind plugin uninstall claude-code` to cleanly remove integration while preserving project knowledge.",
   "integrity": {
     "algorithm": "sha256",
-    "hash": "e3159063233b9196f67a86167fc9e584a7a12bb471be433cce95ae8aece79da6"
+    "hash": "d9dd933ff8b499d311eab0f471528af9b18a8439d34b176cc52bbe5f8a6752d8"
   }
 }

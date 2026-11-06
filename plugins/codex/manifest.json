@@ -2,7 +2,7 @@
   "$schema": "../manifest.schema.json",
   "id": "codex",
   "name": "ProjectMind for OpenAI Codex (CLI / IDE / Desktop)",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Project intelligence, MCP stdio server integration, skills, and AGENTS.md instructions for OpenAI Codex.",
   "publisher": {
     "name": "Rootx202 (ProjectMind)",
@@ -19,7 +19,7 @@
   "supportedAgentVersions": ">= 1.0.0",
   "runtimeRequirements": {
     "node": ">= 18.0.0",
-    "projectmind": ">= 1.0.0"
+    "projectmind": ">= 1.1.0"
   },
   "capabilities": {
     "mcpTransport": "stdio",
@@ -61,6 +61,6 @@
   "removalInstructions": "Run `projectmind plugin uninstall codex` to cleanly remove integration while preserving project knowledge.",
   "integrity": {
     "algorithm": "sha256",
-    "hash": "42df0144b3d24ebee3a10349fff29e4698fd5138b6b1cace7f33e4dbdabdef91"
+    "hash": "806e7fe72de12b34584044af2523fd4ae17ebf8a2ee1e659f541e9db268acbce"
   }
 }

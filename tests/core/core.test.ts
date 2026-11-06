@@ -62,11 +62,14 @@ export function runCoreTests(): { passed: number; failed: number; details: strin
   const storeA = new ProjectMemoryStore(projA);
   const indexerA = new ProjectIndexer(projA, storeA);
 
-  check('3. Database schema migrations (v1 -> v2 -> v3) & .gitignore generation', () => {
+  check('3. Database schema migrations (v1 -> v4) & .gitignore generation', () => {
     const migrations = storeA.getAppliedMigrations();
-    assert.strictEqual(migrations.length, 3);
-    assert.strictEqual(migrations[2].version, 3);
+    assert.strictEqual(migrations.length, 4);
+    assert.strictEqual(migrations[3].version, 4);
     assert.ok(fs.existsSync(path.join(projA, '.projectmind', '.gitignore')));
+    const stats = storeA.getDatabaseStats();
+    assert.strictEqual(stats.events, 0);
+    assert.strictEqual(stats.conflictsOpen, 0);
   });
 
   check('4. Initial 7-stage bootstrap indexing, symbol/route/model extraction, and zero secret indexing', () => {

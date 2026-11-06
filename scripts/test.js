@@ -7,6 +7,9 @@ const { runPluginsTests } = require('../dist-tests/plugins/plugins.test.js');
 const { runPortableRuntimeTests } = require('../dist-tests/runtime/portable-runtime.test.js');
 const { runInstallerTests } = require('../dist-tests/installer/installer.test.js');
 const { runUpdaterTests } = require('../dist-tests/updater/updater.test.js');
+const { runMemoryTests } = require('../dist-tests/memory/memory.test.js');
+const { runIndexingTests } = require('../dist-tests/indexing/indexing.test.js');
+const { runRetrievalTests } = require('../dist-tests/retrieval/retrieval.test.js');
 
 let totalPassed = 0;
 let totalFailed = 0;
@@ -18,7 +21,10 @@ const suites = [
   runPluginsTests,
   runPortableRuntimeTests,
   runInstallerTests,
-  runUpdaterTests
+  runUpdaterTests,
+  runMemoryTests,
+  runIndexingTests,
+  runRetrievalTests
 ];
 
 async function main() {

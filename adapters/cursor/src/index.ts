@@ -1,8 +1,8 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import {
-  AgentAdapter, AgentCapabilities, AdapterInstallOptions, AdapterInstallResult,
-  AdapterVerifyResult, AdapterUninstallResult, CONCISE_SKILL_CONTENT,
+  AgentAdapter, AgentCapabilities, AdapterInstallOptions, AdapterInstallResult, getSkillContent,
+  AdapterVerifyResult, AdapterUninstallResult,
   backupFileBeforeModify, readJsonSafe, writeJsonPretty, writeHookRunnerScript
 } from '@projectmind/agent-sdk';
 
@@ -76,7 +76,7 @@ export class CursorAdapter implements AgentAdapter {
 
     const skillPath = path.join(resolvedRoot, '.agents', 'skills', 'projectmind', 'SKILL.md');
     fs.mkdirSync(path.dirname(skillPath), { recursive: true });
-    fs.writeFileSync(skillPath, CONCISE_SKILL_CONTENT, 'utf8');
+    fs.writeFileSync(skillPath, getSkillContent(), 'utf8');
     filesCreatedOrUpdated.push('.agents/skills/projectmind/SKILL.md');
 
     const verification = this.verify(resolvedRoot);

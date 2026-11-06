@@ -14,7 +14,7 @@ ProjectMind is **not** a separate AI coding agent or chatbot. It is an autonomou
 
   * **Layer 1 — Core Memory**: Compact permanent project identity, tech stack, purpose, key constraints, and schema version.
 
-  * **Layer 2 — Project Knowledge**: Searchable SQLite + FTS5 (BM25) + local semantic vector index of modules, files, symbols, HTTP routes, database models, and Architectural Decision Records (ADRs).
+  * **Layer 2 — Project Knowledge**: Searchable SQLite + FTS5 (BM25), an AST-derived file/symbol code graph, and a local feature-hash reranker over modules, files, symbols, HTTP routes, database models, and Architectural Decision Records (ADRs). The reranker is lexical feature hashing, not a learned semantic embedding.
 
   * **Layer 3 — Task Context**: Temporary, token-budgeted retrieval state strictly isolated from permanent project knowledge.
 
@@ -22,7 +22,7 @@ ProjectMind is **not** a separate AI coding agent or chatbot. It is an autonomou
 
 * **Existing & Greenfield Project Support**: Supports both indexing existing codebases and initializing brand-new projects from an initial prompt or specification (`mode: "prompt"`), automatically transitioning records from `planned` to `verified` as code is implemented.
 
-* **Strict Local-First Security & Privacy**: Works 100% offline with zero mandatory cloud accounts or paid embedding APIs. Enforces secret exclusion (`.env`, `.pem`, `.key`, `.ssh`, tokens), path traversal and symlink escape protection, and prompt-injection sanitization on untrusted repository files.
+* **Strict Local-First Security & Privacy**: Indexing, retrieval, and memory writes work 100% offline with zero mandatory cloud accounts or paid embedding APIs. Network access is limited to explicit, verified update operations. Enforces secret exclusion (`.env`, `.pem`, `.key`, `.ssh`, tokens), path traversal and symlink escape protection, and prompt-injection sanitization on untrusted repository files.
 
 ## Agent Compatibility Matrix
 
@@ -116,7 +116,7 @@ ProjectMind separates **universal project intelligence** (`packages/*`) from **a
 
 1. **Universal Core**: Indexes files, extracts symbols/routes/models, manages the 3-layer SQLite + FTS5 database, computes dependency blast radius, and assembles token-budgeted context packages.
 
-2. **MCP Intelligence Server (`@projectmind/mcp-server`)**: Exposes 22 structured tools over standard JSON-RPC 2.0 stdio transport with strict input validation, path traversal protection, and output size caps.
+2. **MCP Intelligence Server (`@projectmind/mcp-server`)**: Exposes 27 structured tools over standard JSON-RPC 2.0 stdio transport with strict input validation, path traversal protection, and output size caps.
 
 3. **Smart Auto Mode Engine (`@projectmind/agent-sdk`)**: Orchestrates lifecycle transitions (`onProjectOpen`, `onBeforeTask`, `onAfterFileChange`) so the coding agent automatically initializes, retrieves selective context, and synchronizes changes without manual user commands.
 
@@ -129,8 +129,8 @@ All project data lives locally in `<project-root>/.projectmind/projectmind.db` (
 | Memory Layer | SQLite Tables | Contents & Lifecycle | 
 | ----- | ----- | ----- | 
 | **Layer 1: Core Memory** | `core_memory`, `schema_migrations` | Permanent, ultra-compact project metadata: `projectId`, `projectName`, `projectRoot`, `previousRoots`, `mainTechStack`, `projectPurpose`, `keyConstraints`, `architecturalSummary`, `currentState`, `memorySchemaVersion`, and `lastVerifiedCommit`. | 
-| **Layer 2: Project Knowledge** | `project_files`, `project_modules`, `architectural_decisions`, `knowledge_items`, `knowledge_fts`, `vector_embeddings` | Searchable structural records of files, SHA-256 fingerprints, modules, public symbols, dependencies/dependents, HTTP routes, DB models, and ADRs. Indexed in `knowledge_fts` (SQLite FTS5 with BM25 ranking). | 
-| **Layer 3: Task Context** | `task_contexts`, `retrieval_cache`, `sync_events` | Ephemeral task-specific retrieval packages, token budget tracking, and cache entries. Strictly isolated from Layer 2 so temporary task assumptions never pollute permanent project knowledge. | 
+| **Layer 2: Project Knowledge** | `project_files`, `file_chunks`, `project_modules`, `code_symbols`, `code_graph_edges`, `architectural_decisions`, `knowledge_items`, `knowledge_fts`, `memory_events`, `workspace_snapshots`, `index_manifest`, `vector_embeddings` | Structural records with full-file SHA-256 and chunk hashes, AST symbols, resolved import edges, modules, HTTP routes, DB models, ADRs, and an append-only hash-chained event log. `vector_embeddings` stores local feature-hash vectors; it is not a learned semantic index. | 
+| **Layer 3: Task Context** | `task_contexts`, `retrieval_cache`, `sync_events` | Ephemeral task-specific retrieval packages, token budget tracking, and snapshot-bound cache entries. Caches are keyed by workspace snapshot plus parser/retrieval/embedder versions and are never served after unsynchronized changes. | 
 
 ## 3. Knowledge Reliability & Verification States
 
@@ -140,13 +140,13 @@ Every Layer 2 record carries explicit provenance (`sourceFiles`, `fileFingerprin
 
 * `inferred`: Synthesized from conventions or structural patterns (e.g., naming conventions in documentation); labeled with confidence `< 1.0`.
 
-* `planned`: Extracted from an initial project prompt or specification (`initialize_project` with `mode: "prompt"`) before implementation exists. Automatically transitions to `verified` when matching module files are created and synchronized via `sync_changed_files`.
+* `planned`: Extracted from an initial project prompt or specification (`initialize_project` with `mode: "prompt"`) before implementation exists. Transitions to `verified` only when concrete implementation evidence exists (an API route, a schema/model, a matching test, or an explicit source reference) after `sync_changed_files` — mere file creation is not enough.
 
 * `unverified`: Open architectural questions or components that could not be statically confirmed during bootstrap.
 
 * `outdated`: Records whose underlying source file fingerprints have changed prior to synchronization.
 
-## 4. The 22 MCP Intelligence Tools
+## 4. The 27 MCP Intelligence Tools
 
 | Category | Tool Name | Purpose | 
 | ----- | ----- | ----- | 
@@ -156,7 +156,7 @@ Every Layer 2 record carries explicit provenance (`sourceFiles`, `fileFingerprin
 | **Project Discovery** | `detect_project_changes` | Compares SHA-256 file fingerprints and Git status to detect added, modified, deleted, and renamed files. | 
 | **Context Retrieval** | `get_relevant_context` | Classifies task scope (`none`, `file`, `module`, `cross-module`, `deep-architecture`) and returns a token-budgeted context package. | 
 | **Context Retrieval** | `get_module_context` | Returns detailed module purpose, entry files, exported symbols, routes, models, dependencies, and ADRs. | 
-| **Context Retrieval** | `search_project_knowledge` | Executes SQLite FTS5 BM25 search combined with local feature-hash semantic vector reranking. | 
+| **Context Retrieval** | `search_project_knowledge` | Executes hybrid retrieval: SQLite FTS5 BM25, AST symbol matching, code-graph neighbour expansion, and local feature-hash vector reranking (lexical, not learned embeddings). Returns per-hit explanations and path/line evidence. | 
 | **Context Retrieval** | `find_related_files` | Discovers files related by module membership, imports, or symbol references. | 
 | **Context Retrieval** | `get_file_summary` | Returns compact file metadata, role, SHA-256 hash, exported symbols, and imports without dumping raw source code. | 
 | **Context Retrieval** | `get_architecture_context` | Returns system-wide module dependency topology, API catalog, database models, and key constraints. | 
@@ -171,7 +171,12 @@ Every Layer 2 record carries explicit provenance (`sourceFiles`, `fileFingerprin
 | **Memory Management** | `get_project_decisions` | Retrieves ADRs and project constraints, optionally filtered by module. | 
 | **Context Efficiency** | `estimate_context_tokens` | Approximates token usage and calculates token savings of ProjectMind summaries vs. raw source files. | 
 | **Context Efficiency** | `get_compact_context` | Returns an ultra-compact (<800 token) project digest. | 
-| **Context Efficiency** | `get_context_manifest` | Returns lightweight module fingerprints and entity counts so agents can inspect available memory cheaply. | 
+| **Context Efficiency** | `get_context_manifest` | Returns the index manifest (snapshot id, parser/chunker/embedder versions), module fingerprints, and entity counts. | 
+| **Context Efficiency** | `get_health` | Reports SQLite integrity, append-only event-chain verification, cache stats, open conflicts, and the latest snapshot. | 
+| **Memory Integrity** | `get_memory_events` | Returns the append-only memory event log filtered by entity, namespace, or time. | 
+| **Memory Integrity** | `record_memory_event` | Appends a durable, attributed memory event with explicit namespace and visibility. | 
+| **Memory Integrity** | `get_memory_conflicts` | Lists optimistic-concurrency conflicts produced by concurrent writers. | 
+| **Memory Integrity** | `resolve_memory_conflict` | Merges or rejects a conflict proposal with an audit note. | 
 
 # Installation & Agent Configuration Guide
 
@@ -180,7 +185,7 @@ Every Layer 2 record carries explicit provenance (`sourceFiles`, `fileFingerprin
 ProjectMind provides an idempotent setup system (`apps/cli` and `apps/setup`) that detects installed coding environments, backs up existing configuration files into `.projectmind/config-backups/` before making any edits, installs the required MCP server, skills, and lifecycle hooks, and verifies every integration check before reporting success.
 
 ```
-# Install for all 6 supported coding agents in the current repository
+# Install for all 9 supported coding agents in the current repository
 node /path/to/projectmind/apps/cli/dist/index.js install --all --project-root .
 
 # Or install for a single agent (e.g., claude-code)

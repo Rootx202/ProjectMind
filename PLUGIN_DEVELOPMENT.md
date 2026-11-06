@@ -163,8 +163,8 @@ Create `plugins/<agent-id>/manifest.json`:
   "version": "1.0.0",
   "description": "Project intelligence and MCP integration for My Custom Agent.",
   "publisher": {
-    "name": "ProjectMind Authors",
-    "url": "https://github.com/projectmind/projectmind"
+    "name": "Rootx202 (ProjectMind)",
+    "url": "https://github.com/Rootx202/ProjectMind"
   },
   "supportedPlatforms": ["linux", "windows", "darwin"],
   "supportedAgentVersions": ">= 1.0.0",

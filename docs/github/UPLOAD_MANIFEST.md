@@ -118,3 +118,4 @@ ProjectMind/
 | `.dsh/`, `.hermes/`, `.deepseek/` | Local editor configurations containing developer machine paths. |
 | `.mcp.json`, `opencode.json` | Local MCP configurations containing developer machine paths. |
 | `*.tmp`, `*.bak`, `*.log` | Temporary files and configuration backups. |
+

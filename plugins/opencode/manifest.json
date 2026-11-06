@@ -5,12 +5,12 @@
   "version": "1.0.0",
   "description": "Universal local-first project intelligence, opencode.json local MCP server, and AGENTS.md rules for OpenCode.",
   "publisher": {
-    "name": "ProjectMind Engineering",
-    "url": "https://github.com/projectmind/projectmind"
+    "name": "Rootx202 (ProjectMind)",
+    "url": "https://github.com/Rootx202/ProjectMind"
   },
   "license": "MIT",
-  "homepage": "https://github.com/projectmind/projectmind",
-  "repository": "https://github.com/projectmind/projectmind",
+  "homepage": "https://github.com/Rootx202/ProjectMind#readme",
+  "repository": "https://github.com/Rootx202/ProjectMind",
   "supportedPlatforms": [
     "linux",
     "windows",
@@ -63,6 +63,6 @@
   "removalInstructions": "Run `projectmind plugin uninstall opencode` to cleanly remove integration while preserving project knowledge.",
   "integrity": {
     "algorithm": "sha256",
-    "hash": "83802bc7501a7bee0b5e7f43d1f5f1a8bd264d22e05f529b1aa9a127f17898c4"
+    "hash": "3de8a4dc7543d1ff97a3d7d347262a94c43d6eda760275a9eabe4a1280fa40fb"
   }
 }

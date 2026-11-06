@@ -78,7 +78,7 @@ This script:
 3. **Verify Published Release**:
    Test remote curl installation against the published release:
    ```bash
-   curl -fsSL https://raw.githubusercontent.com/projectmind/projectmind/v1.0.0/install.sh | bash -s -- --dry-run
+   curl -fsSL https://raw.githubusercontent.com/Rootx202/ProjectMind/v1.0.0/install.sh | bash -s -- --dry-run
    ```
 
 ---

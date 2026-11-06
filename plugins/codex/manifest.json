@@ -5,12 +5,12 @@
   "version": "1.0.0",
   "description": "Project intelligence, MCP stdio server integration, skills, and AGENTS.md instructions for OpenAI Codex.",
   "publisher": {
-    "name": "ProjectMind Engineering",
-    "url": "https://github.com/projectmind/projectmind"
+    "name": "Rootx202 (ProjectMind)",
+    "url": "https://github.com/Rootx202/ProjectMind"
   },
   "license": "MIT",
-  "homepage": "https://github.com/projectmind/projectmind",
-  "repository": "https://github.com/projectmind/projectmind",
+  "homepage": "https://github.com/Rootx202/ProjectMind#readme",
+  "repository": "https://github.com/Rootx202/ProjectMind",
   "supportedPlatforms": [
     "linux",
     "windows",
@@ -61,6 +61,6 @@
   "removalInstructions": "Run `projectmind plugin uninstall codex` to cleanly remove integration while preserving project knowledge.",
   "integrity": {
     "algorithm": "sha256",
-    "hash": "f097d13c4d06492e8e27148ef5fdf40d86855529445906fbed51eccea577e7df"
+    "hash": "42df0144b3d24ebee3a10349fff29e4698fd5138b6b1cace7f33e4dbdabdef91"
   }
 }

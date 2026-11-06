@@ -358,12 +358,12 @@ for (const def of pluginDefs) {
     version: def.version,
     description: def.description,
     publisher: {
-      name: 'ProjectMind Engineering',
-      url: 'https://github.com/projectmind/projectmind'
+      name: 'Rootx202 (ProjectMind)',
+      url: 'https://github.com/Rootx202/ProjectMind'
     },
     license: 'MIT',
-    homepage: 'https://github.com/projectmind/projectmind',
-    repository: 'https://github.com/projectmind/projectmind',
+    homepage: 'https://github.com/Rootx202/ProjectMind#readme',
+    repository: 'https://github.com/Rootx202/ProjectMind',
     supportedPlatforms: ['linux', 'windows', 'darwin'],
     supportedAgentVersions: '>= 1.0.0',
     runtimeRequirements: {

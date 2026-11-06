@@ -45,3 +45,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * Secret exclusion engine: automatically ignores `.env`, private keys, certificates, and redacts credentials before indexing.
 * Path traversal defense: validates canonical paths inside workspace boundary.
 * Prompt injection protection: sanitizes untrusted comments and files before context inclusion.
+

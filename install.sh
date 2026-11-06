@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # ProjectMind Universal Installer for Linux & macOS
-# https://github.com/projectmind/projectmind
+# https://github.com/Rootx202/ProjectMind
 set -euo pipefail
 
 VERSION="1.0.0"
-REPO="projectmind/projectmind"
+REPO="Rootx202/ProjectMind"
 DEFAULT_INSTALL_DIR="${HOME}/.projectmind"
 BIN_DIR="${HOME}/.local/bin"
 

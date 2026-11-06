@@ -5,12 +5,12 @@
   "version": "1.0.0",
   "description": "Autonomous project intelligence, Native MCP client integration, HERMES.md instruction file, and self-improving memory loop.",
   "publisher": {
-    "name": "ProjectMind Engineering",
-    "url": "https://github.com/projectmind/projectmind"
+    "name": "Rootx202 (ProjectMind)",
+    "url": "https://github.com/Rootx202/ProjectMind"
   },
   "license": "MIT",
-  "homepage": "https://github.com/projectmind/projectmind",
-  "repository": "https://github.com/projectmind/projectmind",
+  "homepage": "https://github.com/Rootx202/ProjectMind#readme",
+  "repository": "https://github.com/Rootx202/ProjectMind",
   "supportedPlatforms": [
     "linux",
     "windows",
@@ -63,6 +63,6 @@
   "removalInstructions": "Run `projectmind plugin uninstall hermes-agent` to cleanly remove integration while preserving project knowledge.",
   "integrity": {
     "algorithm": "sha256",
-    "hash": "c72408c6ab9b0fe3f1f2d7996cc189dac7ba8bcb674860952060e48cee7ef0e4"
+    "hash": "3d3bf3d83284497a2730f63c11228d13522c78fb66fbdf8e1e26edb4c0fa524a"
   }
 }

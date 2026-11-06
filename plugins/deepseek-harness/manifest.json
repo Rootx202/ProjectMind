@@ -5,12 +5,12 @@
   "version": "1.0.0",
   "description": "Universal project memory, profile MCP server, profile plugin overlay, and DEEPSEEK.md instructions for DeepSeek Harness.",
   "publisher": {
-    "name": "ProjectMind Engineering",
-    "url": "https://github.com/projectmind/projectmind"
+    "name": "Rootx202 (ProjectMind)",
+    "url": "https://github.com/Rootx202/ProjectMind"
   },
   "license": "MIT",
-  "homepage": "https://github.com/projectmind/projectmind",
-  "repository": "https://github.com/projectmind/projectmind",
+  "homepage": "https://github.com/Rootx202/ProjectMind#readme",
+  "repository": "https://github.com/Rootx202/ProjectMind",
   "supportedPlatforms": [
     "linux",
     "windows",
@@ -63,6 +63,6 @@
   "removalInstructions": "Run `projectmind plugin uninstall deepseek-harness` to cleanly remove integration while preserving project knowledge.",
   "integrity": {
     "algorithm": "sha256",
-    "hash": "a6be974aed7f145effed146a316219fc1cd5a70f4a565752beaa972cd93dfff3"
+    "hash": "4a1d55f110fda3178868e11f89e7ee9239266f499277131f8b1fd74755e343dd"
   }
 }

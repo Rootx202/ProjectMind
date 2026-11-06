@@ -38,8 +38,8 @@ ProjectMind is fully tested on:
 
 ```bash
 # Clone and run the POSIX installer
-git clone https://github.com/projectmind/projectmind.git
-cd projectmind
+git clone https://github.com/Rootx202/ProjectMind.git
+cd ProjectMind
 ./install.sh
 
 # Or install for a specific agent directly

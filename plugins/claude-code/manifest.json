@@ -5,12 +5,12 @@
   "version": "1.0.0",
   "description": "Universal local-first project intelligence, MCP server, skills, and settings hooks for Anthropic Claude Code.",
   "publisher": {
-    "name": "ProjectMind Engineering",
-    "url": "https://github.com/projectmind/projectmind"
+    "name": "Rootx202 (ProjectMind)",
+    "url": "https://github.com/Rootx202/ProjectMind"
   },
   "license": "MIT",
-  "homepage": "https://github.com/projectmind/projectmind",
-  "repository": "https://github.com/projectmind/projectmind",
+  "homepage": "https://github.com/Rootx202/ProjectMind#readme",
+  "repository": "https://github.com/Rootx202/ProjectMind",
   "supportedPlatforms": [
     "linux",
     "windows",
@@ -65,6 +65,6 @@
   "removalInstructions": "Run `projectmind plugin uninstall claude-code` to cleanly remove integration while preserving project knowledge.",
   "integrity": {
     "algorithm": "sha256",
-    "hash": "a0c649580ab303f1fbf2a7eab52c9d608931160fd78a1738996275a254e79d69"
+    "hash": "e3159063233b9196f67a86167fc9e584a7a12bb471be433cce95ae8aece79da6"
   }
 }

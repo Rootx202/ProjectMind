@@ -5,12 +5,12 @@
   "version": "1.0.0",
   "description": "Universal local-first project intelligence, persistent context engine, and autonomous lifecycle hooks for Google Antigravity.",
   "publisher": {
-    "name": "ProjectMind Engineering",
-    "url": "https://github.com/projectmind/projectmind"
+    "name": "Rootx202 (ProjectMind)",
+    "url": "https://github.com/Rootx202/ProjectMind"
   },
   "license": "MIT",
-  "homepage": "https://github.com/projectmind/projectmind",
-  "repository": "https://github.com/projectmind/projectmind",
+  "homepage": "https://github.com/Rootx202/ProjectMind#readme",
+  "repository": "https://github.com/Rootx202/ProjectMind",
   "supportedPlatforms": [
     "linux",
     "windows",
@@ -62,6 +62,6 @@
   "removalInstructions": "Run `projectmind plugin uninstall antigravity` to cleanly remove integration while preserving project knowledge.",
   "integrity": {
     "algorithm": "sha256",
-    "hash": "2499207a0ca0911259bcd7f0a14c3db25716fb70e268311a27e30d5af3097377"
+    "hash": "5656dd56f413cef36a0981737e0c97f5362613e7872ebb4ea6e03378967368d9"
   }
 }

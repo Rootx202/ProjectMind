@@ -69,7 +69,7 @@ export function runPluginsTests(): { passed: number; failed: number; details: st
       assert.ok(manifest.name.length > 0);
       assert.ok(manifest.version.length > 0);
       assert.ok(manifest.description.length > 0);
-      assert.ok(manifest.publisher.name.includes('ProjectMind'));
+      assert.ok(manifest.publisher.name.includes('Rootx202') || manifest.publisher.name.includes('ProjectMind'));
       assert.ok(Array.isArray(manifest.supportedPlatforms));
       assert.ok(manifest.supportedPlatforms.includes('linux'));
       assert.ok(manifest.supportedPlatforms.includes('windows'));

@@ -40,3 +40,4 @@ jobs:
 
       - name: Run System Diagnostics Doctor Check
         run: node apps/cli/dist/index.js plugin doctor
+

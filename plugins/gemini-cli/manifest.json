@@ -5,12 +5,12 @@
   "version": "1.0.0",
   "description": "Universal project memory, MCP server, Strict JSON lifecycle hooks, and GEMINI.md instructions for Gemini CLI.",
   "publisher": {
-    "name": "ProjectMind Engineering",
-    "url": "https://github.com/projectmind/projectmind"
+    "name": "Rootx202 (ProjectMind)",
+    "url": "https://github.com/Rootx202/ProjectMind"
   },
   "license": "MIT",
-  "homepage": "https://github.com/projectmind/projectmind",
-  "repository": "https://github.com/projectmind/projectmind",
+  "homepage": "https://github.com/Rootx202/ProjectMind#readme",
+  "repository": "https://github.com/Rootx202/ProjectMind",
   "supportedPlatforms": [
     "linux",
     "windows",
@@ -63,6 +63,6 @@
   "removalInstructions": "Run `projectmind plugin uninstall gemini-cli` to cleanly remove integration while preserving project knowledge.",
   "integrity": {
     "algorithm": "sha256",
-    "hash": "133bc906e8b15442ebb578c825327652645f118cd896efb8ec2c507b7e70ed89"
+    "hash": "dbe80b1cfe814d5293993498fe5f6cb3ae408269d975519c8e9d30e35451e68e"
   }
 }

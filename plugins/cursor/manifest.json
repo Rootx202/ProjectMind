@@ -5,12 +5,12 @@
   "version": "1.0.0",
   "description": "Project intelligence, Cursor MCP server, v1 lifecycle hooks, and projectmind.mdc rule integration.",
   "publisher": {
-    "name": "ProjectMind Engineering",
-    "url": "https://github.com/projectmind/projectmind"
+    "name": "Rootx202 (ProjectMind)",
+    "url": "https://github.com/Rootx202/ProjectMind"
   },
   "license": "MIT",
-  "homepage": "https://github.com/projectmind/projectmind",
-  "repository": "https://github.com/projectmind/projectmind",
+  "homepage": "https://github.com/Rootx202/ProjectMind#readme",
+  "repository": "https://github.com/Rootx202/ProjectMind",
   "supportedPlatforms": [
     "linux",
     "windows",
@@ -63,6 +63,6 @@
   "removalInstructions": "Run `projectmind plugin uninstall cursor` to cleanly remove integration while preserving project knowledge.",
   "integrity": {
     "algorithm": "sha256",
-    "hash": "1ebc6f1620207a65cca7dafcb28ce8c2a2602fc342c3ba951e7c1457e14d5dd3"
+    "hash": "c462d02cbdca26837df2d953e2768b19a9ae64bc24d7a054d4869f322613afc1"
   }
 }

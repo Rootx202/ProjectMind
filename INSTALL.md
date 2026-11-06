@@ -25,7 +25,7 @@ Using the automated POSIX installation script:
 ./install.sh
 
 # Or install remotely via curl
-curl -fsSL https://raw.githubusercontent.com/projectmind/projectmind/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Rootx202/ProjectMind/main/install.sh | bash
 ```
 
 ### Script Options
@@ -82,8 +82,8 @@ If developing or building directly from source:
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/projectmind/projectmind.git
-cd projectmind
+git clone https://github.com/Rootx202/ProjectMind.git
+cd ProjectMind
 
 # 2. Build the packages and compile TypeScript
 node scripts/build.js

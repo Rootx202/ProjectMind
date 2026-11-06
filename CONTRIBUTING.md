@@ -94,3 +94,4 @@ Thank you for your interest in contributing to **ProjectMind**! We welcome contr
    ```
 5. Commit with a clear commit message.
 6. Submit a Pull Request against the `main` branch on GitHub.
+

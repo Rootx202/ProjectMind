@@ -1,217 +1,315 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 780" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1360 800" width="100%" height="100%">
   <defs>
+    <!-- Background Gradient -->
     <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0b0f19"/>
-      <stop offset="50%" stop-color="#111827"/>
-      <stop offset="100%" stop-color="#070a12"/>
+      <stop offset="0%" stop-color="#070b12"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#050810"/>
     </linearGradient>
-    <linearGradient id="stepGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#1f2937" stop-opacity="0.85"/>
-      <stop offset="100%" stop-color="#111827" stop-opacity="0.95"/>
+
+    <!-- Card Base Gradient -->
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.95"/>
     </linearGradient>
-    <linearGradient id="tealGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+
+    <!-- Stage Accents -->
+    <linearGradient id="tealAccent" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#0d9488"/>
       <stop offset="100%" stop-color="#14b8a6"/>
     </linearGradient>
-    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+    <linearGradient id="blueAccent" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#2563eb"/>
-      <stop offset="100%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#38bdf8"/>
     </linearGradient>
-    <linearGradient id="indigoGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#4f46e5"/>
-      <stop offset="100%" stop-color="#6366f1"/>
+    <linearGradient id="purpleAccent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#a855f7"/>
     </linearGradient>
-    <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+    <linearGradient id="emeraldAccent" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#059669"/>
       <stop offset="100%" stop-color="#10b981"/>
     </linearGradient>
+    <linearGradient id="loopGrad" x1="100%" y1="0%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="50%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+
+    <!-- Drop Shadow Filter -->
     <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
-      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000000" flood-opacity="0.6"/>
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.7"/>
     </filter>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+
+    <!-- Arrow Marker -->
+    <marker id="arrowHead" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M1 1L7 4L1 7" fill="none" stroke="#64748b" stroke-width="1.8" stroke-linecap="round"/>
+    </marker>
+    <marker id="loopHead" markerWidth="10" markerHeight="10" refX="7" refY="5" orient="auto">
+      <path d="M2 2L8 5L2 8" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round"/>
+    </marker>
   </defs>
 
-  <!-- Background -->
-  <rect width="1200" height="780" rx="16" fill="url(#bgGrad)"/>
-  <rect x="1" y="1" width="1198" height="778" rx="15" fill="none" stroke="#1e293b" stroke-width="1.5"/>
+  <!-- Canvas Background -->
+  <rect width="1360" height="800" rx="16" fill="url(#bgGrad)"/>
+  <rect x="1" y="1" width="1358" height="798" rx="15" fill="none" stroke="#1e293b" stroke-width="1.5"/>
 
-  <!-- Header -->
-  <g transform="translate(60, 45)">
-    <rect x="0" y="0" width="48" height="48" rx="10" fill="url(#tealGrad)"/>
-    <!-- Workflow Icon -->
-    <path d="M14 24h6l4-8 8 16 4-8h6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-    <text x="64" y="28" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="700" fill="#f8fafc">Smart Auto Mode Lifecycle Workflow</text>
-    <text x="64" y="46" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="400" fill="#94a3b8">Continuous Autonomous Context Syncing &amp; Selective Retrieval Across Agent Lifecycles</text>
+  <!-- Top Title Header -->
+  <g transform="translate(50, 38)">
+    <rect x="0" y="0" width="48" height="48" rx="10" fill="url(#tealAccent)"/>
+    <!-- Process Flow Icon -->
+    <path d="M14 24h6l4-8 8 16 4-8h6" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <text x="64" y="26" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="700" fill="#f8fafc">Smart Auto Mode Lifecycle Workflow</text>
+    <text x="64" y="45" font-family="system-ui, -apple-system, sans-serif" font-size="13.5" font-weight="400" fill="#94a3b8">Autonomous Background Intelligence • Zero-Command Context Injection &amp; Delta Synchronization</text>
   </g>
 
-  <!-- STAGE 1: SESSION STARTUP -->
-  <g transform="translate(60, 115)">
-    <rect width="255" height="490" rx="12" fill="url(#stepGrad)" stroke="#0d9488" stroke-width="1.5" stroke-opacity="0.8" filter="url(#shadow)"/>
-    <rect x="16" y="16" width="28" height="28" rx="6" fill="url(#tealGrad)"/>
-    <text x="30" y="35" font-family="system-ui, sans-serif" font-size="13" font-weight="800" fill="#ffffff" text-anchor="middle">1</text>
-    <text x="54" y="28" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="#5eead4">Session Initialization</text>
-    <text x="54" y="44" font-family="system-ui, sans-serif" font-size="10.5" fill="#94a3b8">onProjectOpen() Hook</text>
+  <!-- ==================== STAGE 1: SESSION STARTUP ==================== -->
+  <g transform="translate(50, 110)" filter="url(#shadow)">
+    <!-- Card Border & Background -->
+    <rect width="280" height="475" rx="14" fill="url(#cardGrad)" stroke="#0d9488" stroke-width="1.8"/>
 
-    <!-- Content Blocks -->
-    <g transform="translate(16, 62)">
-      <rect width="223" height="68" rx="8" fill="#0f172a" stroke="#334155"/>
-      <text x="12" y="20" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#2dd4bf">TRIGGER EVENT</text>
-      <text x="12" y="38" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• SessionStart / WorkspaceOpen</text>
-      <text x="12" y="54" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Passed via hook runner stdin</text>
+    <!-- Header Badge -->
+    <g transform="translate(18, 18)">
+      <circle cx="20" cy="20" r="18" fill="url(#tealAccent)"/>
+      <text x="20" y="26" font-family="system-ui, sans-serif" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle">01</text>
+      <text x="48" y="18" font-family="system-ui, sans-serif" font-size="17" font-weight="700" fill="#5eead4">Session Startup</text>
+      <text x="48" y="34" font-family="ui-monospace, monospace" font-size="12" font-weight="600" fill="#2dd4bf">onProjectOpen()</text>
+    </g>
 
-      <rect y="80" width="223" height="150" rx="8" fill="#0f172a" stroke="#334155"/>
-      <text x="12" y="20" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#2dd4bf">STATE RESOLUTION</text>
-      <text x="12" y="40" font-family="system-ui, sans-serif" font-size="10" font-weight="600" fill="#38bdf8">A. If No Memory Exists:</text>
-      <text x="20" y="56" font-family="system-ui, sans-serif" font-size="9.5" fill="#94a3b8">→ initial_bootstrap (AST scan)</text>
-      <text x="12" y="76" font-family="system-ui, sans-serif" font-size="10" font-weight="600" fill="#34d399">B. Hashes Match (Fast):</text>
-      <text x="20" y="92" font-family="system-ui, sans-serif" font-size="9.5" fill="#94a3b8">→ warm_reuse_unchanged</text>
-      <text x="20" y="106" font-family="system-ui, sans-serif" font-size="9.5" fill="#64748b">(0 files scanned, ~5ms)</text>
-      <text x="12" y="126" font-family="system-ui, sans-serif" font-size="10" font-weight="600" fill="#fbbf24">C. Out of Sync:</text>
-      <text x="20" y="142" font-family="system-ui, sans-serif" font-size="9.5" fill="#94a3b8">→ warm_incremental_sync</text>
+    <!-- Content Box 1: Logic -->
+    <g transform="translate(16, 75)">
+      <rect width="248" height="210" rx="10" fill="#0b1120" stroke="#1e293b" stroke-width="1"/>
+      <text x="14" y="24" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#2dd4bf" letter-spacing="0.5">LIFECYCLE TRIGGER</text>
+      <text x="14" y="44" font-family="system-ui, sans-serif" font-size="13" fill="#e2e8f0">• IDE opens or agent starts</text>
+      <text x="14" y="64" font-family="system-ui, sans-serif" font-size="13" fill="#e2e8f0">• SessionStart hook event</text>
 
-      <rect y="242" width="223" height="170" rx="8" fill="#0f172a" stroke="#334155"/>
-      <text x="12" y="20" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#2dd4bf">OUTCOME</text>
-      <text x="12" y="40" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Project root reconciled</text>
-      <text x="12" y="58" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Compact banner injected</text>
-      <text x="12" y="76" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Agent rules active</text>
-      <rect x="12" y="92" width="199" height="66" rx="6" fill="#1e293b"/>
-      <text x="20" y="110" font-family="monospace" font-size="9" fill="#5eead4">[ProjectMind] Reused</text>
-      <text x="20" y="124" font-family="monospace" font-size="9" fill="#5eead4">verified memory</text>
-      <text x="20" y="138" font-family="monospace" font-size="9" fill="#94a3b8">(126 files unchanged)</text>
+      <line x1="14" y1="78" x2="234" y2="78" stroke="#1e293b" stroke-width="1"/>
+
+      <text x="14" y="98" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#2dd4bf" letter-spacing="0.5">STATE RESOLUTION</text>
+      <text x="14" y="120" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="#38bdf8">1. SHA-256 Hashes Match:</text>
+      <text x="22" y="138" font-family="system-ui, sans-serif" font-size="12.5" fill="#94a3b8">→ warm_reuse (0 files scanned)</text>
+      
+      <text x="14" y="162" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="#34d399">2. If First Time / New Repo:</text>
+      <text x="22" y="180" font-family="system-ui, sans-serif" font-size="12.5" fill="#94a3b8">→ initial_bootstrap (7-stage)</text>
+      <text x="14" y="200" font-family="system-ui, sans-serif" font-size="12" fill="#64748b">• Instant recovery if corrupted</text>
+    </g>
+
+    <!-- Content Box 2: Terminal Output -->
+    <g transform="translate(16, 298)">
+      <rect width="248" height="158" rx="10" fill="#070d17" stroke="#334155" stroke-width="1"/>
+      <rect width="248" height="26" rx="10" fill="#1e293b"/>
+      <circle cx="14" cy="13" r="4" fill="#ef4444"/>
+      <circle cx="26" cy="13" r="4" fill="#f59e0b"/>
+      <circle cx="38" cy="13" r="4" fill="#10b981"/>
+      <text x="124" y="17" font-family="system-ui, sans-serif" font-size="10.5" fill="#94a3b8" text-anchor="middle">Live Session Banner</text>
+
+      <text x="14" y="52" font-family="ui-monospace, monospace" font-size="11.5" fill="#5eead4" font-weight="700">[ProjectMind]</text>
+      <text x="14" y="72" font-family="ui-monospace, monospace" font-size="11.5" fill="#e2e8f0">Reused verified memory</text>
+      <text x="14" y="92" font-family="ui-monospace, monospace" font-size="11.5" fill="#94a3b8">(126 files unchanged)</text>
+      <text x="14" y="118" font-family="ui-monospace, monospace" font-size="11.5" fill="#34d399">Status: ✓ READY</text>
+      <text x="14" y="138" font-family="ui-monospace, monospace" font-size="11" fill="#64748b">Elapsed: 5ms • 0 API calls</text>
     </g>
   </g>
 
-  <!-- ARROW 1 -> 2 -->
-  <g transform="translate(322, 350)">
-    <path d="M0 0h12" stroke="#475569" stroke-width="2"/>
-    <path d="M10 -4l6 4-6 4" fill="#475569"/>
+  <!-- CONNECTOR 1 -> 2 -->
+  <g transform="translate(330, 315)">
+    <!-- Background Line -->
+    <path d="M0 0 H50" stroke="#334155" stroke-width="3" stroke-linecap="round"/>
+    <path d="M0 0 H48" stroke="#38bdf8" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowHead)"/>
+    <!-- Pill -->
+    <rect x="5" y="-22" width="40" height="16" rx="4" fill="#1e293b" stroke="#475569" stroke-width="0.8"/>
+    <text x="25" y="-10" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#38bdf8" text-anchor="middle">NEXT</text>
   </g>
 
-  <!-- STAGE 2: PRE-TASK RETRIEVAL -->
-  <g transform="translate(340, 115)">
-    <rect width="255" height="490" rx="12" fill="url(#stepGrad)" stroke="#2563eb" stroke-width="1.5" stroke-opacity="0.8" filter="url(#shadow)"/>
-    <rect x="16" y="16" width="28" height="28" rx="6" fill="url(#blueGrad)"/>
-    <text x="30" y="35" font-family="system-ui, sans-serif" font-size="13" font-weight="800" fill="#ffffff" text-anchor="middle">2</text>
-    <text x="54" y="28" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="#93c5fd">Selective Retrieval</text>
-    <text x="54" y="44" font-family="system-ui, sans-serif" font-size="10.5" fill="#94a3b8">onBeforeTask() / Context</text>
+  <!-- ==================== STAGE 2: SELECTIVE RETRIEVAL ==================== -->
+  <g transform="translate(380, 110)" filter="url(#shadow)">
+    <!-- Card Border & Background -->
+    <rect width="280" height="475" rx="14" fill="url(#cardGrad)" stroke="#2563eb" stroke-width="1.8"/>
 
-    <!-- Content Blocks -->
-    <g transform="translate(16, 62)">
-      <rect width="223" height="68" rx="8" fill="#0f172a" stroke="#334155"/>
-      <text x="12" y="20" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#60a5fa">TRIGGER EVENT</text>
-      <text x="12" y="38" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• User submits prompt / task</text>
-      <text x="12" y="54" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• MCP get_relevant_context</text>
+    <!-- Header Badge -->
+    <g transform="translate(18, 18)">
+      <circle cx="20" cy="20" r="18" fill="url(#blueAccent)"/>
+      <text x="20" y="26" font-family="system-ui, sans-serif" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle">02</text>
+      <text x="48" y="18" font-family="system-ui, sans-serif" font-size="17" font-weight="700" fill="#93c5fd">Smart Retrieval</text>
+      <text x="48" y="34" font-family="ui-monospace, monospace" font-size="12" font-weight="600" fill="#60a5fa">onBeforeTask()</text>
+    </g>
 
-      <rect y="80" width="223" height="150" rx="8" fill="#0f172a" stroke="#334155"/>
-      <text x="12" y="20" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#60a5fa">INTELLIGENT SCOPING</text>
-      <text x="12" y="40" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Task Intent Classifier:</text>
-      <text x="20" y="56" font-family="system-ui, sans-serif" font-size="9.5" fill="#94a3b8">none | file | module | cross</text>
-      <text x="12" y="74" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• FTS5 BM25 Semantic Index</text>
-      <text x="12" y="92" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Module Graph Multi-Hop:</text>
-      <text x="20" y="108" font-family="system-ui, sans-serif" font-size="9.5" fill="#94a3b8">Expands callers &amp; dependencies</text>
-      <text x="12" y="126" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Token Budget Filter (4k cap)</text>
+    <!-- Content Box 1: Logic -->
+    <g transform="translate(16, 75)">
+      <rect width="248" height="210" rx="10" fill="#0b1120" stroke="#1e293b" stroke-width="1"/>
+      <text x="14" y="24" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#60a5fa" letter-spacing="0.5">TASK SCOPING</text>
+      <text x="14" y="44" font-family="system-ui, sans-serif" font-size="13" fill="#e2e8f0">• User submits task prompt</text>
+      <text x="14" y="64" font-family="system-ui, sans-serif" font-size="13" fill="#e2e8f0">• Classify: file | module | deep</text>
 
-      <rect y="242" width="223" height="170" rx="8" fill="#0f172a" stroke="#334155"/>
-      <text x="12" y="20" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#60a5fa">PACKAGE INJECTION</text>
-      <text x="12" y="40" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Project tech stack summary</text>
-      <text x="12" y="58" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Exact relevant module signatures</text>
-      <text x="12" y="76" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Relevant ADRs &amp; constraints</text>
-      <rect x="12" y="92" width="199" height="66" rx="6" fill="#1e293b"/>
-      <text x="20" y="110" font-family="monospace" font-size="9" fill="#93c5fd">budget: 4000 tokens</text>
-      <text x="20" y="124" font-family="monospace" font-size="9" fill="#34d399">used: 768 tokens (19%)</text>
-      <text x="20" y="138" font-family="monospace" font-size="9" fill="#94a3b8">deepAnalysis: triggered</text>
+      <line x1="14" y1="78" x2="234" y2="78" stroke="#1e293b" stroke-width="1"/>
+
+      <text x="14" y="98" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#60a5fa" letter-spacing="0.5">TARGETED SEARCH</text>
+      <text x="14" y="120" font-family="system-ui, sans-serif" font-size="13" fill="#e2e8f0">• SQLite FTS5 BM25 search</text>
+      <text x="14" y="140" font-family="system-ui, sans-serif" font-size="13" fill="#e2e8f0">• Multi-hop call graph expansion</text>
+      <text x="14" y="162" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="#38bdf8">Token Budget Cap:</text>
+      <text x="22" y="180" font-family="system-ui, sans-serif" font-size="12.5" fill="#94a3b8">→ 4,000 token limit enforced</text>
+      <text x="14" y="200" font-family="system-ui, sans-serif" font-size="12" fill="#64748b">• Prevents 90%+ context bloat</text>
+    </g>
+
+    <!-- Content Box 2: Terminal Output -->
+    <g transform="translate(16, 298)">
+      <rect width="248" height="158" rx="10" fill="#070d17" stroke="#334155" stroke-width="1"/>
+      <rect width="248" height="26" rx="10" fill="#1e293b"/>
+      <circle cx="14" cy="13" r="4" fill="#ef4444"/>
+      <circle cx="26" cy="13" r="4" fill="#f59e0b"/>
+      <circle cx="38" cy="13" r="4" fill="#10b981"/>
+      <text x="124" y="17" font-family="system-ui, sans-serif" font-size="10.5" fill="#94a3b8" text-anchor="middle">Injected Context Package</text>
+
+      <text x="14" y="52" font-family="ui-monospace, monospace" font-size="11.5" fill="#93c5fd">Scope: module (auth)</text>
+      <text x="14" y="72" font-family="ui-monospace, monospace" font-size="11.5" fill="#e2e8f0">Modules: 4 interconnected</text>
+      <text x="14" y="94" font-family="ui-monospace, monospace" font-size="11.5" fill="#fbbf24">Budget: 4,000 tokens</text>
+      <text x="14" y="116" font-family="ui-monospace, monospace" font-size="11.5" fill="#34d399">Used:   768 tokens (19%)</text>
+      <text x="14" y="138" font-family="ui-monospace, monospace" font-size="11" fill="#64748b">deepAnalysis: triggered</text>
     </g>
   </g>
 
-  <!-- ARROW 2 -> 3 -->
-  <g transform="translate(602, 350)">
-    <path d="M0 0h12" stroke="#475569" stroke-width="2"/>
-    <path d="M10 -4l6 4-6 4" fill="#475569"/>
+  <!-- CONNECTOR 2 -> 3 -->
+  <g transform="translate(660, 315)">
+    <!-- Background Line -->
+    <path d="M0 0 H50" stroke="#334155" stroke-width="3" stroke-linecap="round"/>
+    <path d="M0 0 H48" stroke="#818cf8" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowHead)"/>
+    <!-- Pill -->
+    <rect x="2" y="-22" width="46" height="16" rx="4" fill="#1e293b" stroke="#475569" stroke-width="0.8"/>
+    <text x="25" y="-10" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#a855f7" text-anchor="middle">INJECT</text>
   </g>
 
-  <!-- STAGE 3: AGENT EXECUTION -->
-  <g transform="translate(620, 115)">
-    <rect width="255" height="490" rx="12" fill="url(#stepGrad)" stroke="#4f46e5" stroke-width="1.5" stroke-opacity="0.8" filter="url(#shadow)"/>
-    <rect x="16" y="16" width="28" height="28" rx="6" fill="url(#indigoGrad)"/>
-    <text x="30" y="35" font-family="system-ui, sans-serif" font-size="13" font-weight="800" fill="#ffffff" text-anchor="middle">3</text>
-    <text x="54" y="28" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="#c7d2fe">Agent Coding Execution</text>
-    <text x="54" y="44" font-family="system-ui, sans-serif" font-size="10.5" fill="#94a3b8">Informed Implementation</text>
+  <!-- ==================== STAGE 3: AGENT EXECUTION ==================== -->
+  <g transform="translate(710, 110)" filter="url(#shadow)">
+    <!-- Card Border & Background -->
+    <rect width="280" height="475" rx="14" fill="url(#cardGrad)" stroke="#7c3aed" stroke-width="1.8"/>
 
-    <!-- Content Blocks -->
-    <g transform="translate(16, 62)">
-      <rect width="223" height="68" rx="8" fill="#0f172a" stroke="#334155"/>
-      <text x="12" y="20" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#818cf8">FOCUSED WORKING SET</text>
-      <text x="12" y="38" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Agent sees targeted interfaces</text>
-      <text x="12" y="54" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Zero blind grep across entire repo</text>
+    <!-- Header Badge -->
+    <g transform="translate(18, 18)">
+      <circle cx="20" cy="20" r="18" fill="url(#purpleAccent)"/>
+      <text x="20" y="26" font-family="system-ui, sans-serif" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle">03</text>
+      <text x="48" y="18" font-family="system-ui, sans-serif" font-size="17" font-weight="700" fill="#d8b4fe">Agent Execution</text>
+      <text x="48" y="34" font-family="ui-monospace, monospace" font-size="12" font-weight="600" fill="#c084fc">write_file / edit</text>
+    </g>
 
-      <rect y="80" width="223" height="150" rx="8" fill="#0f172a" stroke="#334155"/>
-      <text x="12" y="20" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#818cf8">IMPACT ANALYSIS SAFETY</text>
-      <text x="12" y="40" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Optional blast-radius check</text>
-      <text x="12" y="58" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Warning if modifying shared</text>
-      <text x="20" y="74" font-family="system-ui, sans-serif" font-size="9.5" fill="#94a3b8">modules with high downstream</text>
-      <text x="20" y="88" font-family="system-ui, sans-serif" font-size="9.5" fill="#94a3b8">dependents count</text>
-      <text x="12" y="108" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Prevents accidental breaks</text>
-      <text x="12" y="126" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Validates interface contracts</text>
+    <!-- Content Box 1: Logic -->
+    <g transform="translate(16, 75)">
+      <rect width="248" height="210" rx="10" fill="#0b1120" stroke="#1e293b" stroke-width="1"/>
+      <text x="14" y="24" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#c084fc" letter-spacing="0.5">INFORMED CODING</text>
+      <text x="14" y="44" font-family="system-ui, sans-serif" font-size="13" fill="#e2e8f0">• Agent reads exact symbols</text>
+      <text x="14" y="64" font-family="system-ui, sans-serif" font-size="13" fill="#e2e8f0">• Zero blind file exploration</text>
 
-      <rect y="242" width="223" height="170" rx="8" fill="#0f172a" stroke="#334155"/>
-      <text x="12" y="20" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#818cf8">CODE MODIFICATIONS</text>
-      <text x="12" y="40" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Edits applied to files</text>
-      <text x="12" y="58" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• New files created</text>
-      <text x="12" y="76" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Legacy files deleted / moved</text>
-      <rect x="12" y="92" width="199" height="66" rx="6" fill="#1e293b"/>
-      <text x="20" y="110" font-family="monospace" font-size="9" fill="#c7d2fe">write_file / edit_file</text>
-      <text x="20" y="124" font-family="monospace" font-size="9" fill="#cbd5e1">Saved to filesystem</text>
-      <text x="20" y="138" font-family="monospace" font-size="9" fill="#94a3b8">Dirty hash triggered</text>
+      <line x1="14" y1="78" x2="234" y2="78" stroke="#1e293b" stroke-width="1"/>
+
+      <text x="14" y="98" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#c084fc" letter-spacing="0.5">SAFETY &amp; IMPACT CHECK</text>
+      <text x="14" y="120" font-family="system-ui, sans-serif" font-size="13" fill="#e2e8f0">• Blast radius scored</text>
+      <text x="14" y="140" font-family="system-ui, sans-serif" font-size="13" fill="#e2e8f0">• Warns on breaking contracts</text>
+      <text x="14" y="162" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="#c084fc">Code Modification:</text>
+      <text x="22" y="180" font-family="system-ui, sans-serif" font-size="12.5" fill="#94a3b8">→ Files created / modified</text>
+      <text x="14" y="200" font-family="system-ui, sans-serif" font-size="12" fill="#64748b">• File modification queued</text>
+    </g>
+
+    <!-- Content Box 2: Terminal Output -->
+    <g transform="translate(16, 298)">
+      <rect width="248" height="158" rx="10" fill="#070d17" stroke="#334155" stroke-width="1"/>
+      <rect width="248" height="26" rx="10" fill="#1e293b"/>
+      <circle cx="14" cy="13" r="4" fill="#ef4444"/>
+      <circle cx="26" cy="13" r="4" fill="#f59e0b"/>
+      <circle cx="38" cy="13" r="4" fill="#10b981"/>
+      <text x="124" y="17" font-family="system-ui, sans-serif" font-size="10.5" fill="#94a3b8" text-anchor="middle">Tool Execution Outcome</text>
+
+      <text x="14" y="52" font-family="ui-monospace, monospace" font-size="11.5" fill="#c7d2fe">Action: edit_file</text>
+      <text x="14" y="72" font-family="ui-monospace, monospace" font-size="11.5" fill="#e2e8f0">Target: src/auth/token.ts</text>
+      <text x="14" y="94" font-family="ui-monospace, monospace" font-size="11.5" fill="#34d399">Impact: 2 callers verified</text>
+      <text x="14" y="116" font-family="ui-monospace, monospace" font-size="11.5" fill="#fbbf24">Saved to filesystem</text>
+      <text x="14" y="138" font-family="ui-monospace, monospace" font-size="11" fill="#64748b">Dirty hash detected</text>
     </g>
   </g>
 
-  <!-- ARROW 3 -> 4 -->
-  <g transform="translate(882, 350)">
-    <path d="M0 0h12" stroke="#475569" stroke-width="2"/>
-    <path d="M10 -4l6 4-6 4" fill="#475569"/>
+  <!-- CONNECTOR 3 -> 4 -->
+  <g transform="translate(990, 315)">
+    <!-- Background Line -->
+    <path d="M0 0 H50" stroke="#334155" stroke-width="3" stroke-linecap="round"/>
+    <path d="M0 0 H48" stroke="#34d399" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowHead)"/>
+    <!-- Pill -->
+    <rect x="4" y="-22" width="42" height="16" rx="4" fill="#1e293b" stroke="#475569" stroke-width="0.8"/>
+    <text x="25" y="-10" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#10b981" text-anchor="middle">SAVE</text>
   </g>
 
-  <!-- STAGE 4: POST-EDIT INCREMENTAL SYNC -->
-  <g transform="translate(900, 115)">
-    <rect width="240" height="490" rx="12" fill="url(#stepGrad)" stroke="#059669" stroke-width="1.5" stroke-opacity="0.8" filter="url(#shadow)"/>
-    <rect x="16" y="16" width="28" height="28" rx="6" fill="url(#emeraldGrad)"/>
-    <text x="30" y="35" font-family="system-ui, sans-serif" font-size="13" font-weight="800" fill="#ffffff" text-anchor="middle">4</text>
-    <text x="54" y="28" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="#a7f3d0">Incremental Sync</text>
-    <text x="54" y="44" font-family="system-ui, sans-serif" font-size="10.5" fill="#94a3b8">onAfterFileChange() Hook</text>
+  <!-- ==================== STAGE 4: INCREMENTAL SYNC ==================== -->
+  <g transform="translate(1040, 110)" filter="url(#shadow)">
+    <!-- Card Border & Background -->
+    <rect width="280" height="475" rx="14" fill="url(#cardGrad)" stroke="#059669" stroke-width="1.8"/>
 
-    <!-- Content Blocks -->
-    <g transform="translate(16, 62)">
-      <rect width="208" height="68" rx="8" fill="#0f172a" stroke="#334155"/>
-      <text x="12" y="20" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#34d399">TRIGGER EVENT</text>
-      <text x="12" y="38" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• PostToolExecution / FileSave</text>
-      <text x="12" y="54" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• sync_changed_files tool</text>
+    <!-- Header Badge -->
+    <g transform="translate(18, 18)">
+      <circle cx="20" cy="20" r="18" fill="url(#emeraldAccent)"/>
+      <text x="20" y="26" font-family="system-ui, sans-serif" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle">04</text>
+      <text x="48" y="18" font-family="system-ui, sans-serif" font-size="17" font-weight="700" fill="#a7f3d0">Incremental Sync</text>
+      <text x="48" y="34" font-family="ui-monospace, monospace" font-size="12" font-weight="600" fill="#34d399">onAfterFileChange()</text>
+    </g>
 
-      <rect y="80" width="208" height="150" rx="8" fill="#0f172a" stroke="#334155"/>
-      <text x="12" y="20" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#34d399">DELTA RE-INDEXING</text>
-      <text x="12" y="40" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Only dirty files re-parsed</text>
-      <text x="12" y="58" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Planned status promotes</text>
-      <text x="20" y="74" font-family="system-ui, sans-serif" font-size="9.5" fill="#94a3b8">to verified automatically</text>
-      <text x="12" y="94" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• SQLite knowledge updated</text>
-      <text x="12" y="112" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• FTS5 index synchronized</text>
-      <text x="12" y="130" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Decisions persisted</text>
+    <!-- Content Box 1: Logic -->
+    <g transform="translate(16, 75)">
+      <rect width="248" height="210" rx="10" fill="#0b1120" stroke="#1e293b" stroke-width="1"/>
+      <text x="14" y="24" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#34d399" letter-spacing="0.5">DELTA RE-INDEXING</text>
+      <text x="14" y="44" font-family="system-ui, sans-serif" font-size="13" fill="#e2e8f0">• PostToolUse / FileSave event</text>
+      <text x="14" y="64" font-family="system-ui, sans-serif" font-size="13" fill="#e2e8f0">• Only dirty files re-indexed</text>
 
-      <rect y="242" width="208" height="170" rx="8" fill="#0f172a" stroke="#334155"/>
-      <text x="12" y="20" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#34d399">CONTINUOUS CONSISTENCY</text>
-      <text x="12" y="40" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Instant ready for next turn</text>
-      <text x="12" y="58" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Zero manual maintenance</text>
-      <text x="12" y="76" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">• Team-wide sync ready</text>
-      <rect x="12" y="92" width="184" height="66" rx="6" fill="#1e293b"/>
-      <text x="18" y="110" font-family="monospace" font-size="9" fill="#a7f3d0">Synced 2 changed files</text>
-      <text x="18" y="124" font-family="monospace" font-size="9" fill="#a7f3d0">Modules updated: auth</text>
-      <text x="18" y="138" font-family="monospace" font-size="9" fill="#94a3b8">Execution time: 14ms</text>
+      <line x1="14" y1="78" x2="234" y2="78" stroke="#1e293b" stroke-width="1"/>
+
+      <text x="14" y="98" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#34d399" letter-spacing="0.5">KNOWLEDGE PROMOTION</text>
+      <text x="14" y="120" font-family="system-ui, sans-serif" font-size="13" fill="#e2e8f0">• planned → verified status</text>
+      <text x="14" y="140" font-family="system-ui, sans-serif" font-size="13" fill="#e2e8f0">• SQLite knowledge updated</text>
+      <text x="14" y="162" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="#34d399">Speed &amp; Non-Blocking:</text>
+      <text x="22" y="180" font-family="system-ui, sans-serif" font-size="12.5" fill="#94a3b8">→ 14ms execution time</text>
+      <text x="14" y="200" font-family="system-ui, sans-serif" font-size="12" fill="#64748b">• Ready for next prompt turn</text>
+    </g>
+
+    <!-- Content Box 2: Terminal Output -->
+    <g transform="translate(16, 298)">
+      <rect width="248" height="158" rx="10" fill="#070d17" stroke="#334155" stroke-width="1"/>
+      <rect width="248" height="26" rx="10" fill="#1e293b"/>
+      <circle cx="14" cy="13" r="4" fill="#ef4444"/>
+      <circle cx="26" cy="13" r="4" fill="#f59e0b"/>
+      <circle cx="38" cy="13" r="4" fill="#10b981"/>
+      <text x="124" y="17" font-family="system-ui, sans-serif" font-size="10.5" fill="#94a3b8" text-anchor="middle">Incremental Sync Result</text>
+
+      <text x="14" y="52" font-family="ui-monospace, monospace" font-size="11.5" fill="#a7f3d0">Synced 1 changed file</text>
+      <text x="14" y="72" font-family="ui-monospace, monospace" font-size="11.5" fill="#e2e8f0">Module: auth (verified)</text>
+      <text x="14" y="94" font-family="ui-monospace, monospace" font-size="11.5" fill="#34d399">FTS5 Index: updated</text>
+      <text x="14" y="116" font-family="ui-monospace, monospace" font-size="11.5" fill="#38bdf8">Sync Time: 14ms</text>
+      <text x="14" y="138" font-family="ui-monospace, monospace" font-size="11" fill="#64748b">Zero full-repo rescan ↺</text>
     </g>
   </g>
 
-  <!-- BOTTOM FOOTER / FAIL-OPEN GUARANTEE -->
-  <g transform="translate(60, 625)">
-    <rect width="1080" height="95" rx="10" fill="#111827" stroke="#334155" stroke-width="1"/>
-    <rect x="20" y="18" width="8" height="60" rx="4" fill="#10b981"/>
-    <text x="40" y="38" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">FAIL-OPEN NON-INTERFERENCE ARCHITECTURAL INVARIANT</text>
-    <text x="40" y="58" font-family="system-ui, sans-serif" font-size="11.5" fill="#94a3b8">All lifecycle hook scripts (.projectmind/hooks/*) run inside isolated fail-open try/catch wrappers with exit 0 fallbacks.</text>
-    <text x="40" y="74" font-family="system-ui, sans-serif" font-size="11.5" fill="#64748b">If Node or SQLite encounters any unexpected filesystem lock or error, the AI coding agent continues normally without interruption.</text>
+  <!-- ==================== CONTINUOUS RETURN LOOP ==================== -->
+  <g transform="translate(0, 0)">
+    <!-- Curved Return Path from Stage 4 back to Stage 2 -->
+    <path d="M 1180 585 V 635 C 1180 660, 1150 665, 1120 665 H 560 C 530 665, 520 660, 520 635 V 592" 
+          fill="none" stroke="url(#loopGrad)" stroke-width="3.5" stroke-dasharray="8 6" marker-end="url(#loopHead)"/>
+
+    <!-- Central Loop Badge Pill -->
+    <g transform="translate(680, 665)">
+      <rect x="-240" y="-18" width="480" height="36" rx="18" fill="#0f172a" stroke="url(#loopGrad)" stroke-width="1.8" filter="url(#shadow)"/>
+      <circle cx="-216" cy="0" r="10" fill="#10b981"/>
+      <path d="M -219 -2 L -215 2 L -211 -2 M -215 2 V -4" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <text x="-196" y="5" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">
+        Autonomous Lifecycle Loop: <tspan fill="#38bdf8">Memory Fresh for Next Prompt</tspan> <tspan fill="#94a3b8">(0 Rescans Needed)</tspan>
+      </text>
+    </g>
+  </g>
+
+  <!-- ==================== FOOTER INVARIANT BANNER ==================== -->
+  <g transform="translate(50, 715)">
+    <rect width="1260" height="60" rx="10" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+    <rect x="16" y="12" width="6" height="36" rx="3" fill="#10b981"/>
+    <text x="36" y="28" font-family="system-ui, sans-serif" font-size="12.5" font-weight="700" fill="#f8fafc">FAIL-OPEN ARCHITECTURAL NON-INTERFERENCE GUARANTEE</text>
+    <text x="36" y="46" font-family="system-ui, sans-serif" font-size="11.5" fill="#94a3b8">
+      All lifecycle hooks run in isolated fail-open wrappers (exit 0 fallback). If any unexpected filesystem lock occurs, the coding agent continues completely uninterrupted.
+    </text>
   </g>
 </svg>

@@ -226,6 +226,7 @@ Verifies Core engine updates and individual plugin versions directly against off
 * [**Release Engineering (RELEASE.md)**](RELEASE.md) — Release checklists, automated packaging, checksum verification, and publishing workflows.
 * [**Implementation Status (docs/IMPLEMENTATION_STATUS.md)**](docs/IMPLEMENTATION_STATUS.md) — What is implemented and tested vs. experimental vs. planned, with known limits.
 * [**Memory Model (docs/MEMORY_MODEL.md)**](docs/MEMORY_MODEL.md) — Namespaces, actors, append-only events, temporal validity, conflicts, and `asOf` retrieval.
+* [**Repair & Verification Report (PROJECTMIND_REPAIR_REPORT.md)**](PROJECTMIND_REPAIR_REPORT.md) — What was audited, fixed, measured, and what remains.
 
 ## Repository Structure
 

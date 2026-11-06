@@ -5,6 +5,7 @@
 **مسار العمل:** `/home/kali/Desktop/My_tools/12_ai/projectmind`
 **المستودع:** https://github.com/Rootx202/ProjectMind
 **Commit الأساسي للإصلاحات:** `ff1edebf3bd2deb1144f36c38fbf95fd59dbc0e8`
+**Commit أصول الإصدار الحتمية:** `9c03c94`
 
 ---
 
@@ -18,7 +19,7 @@
 - **11 أصل إصدار** تم بناؤها والتحقق منها ذاتيًا: أرشيف المصدر + 9 حزم إضافات + `index.json` + `SHA256SUMS`.
 - الإصلاحات الحرجة P0 كلها منفذة ومختبرة، بما فيها مشكلتان لم يذكرهما التقرير الأصلي: **بناء مدمّر لملفات الحزم** و**أمر تحديث وهمي يعلن النجاح دون تنفيذ**.
 
-**ما لم يكتمل:** الرفع إلى GitHub وإنشاء Release العام، لأن البيئة المحلية لا تحتوي على أي بيانات اعتماد GitHub قابلة للكتابة (`git push` يفشل بـ `could not read Username`). كل الملفات والأصول جاهزة، والأوامر موثقة في القسم 9.
+**النشر:** اختار المستخدم تنفيذ الرفع وإنشاء Release يدويًا. كل الملفات والأصول والأوامر جاهزة في القسم 8، ولم يُنفّذ أي Force Push أو حذف لتاريخ Git.
 
 ---
 
@@ -180,56 +181,108 @@ Core، MCP، Adapters، Scenarios 1–8، Plugins، Portable Runtime، Installer
 
 ---
 
-## 7. أصول الإصدار (جاهزة للرفع)
+## 7. أصول الإصدار (جاهزة للرفع اليدوي)
 
-المسار: `.release/`
+المسار: `.release/` — كل الملفات مسطّحة (بدون مجلدات فرعية) لتطابق أسماء أصول GitHub Release.
 
 | الأصل | الحجم | SHA-256 |
 |---|---:|---|
-| `projectmind-full.tar.gz` | 230,367 | `0a37511c2e5e813b95e30da4082ebe8a6aea1e71eb2b08c02de0413a6e421000` |
-| `plugins/antigravity-1.1.0.tar.gz` | 2,592 | `3b77da694556fe9dd46c9220fa24a45b32e94eaff7c79d1a0e553b47912db659` |
-| `plugins/claude-code-1.1.0.tar.gz` | 2,586 | `3be251f5573e94f7787f98e72d39ff3278c527f56b09f6fc4976dc5a16541b46` |
-| `plugins/codex-1.1.0.tar.gz` | 2,599 | `e58b0a0d97eee23846629c2af833175216fde4a477ecd50958b0731ecb4137e3` |
-| `plugins/cursor-1.1.0.tar.gz` | 2,544 | `e6142243646f2ba554269f1cab474540c124d0a41136aee6d51d9a372267ab78` |
-| `plugins/deepseek-harness-1.1.0.tar.gz` | 2,595 | `05375758c07bfc07d202026cb5f8edeafb38ec5800e15896a21b1f73f20c35ad` |
-| `plugins/gemini-cli-1.1.0.tar.gz` | 2,574 | `1dee59257ec099212dc461950ac376ea91a1cdfb13f2b8c9331703ba2a8903e9` |
-| `plugins/github-copilot-1.1.0.tar.gz` | 2,590 | `4d414b09540444ea46a4bb88571fc7fb38884e57aa6917f0aba56f733e63e037` |
-| `plugins/hermes-agent-1.1.0.tar.gz` | 2,611 | `0a497b9a2e6006114360d17b908718615a22b8683c7a1e3476d1448f123d2bee` |
-| `plugins/opencode-1.1.0.tar.gz` | 2,570 | `ec68e9c9766c65ee7320fa526b2c3b0c56c34643fa99e225495d32bbd017a09e` |
-| `index.json` | 6,703 | `113d0e37356f1b13059ac5733200d90eaf419993c368ac8afbdb3a9cdfbf7e89` |
+| `projectmind-full.tar.gz` | 238,135 | `526fde2a4834383540bd142769c5a0ea25ad7b6fed6c23f08b2da75c319b07a7` |
+| `antigravity-1.1.0.tar.gz` | 2,587 | `ad240baf03f9e8519d980f4df4d3bc20a3465c38c1bd0a4c0bc866475ff1ab7f` |
+| `claude-code-1.1.0.tar.gz` | 2,585 | `4016fb21afb7447d6c87911a87fdf2a7b6d812c447b72bf2bab5b9ea6c4ac305` |
+| `codex-1.1.0.tar.gz` | 2,596 | `2f6efbdbdf57aa34542251068a44cb14a6fec78caa6b7154c215c5df5ed45e2c` |
+| `cursor-1.1.0.tar.gz` | 2,541 | `834f8558b0f3af05c59b35ac8ea318665ac2149d0d82d4829088852f77533311` |
+| `deepseek-harness-1.1.0.tar.gz` | 2,590 | `f4e889835a3c5f5693b19f8e43f3eca9be4aee7d92a0b09926ed1066fea4699d` |
+| `gemini-cli-1.1.0.tar.gz` | 2,571 | `ff83abbba3651a87611e4b338ec0d18dac47f4689443eb6410908f9e587298f3` |
+| `github-copilot-1.1.0.tar.gz` | 2,586 | `24554b42b109c6dab57cb1ca8899390f8d797385b85e9833c98261c06ea83b92` |
+| `hermes-agent-1.1.0.tar.gz` | 2,606 | `ac5d6cde6e6c38e476c063707786e76973df538ad2b3fb1758faf5eec340f394` |
+| `opencode-1.1.0.tar.gz` | 2,566 | `d7999c26316600cbb7b099c5d0753957d75d6d1b0662487d4b4f6a514c85ba86` |
+| `index.json` | 6,703 | `d0de2c0982412f96ceef25416102fc0cfd17b4ca8cfb3ef89ddd94e28f088a82` |
 
-`SHA256SUMS` يحتوي مسارات نسبية، وتم التحقق منه بـ `sha256sum -c` بنجاح.
+بالإضافة إلى `release-manifest.json`. تم التحقق من `SHA256SUMS` بـ `sha256sum -c` بنجاح.
+
+**حتمية البناء:** بعد إصلاح طابع الوقت في رؤوس tar واحترام `SOURCE_DATE_EPOCH`، أُنتج الإصدار مرتين متتاليتين بنفس `SOURCE_DATE_EPOCH`، وكانت `SHA256SUMS` **متطابقة حرفيًا**. أصول الإضافات التسعة لا تتغير بين البنائين.
 
 ---
 
-## 8. حالة النشر على GitHub
+## 8. الرفع اليدوي إلى GitHub (اختيار المستخدم)
+
+اخترت تنفيذ الرفع يدويًا. كل ما يلزم جاهز محليًا:
 
 | البند | الحالة |
 |---|---|
-| Commit محلي | ✅ `ff1edebf3bd2deb1144f36c38fbf95fd59dbc0e8` |
-| Push إلى `main` | ⛔ متوقف: لا توجد بيانات اعتماد GitHub قابلة للكتابة في البيئة |
-| GitHub Release `v1.1.0` | ⛔ لم يُنشأ بعد لنفس السبب |
-| المستودع | https://github.com/Rootx202/ProjectMind |
+| Commit الإصلاحات | ✅ `ff1edebf3bd2deb1144f36c38fbf95fd59dbc0e8` |
+| Commit التقرير | ✅ `7cfa0be` (ثم تحديث الأصول في commit لاحق) |
+| Commit حتمية الإصدار | ✅ `9c03c94` |
+| Push | ⏳ يدوي |
+| GitHub Release `v1.1.0` | ⏳ يدوي |
 
-`git push --dry-run` أعاد:
-
-```text
-fatal: could not read Username for 'https://github.com': terminal prompts disabled
-```
-
-لا يوجد `gh` CLI، ولا `~/.git-credentials`، ولا `~/.netrc`، ولا مفتاح SSH خاص، وSSH agent بلا هويات. لذلك لم يُنفّذ أي Force Push ولم يُحذف أي تاريخ.
-
-### أوامر جاهزة عند توفر token
+### الخطوات
 
 ```bash
 cd /home/kali/Desktop/My_tools/12_ai/projectmind
-# بعد توفير PAT عبر credential helper أو ملف محلي:
+
+# 1) راجع الحالة ثم ارفع commits
+git status
+git log --oneline -5
 git push origin main
-git tag -a v1.1.0 -m "ProjectMind v1.1.0"
+
+# 2) أنشئ الوسم وارفعه (يجب أن يكون v1.1.0 بالضبط لأن index.json يبني روابط التحميل عليه)
+git tag -a v1.1.0 -m "ProjectMind v1.1.0 — verified updates, snapshot-bound context, AST code graph, append-only memory"
 git push origin v1.1.0
 ```
 
-ثم إنشاء Release `v1.1.0` ورفع كل ملفات `.release/` (بما فيها `plugins/` كمسارات منفصلة) مع `SHA256SUMS` و`index.json`.
+### إنشاء Release
+
+**الطريقة أ (GitHub CLI إن كان مثبتًا عندك):**
+
+```bash
+cd /home/kali/Desktop/My_tools/12_ai/projectmind
+gh release create v1.1.0 \
+  .release/projectmind-full.tar.gz \
+  .release/antigravity-1.1.0.tar.gz \
+  .release/claude-code-1.1.0.tar.gz \
+  .release/codex-1.1.0.tar.gz \
+  .release/cursor-1.1.0.tar.gz \
+  .release/deepseek-harness-1.1.0.tar.gz \
+  .release/gemini-cli-1.1.0.tar.gz \
+  .release/github-copilot-1.1.0.tar.gz \
+  .release/hermes-agent-1.1.0.tar.gz \
+  .release/opencode-1.1.0.tar.gz \
+  .release/index.json \
+  .release/SHA256SUMS \
+  .release/release-manifest.json \
+  --title "ProjectMind v1.1.0" \
+  --notes-file CHANGELOG.md
+```
+
+**الطريقة ب (واجهة GitHub):**
+
+1. افتح https://github.com/Rootx202/ProjectMind/releases/new
+2. اختر الوسم `v1.1.0` (أنشئه إن لم يكن موجودًا).
+3. العنوان: `ProjectMind v1.1.0`.
+4. ارفع **الملفات الـ 13** من `.release/` مباشرة (بدون رفع المجلد نفسه، وبدون مجلدات فرعية).
+5. انشر الـ Release.
+
+### التحقق بعد النشر
+
+```bash
+# 1) تأكد من وجود الوسم
+git ls-remote --tags origin v1.1.0
+
+# 2) نزّل SHA256SUMS وتحقق من الأصول
+curl -fsSLO https://github.com/Rootx202/ProjectMind/releases/download/v1.1.0/SHA256SUMS
+sha256sum -c SHA256SUMS --ignore-missing
+
+# 3) تحقق من أن محرك التحديث يرى الإصدار
+projectmind update check
+
+# 4) تحقق من أن الإضافات القديمة (1.0.0) تُكتشف كقديمة
+projectmind plugin outdated
+```
+
+> ملاحظة: لا ترفع `node_modules` أو `.projectmind` أو `.release` كمجلد. الأصول فقط.
+> إذا رفعت Release بدون وسم `v1.1.0` أو بأسماء ملفات مختلفة، ستفشل روابط `index.json` وفحص SHA-256.
 
 ---
 
@@ -270,4 +323,4 @@ git push origin v1.1.0
 
 ## 11. الخلاصة
 
-تم إغلاق فجوات الثقة الأساسية: لم يعد السياق القديم يُعاد بصمت، ولم يعد التحديث يقبل حزمة غير متحقق منها أو يتظاهر بالنجاح، وأصبحت الذاكرة المشتركة قابلة للتتبع عبر سجل أحداث append-only وهوية كاتب ونطاقات وصراعات صريحة. البناء أصبح قابلًا لإعادة الإنتاج من أرشيف نظيف، والاختبارات تثبت ذلك عدديًا (89/89 مرتين). يبقى النشر العام فقط، وهو محجوب ببيانات اعتماد GitHub وليس بجودة الكود.
+تم إغلاق فجوات الثقة الأساسية: لم يعد السياق القديم يُعاد بصمت، ولم يعد التحديث يقبل حزمة غير متحقق منها أو يتظاهر بالنجاح، وأصبحت الذاكرة المشتركة قابلة للتتبع عبر سجل أحداث append-only وهوية كاتب ونطاقات وصراعات صريحة. البناء أصبح قابلًا لإعادة الإنتاج من أرشيف نظيف، والاختبارات تثبت ذلك عدديًا (89/89 مرتين). يبقى النشر العام فقط، وقد اختار المستخدم تنفيذه يدويًا باستخدام الأصول والأوامر الجاهزة في القسم 8.

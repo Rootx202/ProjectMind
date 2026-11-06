@@ -1,0 +1,68 @@
+{
+  "$schema": "../manifest.schema.json",
+  "id": "gemini-cli",
+  "name": "ProjectMind for Google Gemini CLI",
+  "version": "1.0.0",
+  "description": "Universal project memory, MCP server, Strict JSON lifecycle hooks, and GEMINI.md instructions for Gemini CLI.",
+  "publisher": {
+    "name": "ProjectMind Engineering",
+    "url": "https://github.com/projectmind/projectmind"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/projectmind/projectmind",
+  "repository": "https://github.com/projectmind/projectmind",
+  "supportedPlatforms": [
+    "linux",
+    "windows",
+    "darwin"
+  ],
+  "supportedAgentVersions": ">= 1.0.0",
+  "runtimeRequirements": {
+    "node": ">= 18.0.0",
+    "projectmind": ">= 1.0.0"
+  },
+  "capabilities": {
+    "mcpTransport": "stdio",
+    "nativePlugin": false,
+    "mcpServer": true,
+    "agentSkills": true,
+    "lifecycleHooks": true,
+    "instructionFile": true,
+    "automaticInvocationMechanism": "hooks_and_skills",
+    "reloadSupport": "restart_required",
+    "requiresRestartOnInstall": true,
+    "restartInstructions": "Restart Gemini CLI or run `/hooks` and `/settings` to reload project hooks and MCP servers.",
+    "officialDocsUrls": [
+      "https://geminicli.com/docs/tools/mcp-server/",
+      "https://geminicli.com/docs/hooks/",
+      "https://geminicli.com/docs/cli/gemini-md/"
+    ],
+    "documentedLimitations": [
+      "Gemini CLI fingerprints project hooks and prompts for user trust on first execution."
+    ]
+  },
+  "permissions": {
+    "filesystem": [
+      ".gemini/settings.json",
+      "GEMINI.md",
+      ".agents/skills",
+      ".projectmind"
+    ],
+    "network": false,
+    "executeCommands": true,
+    "readEnv": true
+  },
+  "entrypoints": {
+    "mcpConfigTemplate": ".gemini/settings.json",
+    "instructionsFile": "GEMINI.md",
+    "skillDir": ".agents/skills/projectmind",
+    "hookRunner": "hooks/gemini-cli-hook.js"
+  },
+  "installationInstructions": "Run `projectmind plugin install gemini-cli` in your project root.",
+  "upgradeInstructions": "Run `projectmind plugin update gemini-cli` to refresh configs, skills, and hooks.",
+  "removalInstructions": "Run `projectmind plugin uninstall gemini-cli` to cleanly remove integration while preserving project knowledge.",
+  "integrity": {
+    "algorithm": "sha256",
+    "hash": "133bc906e8b15442ebb578c825327652645f118cd896efb8ec2c507b7e70ed89"
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "$schema": "../manifest.schema.json",
+  "id": "cursor",
+  "name": "ProjectMind for Cursor IDE & Agent CLI",
+  "version": "1.0.0",
+  "description": "Project intelligence, Cursor MCP server, v1 lifecycle hooks, and projectmind.mdc rule integration.",
+  "publisher": {
+    "name": "ProjectMind Engineering",
+    "url": "https://github.com/projectmind/projectmind"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/projectmind/projectmind",
+  "repository": "https://github.com/projectmind/projectmind",
+  "supportedPlatforms": [
+    "linux",
+    "windows",
+    "darwin"
+  ],
+  "supportedAgentVersions": ">= 1.0.0",
+  "runtimeRequirements": {
+    "node": ">= 18.0.0",
+    "projectmind": ">= 1.0.0"
+  },
+  "capabilities": {
+    "mcpTransport": "stdio",
+    "nativePlugin": false,
+    "mcpServer": true,
+    "agentSkills": true,
+    "lifecycleHooks": true,
+    "instructionFile": true,
+    "automaticInvocationMechanism": "hooks_and_skills",
+    "reloadSupport": "hot_reload",
+    "requiresRestartOnInstall": false,
+    "restartInstructions": "Cursor watches `.cursor/hooks.json` and `.cursor/mcp.json` automatically; ensure workspace is trusted.",
+    "officialDocsUrls": [
+      "https://cursor.com/docs/cli/mcp",
+      "https://cursor.com/docs/hooks",
+      "https://cursor.com/docs/rules"
+    ],
+    "documentedLimitations": [
+      "Project hooks require the workspace to be marked Trusted in Cursor."
+    ]
+  },
+  "permissions": {
+    "filesystem": [
+      ".cursor/mcp.json",
+      ".cursor/hooks.json",
+      ".cursor/rules",
+      ".projectmind"
+    ],
+    "network": false,
+    "executeCommands": true,
+    "readEnv": true
+  },
+  "entrypoints": {
+    "mcpConfigTemplate": ".cursor/mcp.json",
+    "instructionsFile": ".cursor/rules/projectmind.mdc",
+    "skillDir": ".agents/skills/projectmind",
+    "hookRunner": "hooks/cursor-hook.js"
+  },
+  "installationInstructions": "Run `projectmind plugin install cursor` in your project root.",
+  "upgradeInstructions": "Run `projectmind plugin update cursor` to refresh configs, skills, and hooks.",
+  "removalInstructions": "Run `projectmind plugin uninstall cursor` to cleanly remove integration while preserving project knowledge.",
+  "integrity": {
+    "algorithm": "sha256",
+    "hash": "1ebc6f1620207a65cca7dafcb28ce8c2a2602fc342c3ba951e7c1457e14d5dd3"
+  }
+}

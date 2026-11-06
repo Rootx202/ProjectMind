@@ -1,0 +1,66 @@
+{
+  "$schema": "../manifest.schema.json",
+  "id": "codex",
+  "name": "ProjectMind for OpenAI Codex (CLI / IDE / Desktop)",
+  "version": "1.0.0",
+  "description": "Project intelligence, MCP stdio server integration, skills, and AGENTS.md instructions for OpenAI Codex.",
+  "publisher": {
+    "name": "ProjectMind Engineering",
+    "url": "https://github.com/projectmind/projectmind"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/projectmind/projectmind",
+  "repository": "https://github.com/projectmind/projectmind",
+  "supportedPlatforms": [
+    "linux",
+    "windows",
+    "darwin"
+  ],
+  "supportedAgentVersions": ">= 1.0.0",
+  "runtimeRequirements": {
+    "node": ">= 18.0.0",
+    "projectmind": ">= 1.0.0"
+  },
+  "capabilities": {
+    "mcpTransport": "stdio",
+    "nativePlugin": false,
+    "mcpServer": true,
+    "agentSkills": true,
+    "lifecycleHooks": false,
+    "instructionFile": true,
+    "automaticInvocationMechanism": "mcp_instructions_and_skills",
+    "reloadSupport": "restart_required",
+    "requiresRestartOnInstall": true,
+    "restartInstructions": "Restart your Codex CLI session or select Restart in the Codex IDE/Desktop MCP servers menu.",
+    "officialDocsUrls": [
+      "https://learn.chatgpt.com/docs/extend/mcp",
+      "https://github.com/openai/codex/blob/main/docs/config.md"
+    ],
+    "documentedLimitations": [
+      "Codex cloud/managed orchestration restricts local command hooks via allow_managed_hooks_only; automatic invocation uses MCP initialize instructions + AGENTS.md + skill."
+    ]
+  },
+  "permissions": {
+    "filesystem": [
+      ".codex/config.toml",
+      "AGENTS.md",
+      ".agents/skills",
+      ".projectmind"
+    ],
+    "network": false,
+    "executeCommands": false,
+    "readEnv": true
+  },
+  "entrypoints": {
+    "mcpConfigTemplate": ".codex/config.toml",
+    "instructionsFile": "AGENTS.md",
+    "skillDir": ".agents/skills/projectmind"
+  },
+  "installationInstructions": "Run `projectmind plugin install codex` in your project root.",
+  "upgradeInstructions": "Run `projectmind plugin update codex` to refresh configs, skills, and hooks.",
+  "removalInstructions": "Run `projectmind plugin uninstall codex` to cleanly remove integration while preserving project knowledge.",
+  "integrity": {
+    "algorithm": "sha256",
+    "hash": "f097d13c4d06492e8e27148ef5fdf40d86855529445906fbed51eccea577e7df"
+  }
+}

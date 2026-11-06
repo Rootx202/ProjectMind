@@ -1,0 +1,68 @@
+{
+  "$schema": "../manifest.schema.json",
+  "id": "hermes-agent",
+  "name": "ProjectMind for Hermes Agent (Nous Research)",
+  "version": "1.0.0",
+  "description": "Autonomous project intelligence, Native MCP client integration, HERMES.md instruction file, and self-improving memory loop.",
+  "publisher": {
+    "name": "ProjectMind Engineering",
+    "url": "https://github.com/projectmind/projectmind"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/projectmind/projectmind",
+  "repository": "https://github.com/projectmind/projectmind",
+  "supportedPlatforms": [
+    "linux",
+    "windows",
+    "darwin"
+  ],
+  "supportedAgentVersions": ">= 1.0.0",
+  "runtimeRequirements": {
+    "node": ">= 18.0.0",
+    "projectmind": ">= 1.0.0"
+  },
+  "capabilities": {
+    "mcpTransport": "stdio",
+    "nativePlugin": true,
+    "mcpServer": true,
+    "agentSkills": true,
+    "lifecycleHooks": true,
+    "instructionFile": true,
+    "automaticInvocationMechanism": "hooks_and_skills",
+    "reloadSupport": "hot_reload",
+    "requiresRestartOnInstall": false,
+    "restartInstructions": "Hermes Agent hot-reloads skills and HERMES.md; restart hermes or run `hermes mcp list` to verify.",
+    "officialDocsUrls": [
+      "https://hermes-agent.nousresearch.com/docs/mcp",
+      "https://github.com/NousResearch/hermes-agent",
+      "https://hermes-agent.org"
+    ],
+    "documentedLimitations": [
+      "Hermes Agent prioritizes HERMES.md over AGENTS.md when both are present. ProjectMind installs into both to guarantee discoverability across all sessions."
+    ]
+  },
+  "permissions": {
+    "filesystem": [
+      ".hermes",
+      "HERMES.md",
+      "AGENTS.md",
+      ".projectmind"
+    ],
+    "network": false,
+    "executeCommands": true,
+    "readEnv": true
+  },
+  "entrypoints": {
+    "mcpConfigTemplate": ".hermes/config.json",
+    "instructionsFile": "HERMES.md",
+    "skillDir": ".hermes/skills/projectmind",
+    "hookRunner": "hooks/hermes-agent-hook.js"
+  },
+  "installationInstructions": "Run `projectmind plugin install hermes-agent` in your project root.",
+  "upgradeInstructions": "Run `projectmind plugin update hermes-agent` to refresh configs, skills, and hooks.",
+  "removalInstructions": "Run `projectmind plugin uninstall hermes-agent` to cleanly remove integration while preserving project knowledge.",
+  "integrity": {
+    "algorithm": "sha256",
+    "hash": "c72408c6ab9b0fe3f1f2d7996cc189dac7ba8bcb674860952060e48cee7ef0e4"
+  }
+}

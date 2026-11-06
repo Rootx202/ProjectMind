@@ -1,0 +1,39 @@
+{
+  "name": "projectmind",
+  "version": "1.0.0",
+  "description": "ProjectMind — Universal Local-First AI Project Intelligence and Persistent Context Engine",
+  "private": false,
+  "license": "MIT",
+  "author": "Rootx202",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Rootx202/ProjectMind.git"
+  },
+  "homepage": "https://github.com/Rootx202/ProjectMind#readme",
+  "bugs": {
+    "url": "https://github.com/Rootx202/ProjectMind/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "bin": {
+    "projectmind": "./apps/cli/dist/index.js",
+    "projectmind-mcp": "./packages/mcp-server/dist/cli.js"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "adapters/*"
+  ],
+  "devDependencies": {
+    "@babel/core": "^7.24.0",
+    "@babel/preset-typescript": "^7.24.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.24.0"
+  },
+  "scripts": {
+    "build": "node scripts/build.js",
+    "test": "node scripts/test.js",
+    "diagnostics": "node apps/diagnostics/dist/index.js",
+    "setup": "node apps/setup/dist/index.js"
+  }
+}

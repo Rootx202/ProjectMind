@@ -1,0 +1,54 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build and compilation outputs (reproducible via `npm run build`)
+dist/
+dist-tests/
+*.tsbuildinfo
+
+# ProjectMind local runtime databases, caches, and backups
+.projectmind/
+**/.projectmind/
+projectmind.db
+projectmind.db-wal
+projectmind.db-shm
+*.bak
+
+# Local developer environment / editor configurations containing machine-specific paths
+.agents/
+.claude/
+.claude-plugin/
+.codex/
+.cursor/
+.deepseek/
+.dsh/
+.gemini/
+.hermes/
+.opencode/
+.vscode/
+.mcp.json
+opencode.json
+
+# Environment variables & secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+id_rsa
+id_ed25519
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# Logs & Temporary files
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+*.tmp
+.cache/

@@ -1,0 +1,18 @@
+{
+  "dataDirName": ".projectmind",
+  "defaultContextBudgetTokens": 4000,
+  "maxToolOutputChars": 16000,
+  "smartAutoMode": true,
+  "excludePatterns": [
+    "node_modules/**",
+    ".git/**",
+    ".projectmind/**",
+    "dist/**",
+    "build/**",
+    "out/**",
+    ".next/**",
+    "coverage/**"
+  ],
+  "allowSecretIndexing": false,
+  "semanticSearchProvider": "local-hash-vectors"
+}

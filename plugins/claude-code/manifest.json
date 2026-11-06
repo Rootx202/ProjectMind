@@ -1,0 +1,70 @@
+{
+  "$schema": "../manifest.schema.json",
+  "id": "claude-code",
+  "name": "ProjectMind for Anthropic Claude Code",
+  "version": "1.0.0",
+  "description": "Universal local-first project intelligence, MCP server, skills, and settings hooks for Anthropic Claude Code.",
+  "publisher": {
+    "name": "ProjectMind Engineering",
+    "url": "https://github.com/projectmind/projectmind"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/projectmind/projectmind",
+  "repository": "https://github.com/projectmind/projectmind",
+  "supportedPlatforms": [
+    "linux",
+    "windows",
+    "darwin"
+  ],
+  "supportedAgentVersions": ">= 1.0.0",
+  "runtimeRequirements": {
+    "node": ">= 18.0.0",
+    "projectmind": ">= 1.0.0"
+  },
+  "capabilities": {
+    "mcpTransport": "stdio",
+    "nativePlugin": true,
+    "mcpServer": true,
+    "agentSkills": true,
+    "lifecycleHooks": true,
+    "instructionFile": true,
+    "automaticInvocationMechanism": "hooks_and_skills",
+    "reloadSupport": "restart_required",
+    "requiresRestartOnInstall": true,
+    "restartInstructions": "Restart Claude Code or run `/mcp` and `/hooks` to confirm active status.",
+    "officialDocsUrls": [
+      "https://code.claude.com/docs/en/settings",
+      "https://code.claude.com/docs/en/hooks",
+      "https://code.claude.com/docs/en/skills"
+    ],
+    "documentedLimitations": [
+      "When allowManagedHooksOnly is enforced by enterprise policy, Claude Code falls back to .claude/skills/projectmind/SKILL.md and CLAUDE.md."
+    ]
+  },
+  "permissions": {
+    "filesystem": [
+      ".mcp.json",
+      ".claude",
+      ".claude-plugin",
+      "CLAUDE.md",
+      ".projectmind"
+    ],
+    "network": false,
+    "executeCommands": true,
+    "readEnv": true
+  },
+  "entrypoints": {
+    "mcpConfigTemplate": ".mcp.json",
+    "instructionsFile": "CLAUDE.md",
+    "skillDir": ".claude/skills/projectmind",
+    "hookRunner": "hooks/claude-code-hook.js",
+    "nativePluginManifest": ".claude-plugin/plugin.json"
+  },
+  "installationInstructions": "Run `projectmind plugin install claude-code` in your project root.",
+  "upgradeInstructions": "Run `projectmind plugin update claude-code` to refresh configs, skills, and hooks.",
+  "removalInstructions": "Run `projectmind plugin uninstall claude-code` to cleanly remove integration while preserving project knowledge.",
+  "integrity": {
+    "algorithm": "sha256",
+    "hash": "a0c649580ab303f1fbf2a7eab52c9d608931160fd78a1738996275a254e79d69"
+  }
+}

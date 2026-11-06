@@ -1,0 +1,135 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ProjectMindPluginManifest",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "version",
+    "description",
+    "publisher",
+    "supportedPlatforms",
+    "supportedAgentVersions",
+    "runtimeRequirements",
+    "capabilities",
+    "permissions",
+    "installationInstructions",
+    "removalInstructions"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "enum": [
+        "antigravity",
+        "codex",
+        "claude-code",
+        "gemini-cli",
+        "cursor",
+        "github-copilot",
+        "opencode",
+        "hermes-agent",
+        "deepseek-harness"
+      ]
+    },
+    "name": { "type": "string" },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+"
+    },
+    "description": { "type": "string" },
+    "publisher": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string" },
+        "url": { "type": "string" },
+        "email": { "type": "string" }
+      }
+    },
+    "license": { "type": "string" },
+    "homepage": { "type": "string" },
+    "repository": { "type": "string" },
+    "supportedPlatforms": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["linux", "windows", "darwin"] }
+    },
+    "supportedAgentVersions": { "type": "string" },
+    "runtimeRequirements": {
+      "type": "object",
+      "required": ["node", "projectmind"],
+      "properties": {
+        "node": { "type": "string" },
+        "projectmind": { "type": "string" }
+      }
+    },
+    "capabilities": {
+      "type": "object",
+      "required": [
+        "mcpTransport",
+        "nativePlugin",
+        "mcpServer",
+        "agentSkills",
+        "lifecycleHooks",
+        "instructionFile",
+        "automaticInvocationMechanism",
+        "reloadSupport"
+      ],
+      "properties": {
+        "mcpTransport": { "type": "string", "enum": ["stdio", "sse", "none"] },
+        "nativePlugin": { "type": "boolean" },
+        "mcpServer": { "type": "boolean" },
+        "agentSkills": { "type": "boolean" },
+        "lifecycleHooks": { "type": "boolean" },
+        "instructionFile": { "type": "boolean" },
+        "automaticInvocationMechanism": {
+          "type": "string",
+          "enum": [
+            "hooks_and_skills",
+            "mcp_instructions_and_skills",
+            "instructions_and_mcp",
+            "manual_mcp_only"
+          ]
+        },
+        "reloadSupport": {
+          "type": "string",
+          "enum": ["hot_reload", "restart_required", "command_reload"]
+        },
+        "requiresRestartOnInstall": { "type": "boolean" },
+        "restartInstructions": { "type": "string" },
+        "officialDocsUrls": { "type": "array", "items": { "type": "string" } },
+        "documentedLimitations": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "permissions": {
+      "type": "object",
+      "required": ["filesystem", "network", "executeCommands"],
+      "properties": {
+        "filesystem": { "type": "array", "items": { "type": "string" } },
+        "network": { "type": "boolean" },
+        "executeCommands": { "type": "boolean" },
+        "readEnv": { "type": "boolean" }
+      }
+    },
+    "entrypoints": {
+      "type": "object",
+      "properties": {
+        "mcpConfigTemplate": { "type": "string" },
+        "instructionsFile": { "type": "string" },
+        "skillDir": { "type": "string" },
+        "hookRunner": { "type": "string" },
+        "nativePluginManifest": { "type": "string" }
+      }
+    },
+    "installationInstructions": { "type": "string" },
+    "upgradeInstructions": { "type": "string" },
+    "removalInstructions": { "type": "string" },
+    "integrity": {
+      "type": "object",
+      "properties": {
+        "sha256": { "type": "string" },
+        "files": { "type": "object" }
+      }
+    }
+  }
+}
+

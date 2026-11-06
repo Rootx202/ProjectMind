@@ -1,0 +1,66 @@
+{
+  "$schema": "../manifest.schema.json",
+  "id": "github-copilot",
+  "name": "ProjectMind for GitHub Copilot (VS Code & CLI/Harness)",
+  "version": "1.0.0",
+  "description": "Persistent project intelligence, VS Code .vscode/mcp.json, portable .mcp.json, and custom instructions for Copilot.",
+  "publisher": {
+    "name": "ProjectMind Engineering",
+    "url": "https://github.com/projectmind/projectmind"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/projectmind/projectmind",
+  "repository": "https://github.com/projectmind/projectmind",
+  "supportedPlatforms": [
+    "linux",
+    "windows",
+    "darwin"
+  ],
+  "supportedAgentVersions": ">= 1.0.0",
+  "runtimeRequirements": {
+    "node": ">= 18.0.0",
+    "projectmind": ">= 1.0.0"
+  },
+  "capabilities": {
+    "mcpTransport": "stdio",
+    "nativePlugin": false,
+    "mcpServer": true,
+    "agentSkills": true,
+    "lifecycleHooks": false,
+    "instructionFile": true,
+    "automaticInvocationMechanism": "instructions_and_mcp",
+    "reloadSupport": "hot_reload",
+    "requiresRestartOnInstall": false,
+    "restartInstructions": "In VS Code Command Palette, run `MCP: List Servers` to confirm projectmind is running.",
+    "officialDocsUrls": [
+      "https://code.visualstudio.com/docs/agents/reference/mcp-configuration",
+      "https://code.visualstudio.com/docs/agent-customization/custom-instructions"
+    ],
+    "documentedLimitations": [
+      "Standard VS Code Copilot Chat relies on .github/copilot-instructions.md and MCP tool discovery rather than shell lifecycle hooks."
+    ]
+  },
+  "permissions": {
+    "filesystem": [
+      ".vscode/mcp.json",
+      ".mcp.json",
+      ".github",
+      ".projectmind"
+    ],
+    "network": false,
+    "executeCommands": false,
+    "readEnv": true
+  },
+  "entrypoints": {
+    "mcpConfigTemplate": ".vscode/mcp.json",
+    "instructionsFile": ".github/copilot-instructions.md",
+    "skillDir": ".github/prompts"
+  },
+  "installationInstructions": "Run `projectmind plugin install github-copilot` in your project root.",
+  "upgradeInstructions": "Run `projectmind plugin update github-copilot` to refresh configs, skills, and hooks.",
+  "removalInstructions": "Run `projectmind plugin uninstall github-copilot` to cleanly remove integration while preserving project knowledge.",
+  "integrity": {
+    "algorithm": "sha256",
+    "hash": "0d66ae41c8a1e024a6b051a0825c9e11bd1af8d075d771ef628938edb68adc06"
+  }
+}

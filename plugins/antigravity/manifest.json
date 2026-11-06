@@ -1,0 +1,67 @@
+{
+  "$schema": "../manifest.schema.json",
+  "id": "antigravity",
+  "name": "ProjectMind for Google Antigravity",
+  "version": "1.0.0",
+  "description": "Universal local-first project intelligence, persistent context engine, and autonomous lifecycle hooks for Google Antigravity.",
+  "publisher": {
+    "name": "ProjectMind Engineering",
+    "url": "https://github.com/projectmind/projectmind"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/projectmind/projectmind",
+  "repository": "https://github.com/projectmind/projectmind",
+  "supportedPlatforms": [
+    "linux",
+    "windows",
+    "darwin"
+  ],
+  "supportedAgentVersions": ">= 1.0.0",
+  "runtimeRequirements": {
+    "node": ">= 18.0.0",
+    "projectmind": ">= 1.0.0"
+  },
+  "capabilities": {
+    "mcpTransport": "stdio",
+    "nativePlugin": true,
+    "mcpServer": true,
+    "agentSkills": true,
+    "lifecycleHooks": true,
+    "instructionFile": true,
+    "automaticInvocationMechanism": "hooks_and_skills",
+    "reloadSupport": "hot_reload",
+    "requiresRestartOnInstall": false,
+    "restartInstructions": "Run `/mcp` or `/skills reload` in Antigravity CLI/IDE, or start a new conversation.",
+    "officialDocsUrls": [
+      "https://antigravity.google/docs/mcp/",
+      "https://antigravity.google/docs/skills/",
+      "https://antigravity.google/docs/build-plugins/"
+    ],
+    "documentedLimitations": [
+      "Unconfigured MCP tools run in Ask mode by default unless allowed via policy (`mcp(projectmind/*)`)."
+    ]
+  },
+  "permissions": {
+    "filesystem": [
+      ".agents",
+      ".projectmind"
+    ],
+    "network": false,
+    "executeCommands": true,
+    "readEnv": true
+  },
+  "entrypoints": {
+    "mcpConfigTemplate": "mcp/mcp_config.json",
+    "instructionsFile": "rules/AGENTS.md",
+    "skillDir": "skills/projectmind",
+    "hookRunner": "hooks/antigravity-hook.js",
+    "nativePluginManifest": ".agents/plugins/projectmind/plugin.json"
+  },
+  "installationInstructions": "Run `projectmind plugin install antigravity` in your project root.",
+  "upgradeInstructions": "Run `projectmind plugin update antigravity` to refresh configs, skills, and hooks.",
+  "removalInstructions": "Run `projectmind plugin uninstall antigravity` to cleanly remove integration while preserving project knowledge.",
+  "integrity": {
+    "algorithm": "sha256",
+    "hash": "2499207a0ca0911259bcd7f0a14c3db25716fb70e268311a27e30d5af3097377"
+  }
+}

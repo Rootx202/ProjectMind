@@ -1,0 +1,68 @@
+{
+  "$schema": "../manifest.schema.json",
+  "id": "opencode",
+  "name": "ProjectMind for OpenCode (anomalyco / opencode.ai)",
+  "version": "1.0.0",
+  "description": "Universal local-first project intelligence, opencode.json local MCP server, and AGENTS.md rules for OpenCode.",
+  "publisher": {
+    "name": "ProjectMind Engineering",
+    "url": "https://github.com/projectmind/projectmind"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/projectmind/projectmind",
+  "repository": "https://github.com/projectmind/projectmind",
+  "supportedPlatforms": [
+    "linux",
+    "windows",
+    "darwin"
+  ],
+  "supportedAgentVersions": ">= 1.0.0",
+  "runtimeRequirements": {
+    "node": ">= 18.0.0",
+    "projectmind": ">= 1.0.0"
+  },
+  "capabilities": {
+    "mcpTransport": "stdio",
+    "nativePlugin": false,
+    "mcpServer": true,
+    "agentSkills": true,
+    "lifecycleHooks": true,
+    "instructionFile": true,
+    "automaticInvocationMechanism": "mcp_instructions_and_skills",
+    "reloadSupport": "hot_reload",
+    "requiresRestartOnInstall": false,
+    "restartInstructions": "OpenCode hot-reloads opencode.json and AGENTS.md automatically; run `/mcp list` in OpenCode session to verify.",
+    "officialDocsUrls": [
+      "https://opencode.ai/docs/mcp",
+      "https://opencode.ai/docs/agents-md",
+      "https://github.com/anomalyco/opencode"
+    ],
+    "documentedLimitations": [
+      "OpenCode requires local MCP servers to specify type: \"local\" with a command string array."
+    ]
+  },
+  "permissions": {
+    "filesystem": [
+      "opencode.json",
+      "AGENTS.md",
+      ".opencode",
+      ".projectmind"
+    ],
+    "network": false,
+    "executeCommands": true,
+    "readEnv": true
+  },
+  "entrypoints": {
+    "mcpConfigTemplate": "opencode.json",
+    "instructionsFile": "AGENTS.md",
+    "skillDir": ".opencode/skills/projectmind",
+    "hookRunner": "hooks/opencode-hook.js"
+  },
+  "installationInstructions": "Run `projectmind plugin install opencode` in your project root.",
+  "upgradeInstructions": "Run `projectmind plugin update opencode` to refresh configs, skills, and hooks.",
+  "removalInstructions": "Run `projectmind plugin uninstall opencode` to cleanly remove integration while preserving project knowledge.",
+  "integrity": {
+    "algorithm": "sha256",
+    "hash": "83802bc7501a7bee0b5e7f43d1f5f1a8bd264d22e05f529b1aa9a127f17898c4"
+  }
+}

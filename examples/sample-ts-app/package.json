@@ -1,0 +1,6 @@
+{
+  "name": "sample-commerce-api",
+  "version": "1.0.0",
+  "dependencies": { "express": "^4.19.2", "prisma": "^5.14.0", "pg": "^8.11.5" },
+  "devDependencies": { "typescript": "^5.4.5" }
+}

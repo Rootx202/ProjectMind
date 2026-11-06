@@ -1,0 +1,68 @@
+{
+  "$schema": "../manifest.schema.json",
+  "id": "deepseek-harness",
+  "name": "ProjectMind for DeepSeek Harness (dsh / DeepSeek AI)",
+  "version": "1.0.0",
+  "description": "Universal project memory, profile MCP server, profile plugin overlay, and DEEPSEEK.md instructions for DeepSeek Harness.",
+  "publisher": {
+    "name": "ProjectMind Engineering",
+    "url": "https://github.com/projectmind/projectmind"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/projectmind/projectmind",
+  "repository": "https://github.com/projectmind/projectmind",
+  "supportedPlatforms": [
+    "linux",
+    "windows",
+    "darwin"
+  ],
+  "supportedAgentVersions": ">= 1.0.0",
+  "runtimeRequirements": {
+    "node": ">= 18.0.0",
+    "projectmind": ">= 1.0.0"
+  },
+  "capabilities": {
+    "mcpTransport": "stdio",
+    "nativePlugin": true,
+    "mcpServer": true,
+    "agentSkills": true,
+    "lifecycleHooks": true,
+    "instructionFile": true,
+    "automaticInvocationMechanism": "mcp_instructions_and_skills",
+    "reloadSupport": "restart_required",
+    "requiresRestartOnInstall": true,
+    "restartInstructions": "Restart dsh session or reload profile with `dsh --dump-config` to confirm plugin/MCP server status.",
+    "officialDocsUrls": [
+      "https://github.com/deepseek-ai/deepseek-harness",
+      "https://github.com/deepseek-ai/dsh-superagent-prototype"
+    ],
+    "documentedLimitations": [
+      "DeepSeek Harness uses profile overlays; local .dsh/mcp.json and .deepseek/mcp.json are loaded into active profile stdio clients."
+    ]
+  },
+  "permissions": {
+    "filesystem": [
+      ".dsh",
+      ".deepseek",
+      "DEEPSEEK.md",
+      "AGENTS.md",
+      ".projectmind"
+    ],
+    "network": false,
+    "executeCommands": true,
+    "readEnv": true
+  },
+  "entrypoints": {
+    "mcpConfigTemplate": ".dsh/mcp.json",
+    "instructionsFile": "DEEPSEEK.md",
+    "skillDir": ".dsh/skills/projectmind",
+    "hookRunner": "hooks/deepseek-harness-hook.js"
+  },
+  "installationInstructions": "Run `projectmind plugin install deepseek-harness` in your project root.",
+  "upgradeInstructions": "Run `projectmind plugin update deepseek-harness` to refresh configs, skills, and hooks.",
+  "removalInstructions": "Run `projectmind plugin uninstall deepseek-harness` to cleanly remove integration while preserving project knowledge.",
+  "integrity": {
+    "algorithm": "sha256",
+    "hash": "a6be974aed7f145effed146a316219fc1cd5a70f4a565752beaa972cd93dfff3"
+  }
+}

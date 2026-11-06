@@ -1,0 +1,55 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "@projectmind/shared": [
+        "packages/shared/src/index.ts"
+      ],
+      "@projectmind/storage": [
+        "packages/storage/src/index.ts"
+      ],
+      "@projectmind/core": [
+        "packages/core/src/index.ts"
+      ],
+      "@projectmind/indexing": [
+        "packages/indexing/src/index.ts"
+      ],
+      "@projectmind/knowledge": [
+        "packages/knowledge/src/index.ts"
+      ],
+      "@projectmind/impact-analysis": [
+        "packages/impact-analysis/src/index.ts"
+      ],
+      "@projectmind/retrieval": [
+        "packages/retrieval/src/index.ts"
+      ],
+      "@projectmind/context-engine": [
+        "packages/context-engine/src/index.ts"
+      ],
+      "@projectmind/mcp-server": [
+        "packages/mcp-server/src/index.ts"
+      ],
+      "@projectmind/agent-sdk": [
+        "packages/agent-sdk/src/index.ts"
+      ],
+      "@projectmind/adapter-*": [
+        "adapters/*/src/index.ts"
+      ]
+    }
+  },
+  "include": [
+    "packages/**/*",
+    "adapters/**/*",
+    "apps/**/*",
+    "tests/**/*"
+  ]
+}

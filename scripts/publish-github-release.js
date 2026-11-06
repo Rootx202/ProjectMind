@@ -134,16 +134,25 @@ All official release artifacts are listed in \`SHA256SUMS\` and \`release-manife
   }
 
   const existingAssets = release.assets || [];
-  const existingNames = new Set(existingAssets.map((a) => a.name));
+  const assetMap = new Map(existingAssets.map((a) => [a.name, a.id]));
 
   const filesToUpload = fs.readdirSync(RELEASE_DIR);
   for (const file of filesToUpload) {
-    if (existingNames.has(file)) {
-      console.log(`Asset ${file} already exists on release, skipping.`);
-      continue;
-    }
     const fullPath = path.join(RELEASE_DIR, file);
     if (!fs.statSync(fullPath).isFile()) continue;
+
+    if (assetMap.has(file)) {
+      const assetId = assetMap.get(file);
+      console.log(`Replacing existing asset ${file} (id: ${assetId})...`);
+      try {
+        await request(`https://api.github.com/repos/${REPO}/releases/assets/${assetId}`, {
+          method: 'DELETE'
+        });
+        console.log(`  ✓ Deleted previous ${file}`);
+      } catch (err) {
+        console.warn(`  Warning: failed to delete previous ${file}: ${err.message}`);
+      }
+    }
     await uploadAsset(release.upload_url, fullPath);
   }
 

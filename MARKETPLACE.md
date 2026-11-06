@@ -88,15 +88,15 @@ node scripts/package-release.js
 ```
 
 Generated outputs in `.release/`:
-* `plugins/antigravity-1.1.0.tar.gz`
-* `plugins/claude-code-1.1.0.tar.gz`
-* `plugins/codex-1.1.0.tar.gz`
-* `plugins/cursor-1.1.0.tar.gz`
-* `plugins/gemini-cli-1.1.0.tar.gz`
-* `plugins/github-copilot-1.1.0.tar.gz`
-* `plugins/deepseek-harness-1.1.0.tar.gz`
-* `plugins/hermes-agent-1.1.0.tar.gz`
-* `plugins/opencode-1.1.0.tar.gz`
+* `antigravity-1.1.0.tar.gz`
+* `claude-code-1.1.0.tar.gz`
+* `codex-1.1.0.tar.gz`
+* `cursor-1.1.0.tar.gz`
+* `gemini-cli-1.1.0.tar.gz`
+* `github-copilot-1.1.0.tar.gz`
+* `deepseek-harness-1.1.0.tar.gz`
+* `hermes-agent-1.1.0.tar.gz`
+* `opencode-1.1.0.tar.gz`
 * `SHA256SUMS` (Cryptographic verification checksums)
 * `index.json` (Machine-readable marketplace catalog index)
 

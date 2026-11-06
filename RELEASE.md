@@ -66,7 +66,7 @@ This script:
 1. Builds `.release/projectmind-full.tar.gz` from tracked source, excluding
    `node_modules`, `dist`, `.git`, `.projectmind`, backups, caches, and secrets.
 2. Iterates over all 9 plugins in `plugins/<agent-id>` and creates
-   `.release/plugins/<agent-id>-<version>.tar.gz` containing a `manifest.json`
+   `.release/<agent-id>-<version>.tar.gz` containing a `manifest.json`
    that lists every file with its SHA-256, plus instruction/skill assets.
 3. Computes SHA-256 digests for every artifact and writes `.release/SHA256SUMS`
    with repo-relative paths.
@@ -90,7 +90,7 @@ This script:
    Create a new GitHub Release for tag `v1.1.0` and attach everything in
    `.release/`:
    * `projectmind-full.tar.gz`
-   * `plugins/*.tar.gz` (all 9 plugin packages)
+   * `<agent-id>-1.1.0.tar.gz` (all 9 plugin packages, flat)
    * `SHA256SUMS`
    * `index.json`
    * `release-manifest.json`

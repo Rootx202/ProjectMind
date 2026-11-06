@@ -149,6 +149,10 @@ function writeString(buffer: Buffer, value: string, offset: number, length: numb
 /** Creates a deterministic ustar.gz archive (used by release packaging and tests). */
 export function createTarGz(entries: TarEntry[], gzipOptions: zlib.ZlibOptions = {}): Buffer {
   const chunks: Buffer[] = [];
+  // Reproducible builds: honor SOURCE_DATE_EPOCH, otherwise use a fixed epoch so
+  // identical content always produces an identical archive hash.
+  const sourceEpoch = Number(process.env.SOURCE_DATE_EPOCH || 0);
+  const mtime = Number.isFinite(sourceEpoch) && sourceEpoch > 0 ? Math.floor(sourceEpoch) : 1700000000;
   for (const entry of entries) {
     const relative = entry.path.replace(/\\/g, '/').replace(/^\/+/, '');
     if (!isSafeRelativePath(relative)) throw new ArchiveSecurityError(`Refusing to pack unsafe path: ${entry.path}`);
@@ -159,7 +163,7 @@ export function createTarGz(entries: TarEntry[], gzipOptions: zlib.ZlibOptions =
     writeOctal(header, 0, 108, 8);
     writeOctal(header, 0, 116, 8);
     writeOctal(header, content.length, 124, 12);
-    writeOctal(header, Math.floor(Date.now() / 1000), 136, 12);
+    writeOctal(header, mtime, 136, 12);
     header.write('        ', 148, 8, 'ascii');
     header[156] = '0'.charCodeAt(0);
     header.write('ustar\0', 257, 6, 'ascii');

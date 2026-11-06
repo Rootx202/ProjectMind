@@ -212,7 +212,7 @@ ProjectMind is 100% local-first and operates without internet connectivity:
 
 1. Download release archives from GitHub Releases:
    * `projectmind-v1.1.0.tar.gz` (core runtime)
-   * `.release/plugins/*.tar.gz` (plugin bundles)
+   * `.release/*.tar.gz` (core + plugin bundles)
    * `.release/SHA256SUMS`
 2. Verify integrity:
    ```bash

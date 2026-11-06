@@ -25,7 +25,10 @@ const REPO = 'Rootx202/ProjectMind';
 const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
 const VERSION = pkg.version;
 const TAG = `v${VERSION}`;
-const PUBLISHED_AT = new Date().toISOString();
+const SOURCE_DATE_EPOCH = Number(process.env.SOURCE_DATE_EPOCH || 0);
+const PUBLISHED_AT = Number.isFinite(SOURCE_DATE_EPOCH) && SOURCE_DATE_EPOCH > 0
+  ? new Date(SOURCE_DATE_EPOCH * 1000).toISOString()
+  : new Date().toISOString();
 
 const EXCLUDED_SEGMENTS = new Set([
   'node_modules', '.git', '.projectmind', '.backups', '.npm-cache', '.release',
@@ -112,7 +115,7 @@ function buildPluginBundles() {
     };
     const allEntries = [{ path: 'manifest.json', content: JSON.stringify(manifest, null, 2) + '\n' }, ...entries];
     const buffer = createTarGz(allEntries);
-    const asset = writeAsset(`plugins/${id}-${VERSION}.tar.gz`, buffer);
+    const asset = writeAsset(`${id}-${VERSION}.tar.gz`, buffer);
     bundles.push({ id, buffer, asset, manifest, pluginManifest });
   }
   return bundles;

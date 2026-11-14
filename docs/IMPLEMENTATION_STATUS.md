@@ -4,7 +4,7 @@ This document separates what is **implemented and covered by tests** from what i
 **experimental** and what is **planned**. It exists to prevent documentation from
 presenting a specification as a shipped guarantee.
 
-Last updated: 2026-11-06 · Engine version: 1.1.0 · Test suite: 89 checks
+Last updated: 2026-11-14 · Engine version: 2.0.0
 
 | Area | Status | Evidence / notes |
 |---|---|---|
@@ -27,12 +27,12 @@ Last updated: 2026-11-06 · Engine version: 1.1.0 · Test suite: 89 checks
 | Core updater | Implemented for non-git installs | Stages a verified archive and applies atomically; refuses to overwrite a git checkout (use `git pull`) |
 | 9 agent adapters | Implemented | Install/verify/uninstall/update tests; downloaded package assets are applied to skill/instruction files |
 | MCP tools | Implemented | 27 tools, including health, event log, conflicts, `asOf`, namespaces |
-| CLI | Implemented | `health`, `manifest`, `memory events`, `memory conflicts`, real `update` flow |
+| CLI | Implemented | `health`, `manifest`, `memory events`, `memory conflicts`, `ui`, and stdio `mcp` entry point |
 | Benchmark | Implemented (synthetic) | `npm run benchmark`: Recall@1/3/5, MRR, explainability coverage, latency, stale-hit checks |
 | Clean-room reproducibility | Implemented | CI extracts the release archive, `npm ci`, builds, tests, and benchmarks |
 | Python bridge portability | Implemented | Resolves `python3`, `python`, or `py -3`; CI matrix covers Linux/macOS/Windows |
 | Learned local embeddings backend | Planned | Requires an optional model/runtime; not claimed or enabled |
-| Tree-sitter/deep parsing for Python/Go/Rust/Java | Planned | These languages currently use regex fallbacks and are labeled `regex-fallback-v1` |
+| Tree-sitter/WASM parsing for Python, Go, Rust, Java, C/C++, JavaScript, and TypeScript | Implemented | Offline grammars; parser failures fall back to resilient extraction; Ruby remains on its regex fallback |
 | Real-repository retrieval evaluation | Planned | Benchmark fixture is synthetic; no claim of accuracy on arbitrary large monorepos |
 | Encryption at rest | Planned | SQLite file relies on OS/filesystem permissions today |
 | Retention/compaction/TTL | Planned | Events are append-only by design; no automatic forget/compaction yet |

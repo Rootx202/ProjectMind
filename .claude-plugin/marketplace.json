@@ -1,0 +1,28 @@
+{
+  "name": "projectmind-marketplace",
+  "owner": {
+    "name": "Rootx202"
+  },
+  "metadata": {
+    "description": "Local-first project intelligence and persistent memory for coding agents",
+    "version": "2.0.0"
+  },
+  "plugins": [
+    {
+      "name": "projectmind",
+      "source": ".",
+      "description": "ProjectMind local memory, code indexing, and MCP integration",
+      "version": "2.0.0",
+      "mcpServers": {
+        "projectmind": {
+          "command": "npx",
+          "args": [
+            "-y",
+            "@rootx202/projectmind",
+            "mcp"
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -27,7 +27,10 @@ export class AntigravityAdapter implements AgentAdapter {
 
   public install(projectRoot: string, options?: AdapterInstallOptions): AdapterInstallResult {
     const resolvedRoot = path.resolve(projectRoot);
-    const mcpScript = options?.mcpServerScriptPath || path.resolve(__dirname, '../../../packages/mcp-server/dist/cli.js');
+    const mcpCommand = options?.mcpServerScriptPath ? 'node' : 'npx';
+    const mcpArgs = options?.mcpServerScriptPath
+      ? [options.mcpServerScriptPath, '--project-root', resolvedRoot]
+      : ['-y', '@rootx202/projectmind', 'mcp', '--project-root', resolvedRoot];
     const sdkDist = path.resolve(__dirname, '../../../packages/agent-sdk/dist/index.js');
     const filesCreatedOrUpdated: string[] = [];
     const backupsCreated: string[] = [];
@@ -40,7 +43,7 @@ export class AntigravityAdapter implements AgentAdapter {
     if (mcpBackup) backupsCreated.push(mcpBackup);
     const mcpConfig = readJsonSafe(mcpConfigPath);
     mcpConfig.mcpServers = mcpConfig.mcpServers || {};
-    mcpConfig.mcpServers.projectmind = { command: 'node', args: [mcpScript, '--project-root', resolvedRoot], cwd: resolvedRoot, timeoutSeconds: 180 };
+    mcpConfig.mcpServers.projectmind = { command: mcpCommand, args: mcpArgs, cwd: resolvedRoot, timeoutSeconds: 180 };
     writeJsonPretty(mcpConfigPath, mcpConfig);
     filesCreatedOrUpdated.push('.agents/mcp_config.json');
 
@@ -59,12 +62,13 @@ export class AntigravityAdapter implements AgentAdapter {
       $schema: 'https://antigravity.google/schemas/v1/plugin.json',
       name: 'projectmind',
       displayName: 'ProjectMind',
-      version: '1.0.0',
+      version: '2.0.0',
       description: 'Universal local-first project intelligence and persistent context engine for AI coding agents.',
       logo: 'assets/logo.svg',
       suggestedPrompts: ['Get the ProjectMind architecture overview for this repository'],
       author: { name: 'ProjectMind Engineering', url: 'https://example.com/projectmind' },
       license: 'MIT',
+      mcpServers: { projectmind: { command: mcpCommand, args: mcpArgs } },
       keywords: ['project-intelligence', 'memory', 'context', 'mcp', 'architecture']
     });
     filesCreatedOrUpdated.push('.agents/plugins/projectmind/plugin.json');
@@ -73,7 +77,7 @@ export class AntigravityAdapter implements AgentAdapter {
     fs.writeFileSync(path.join(pluginRoot, 'skills', 'projectmind', 'SKILL.md'), getSkillContent(), 'utf8');
     fs.writeFileSync(path.join(pluginRoot, 'rules', 'AGENTS.md'), CONCISE_INSTRUCTION_SNIPPET + '\n', 'utf8');
     writeJsonPretty(path.join(pluginRoot, 'mcp_config.json'), {
-      mcpServers: { projectmind: { command: 'node', args: [mcpScript, '--project-root', resolvedRoot], timeoutSeconds: 180 } }
+      mcpServers: { projectmind: { command: mcpCommand, args: mcpArgs, timeoutSeconds: 180 } }
     });
     writeJsonPretty(path.join(pluginRoot, 'hooks.json'), {
       'projectmind-auto-lifecycle': {

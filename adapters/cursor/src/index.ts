@@ -26,7 +26,10 @@ export class CursorAdapter implements AgentAdapter {
 
   public install(projectRoot: string, options?: AdapterInstallOptions): AdapterInstallResult {
     const resolvedRoot = path.resolve(projectRoot);
-    const mcpScript = options?.mcpServerScriptPath || path.resolve(__dirname, '../../../packages/mcp-server/dist/cli.js');
+    const mcpCommand = options?.mcpServerScriptPath ? 'node' : 'npx';
+    const mcpArgs = options?.mcpServerScriptPath
+      ? [options.mcpServerScriptPath, '--project-root', resolvedRoot]
+      : ['-y', '@rootx202/projectmind', 'mcp', '--project-root', resolvedRoot];
     const sdkDist = path.resolve(__dirname, '../../../packages/agent-sdk/dist/index.js');
     const filesCreatedOrUpdated: string[] = [];
     const backupsCreated: string[] = [];
@@ -39,7 +42,7 @@ export class CursorAdapter implements AgentAdapter {
     if (mcpBackup) backupsCreated.push(mcpBackup);
     const mcpJson = readJsonSafe(mcpPath);
     mcpJson.mcpServers = mcpJson.mcpServers || {};
-    mcpJson.mcpServers.projectmind = { command: 'node', args: [mcpScript, '--project-root', resolvedRoot] };
+    mcpJson.mcpServers.projectmind = { command: mcpCommand, args: mcpArgs };
     writeJsonPretty(mcpPath, mcpJson);
     filesCreatedOrUpdated.push('.cursor/mcp.json');
 

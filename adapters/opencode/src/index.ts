@@ -34,7 +34,10 @@ export class OpenCodeAdapter implements AgentAdapter {
 
   public install(projectRoot: string, options?: AdapterInstallOptions): AdapterInstallResult {
     const resolvedRoot = path.resolve(projectRoot);
-    const mcpScript = options?.mcpServerScriptPath || path.resolve(__dirname, '../../../packages/mcp-server/dist/cli.js');
+    const mcpCommand = options?.mcpServerScriptPath ? 'node' : 'npx';
+    const mcpArgs = options?.mcpServerScriptPath
+      ? [options.mcpServerScriptPath, '--project-root', resolvedRoot]
+      : ['-y', '@rootx202/projectmind', 'mcp', '--project-root', resolvedRoot];
     const sdkDist = path.resolve(__dirname, '../../../packages/agent-sdk/dist/index.js');
     const filesCreatedOrUpdated: string[] = [];
     const backupsCreated: string[] = [];
@@ -53,7 +56,7 @@ export class OpenCodeAdapter implements AgentAdapter {
     opencodeJson.mcp = opencodeJson.mcp || {};
     opencodeJson.mcp.projectmind = {
       type: 'local',
-      command: ['node', mcpScript, '--project-root', resolvedRoot],
+      command: [mcpCommand, ...mcpArgs],
       enabled: true
     };
     writeJsonPretty(configPath, opencodeJson);

@@ -2,7 +2,7 @@
   "$schema": "../manifest.schema.json",
   "id": "cursor",
   "name": "ProjectMind for Cursor IDE & Agent CLI",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Project intelligence, Cursor MCP server, v1 lifecycle hooks, and projectmind.mdc rule integration.",
   "publisher": {
     "name": "Rootx202 (ProjectMind)",

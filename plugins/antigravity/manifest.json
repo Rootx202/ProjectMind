@@ -2,7 +2,7 @@
   "$schema": "../manifest.schema.json",
   "id": "antigravity",
   "name": "ProjectMind for Google Antigravity",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Universal local-first project intelligence, persistent context engine, and autonomous lifecycle hooks for Google Antigravity.",
   "publisher": {
     "name": "Rootx202 (ProjectMind)",

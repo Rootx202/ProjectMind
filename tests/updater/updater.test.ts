@@ -85,7 +85,7 @@ function createMockHttpFetcher(options?: {
   networkError?: boolean;
   undeclaredFile?: boolean;
 }) {
-  const version = options?.latestVersion || '1.2.0';
+  const version = options?.latestVersion || '2.1.0';
   const minEngine = options?.minEngineVersion || '1.0.0';
   const bundles = new Map<string, Bundle>();
   for (const id of AGENT_IDS) bundles.set(id, buildBundle(id, version, { extraUndeclared: options?.undeclaredFile }));
@@ -191,12 +191,12 @@ export async function runUpdaterTests(): Promise<{ passed: number; failed: numbe
   });
 
   await check('2. Core update check detects new version on GitHub', async () => {
-    const updater = new UpdateManager({ httpFetcher: createMockHttpFetcher({ latestVersion: '1.2.0' }) });
+    const updater = new UpdateManager({ httpFetcher: createMockHttpFetcher({ latestVersion: '2.1.0' }) });
     const checkRes = await updater.checkCoreUpdate();
     if (!checkRes.isOutdated) throw new Error('Expected isOutdated to be true');
-    if (checkRes.latestVersion !== '1.2.0') throw new Error(`Expected 1.2.0, got ${checkRes.latestVersion}`);
+    if (checkRes.latestVersion !== '2.1.0') throw new Error(`Expected 2.1.0, got ${checkRes.latestVersion}`);
     if (!checkRes.compatible) throw new Error('Expected compatible to be true');
-    if (!checkRes.releaseNotes.includes('Changes in v1.2.0')) throw new Error('Expected changelog to be populated');
+    if (!checkRes.releaseNotes.includes('Changes in v2.1.0')) throw new Error('Expected changelog to be populated');
   });
 
   await check('3. Core update check when already up to date', async () => {
@@ -212,7 +212,7 @@ export async function runUpdaterTests(): Promise<{ passed: number; failed: numbe
     const setup = new SetupManager();
     setup.installAdapter(testDir, 'claude-code');
 
-    const updater = new UpdateManager({ httpFetcher: createMockHttpFetcher({ latestVersion: '1.2.0' }) });
+    const updater = new UpdateManager({ httpFetcher: createMockHttpFetcher({ latestVersion: '2.1.0' }) });
     const adapters = setup.getAllAdapters().map((a) => ({
       agentId: a.agentId,
       displayName: a.displayName,
@@ -232,27 +232,27 @@ export async function runUpdaterTests(): Promise<{ passed: number; failed: numbe
     const testDir = path.join(tmpBase, 'update-all-test');
     fs.mkdirSync(testDir, { recursive: true });
     const setup = new SetupManager();
-    const updater = new UpdateManager({ httpFetcher: createMockHttpFetcher({ latestVersion: '1.2.0' }) });
+    const updater = new UpdateManager({ httpFetcher: createMockHttpFetcher({ latestVersion: '2.1.0' }) });
 
     const adapters = setup.getAllAdapters().map((a) => ({ agentId: a.agentId, adapter: a, verified: true }));
     const results = await updater.updateAllPlugins(testDir, adapters);
     if (results.length !== 9) throw new Error(`Expected 9 results, got ${results.length}`);
     for (const r of results) {
       if (!r.success) throw new Error(`Plugin update failed for ${r.agentId}: ${r.error}`);
-      if (r.newVersion !== '1.2.0') throw new Error(`Expected newVersion 1.2.0, got ${r.newVersion}`);
+      if (r.newVersion !== '2.1.0') throw new Error(`Expected newVersion 2.1.0, got ${r.newVersion}`);
       if (!r.backupPath || !fs.existsSync(r.backupPath)) throw new Error(`Missing backup for ${r.agentId}`);
       if (!r.installedFromPackage) throw new Error(`Plugin ${r.agentId} was not installed from the verified package`);
       if (!r.artifactSha256 || !/^[a-f0-9]{64}$/.test(r.artifactSha256)) throw new Error('Missing artifact sha256');
       if (!fs.existsSync(r.installedPackageDir || '')) throw new Error('Installed package dir missing');
       const state = JSON.parse(fs.readFileSync(path.join(testDir, '.projectmind', 'plugins', r.agentId, 'state.json'), 'utf8'));
-      if (state.currentVersion !== '1.2.0') throw new Error('Package state version mismatch');
+      if (state.currentVersion !== '2.1.0') throw new Error('Package state version mismatch');
     }
 
     // The downloaded assets must actually reach the agent integration files.
     const codexSkill = fs.readFileSync(path.join(testDir, '.agents', 'skills', 'projectmind', 'SKILL.md'), 'utf8');
-    if (!codexSkill.includes('v1.2.0')) throw new Error('Downloaded package SKILL.md was not applied for codex');
+    if (!codexSkill.includes('v2.1.0')) throw new Error('Downloaded package SKILL.md was not applied for codex');
     const claudeMd = fs.readFileSync(path.join(testDir, 'CLAUDE.md'), 'utf8');
-    if (!claudeMd.includes('v1.2.0')) throw new Error('Downloaded package instructions were not applied for claude-code');
+    if (!claudeMd.includes('v2.1.0')) throw new Error('Downloaded package instructions were not applied for claude-code');
   });
 
   await check('6. Download failure handling (HTTP error)', async () => {
@@ -302,7 +302,7 @@ export async function runUpdaterTests(): Promise<{ passed: number; failed: numbe
     customConfig.userCustomKey = 'secret-123';
     fs.writeFileSync(settingsPath, JSON.stringify(customConfig, null, 2), 'utf8');
 
-    const updater = new UpdateManager({ httpFetcher: createMockHttpFetcher({ latestVersion: '1.2.0' }) });
+    const updater = new UpdateManager({ httpFetcher: createMockHttpFetcher({ latestVersion: '2.1.0' }) });
     const res = await updater.updatePlugin(testDir, 'claude-code', setup.getAdapter('claude-code'));
     if (!res.success) throw new Error(`Update failed: ${res.error}`);
 
@@ -381,26 +381,26 @@ export async function runUpdaterTests(): Promise<{ passed: number; failed: numbe
 
     const testDir = path.join(tmpBase, 'undeclared-test');
     fs.mkdirSync(testDir, { recursive: true });
-    const bundle = buildBundle('codex', '1.2.0', { extraUndeclared: true });
+    const bundle = buildBundle('codex', '2.1.0', { extraUndeclared: true });
     const updater = new UpdateManager({
       httpFetcher: async (url: string) => {
         if (url.includes('/releases/latest')) {
           return JSON.stringify({
-            tag_name: 'v1.2.0', name: 'ProjectMind v1.2.0', body: '', published_at: '2026-11-06T18:00:00Z',
+            tag_name: 'v2.1.0', name: 'ProjectMind v2.1.0', body: '', published_at: '2026-11-06T18:00:00Z',
             draft: false, prerelease: false,
             assets: [
-              { id: 1, name: 'index.json', size: 100, browser_download_url: 'https://github.com/Rootx202/ProjectMind/releases/download/v1.2.0/index.json', content_type: 'application/json' },
-              { id: 2, name: 'SHA256SUMS', size: 100, browser_download_url: 'https://github.com/Rootx202/ProjectMind/releases/download/v1.2.0/SHA256SUMS', content_type: 'text/plain' }
+              { id: 1, name: 'index.json', size: 100, browser_download_url: 'https://github.com/Rootx202/ProjectMind/releases/download/v2.1.0/index.json', content_type: 'application/json' },
+              { id: 2, name: 'SHA256SUMS', size: 100, browser_download_url: 'https://github.com/Rootx202/ProjectMind/releases/download/v2.1.0/SHA256SUMS', content_type: 'text/plain' }
             ]
           });
         }
         if (url.endsWith('index.json')) {
           return JSON.stringify({
-            engineVersion: '1.2.0',
+            engineVersion: '2.1.0',
             plugins: {
               codex: {
-                id: 'codex', name: 'Codex', version: '1.2.0', description: '',
-                downloadUrl: 'https://github.com/Rootx202/ProjectMind/releases/download/v1.2.0/codex-1.2.0.tar.gz',
+                id: 'codex', name: 'Codex', version: '2.1.0', description: '',
+                downloadUrl: 'https://github.com/Rootx202/ProjectMind/releases/download/v2.1.0/codex-2.1.0.tar.gz',
                 sha256: bundle.sha256, minEngineVersion: '1.0.0', supportedPlatforms: ['linux']
               }
             },

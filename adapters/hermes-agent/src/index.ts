@@ -39,7 +39,10 @@ export class HermesAgentAdapter implements AgentAdapter {
 
   public install(projectRoot: string, options?: AdapterInstallOptions): AdapterInstallResult {
     const resolvedRoot = path.resolve(projectRoot);
-    const mcpScript = options?.mcpServerScriptPath || path.resolve(__dirname, '../../../packages/mcp-server/dist/cli.js');
+    const mcpCommand = options?.mcpServerScriptPath ? 'node' : 'npx';
+    const mcpArgs = options?.mcpServerScriptPath
+      ? [options.mcpServerScriptPath, '--project-root', resolvedRoot]
+      : ['-y', '@rootx202/projectmind', 'mcp', '--project-root', resolvedRoot];
     const sdkDist = path.resolve(__dirname, '../../../packages/agent-sdk/dist/index.js');
     const filesCreatedOrUpdated: string[] = [];
     const backupsCreated: string[] = [];
@@ -54,8 +57,8 @@ export class HermesAgentAdapter implements AgentAdapter {
     const hermesConfig = readJsonSafe(hermesConfigPath);
     hermesConfig.mcp_servers = hermesConfig.mcp_servers || {};
     hermesConfig.mcp_servers.projectmind = {
-      command: 'node',
-      args: [mcpScript, '--project-root', resolvedRoot],
+      command: mcpCommand,
+      args: mcpArgs,
       cwd: resolvedRoot,
       enabled: true
     };
@@ -79,8 +82,8 @@ export class HermesAgentAdapter implements AgentAdapter {
     const hermesMcp = readJsonSafe(hermesMcpPath);
     hermesMcp.mcpServers = hermesMcp.mcpServers || {};
     hermesMcp.mcpServers.projectmind = {
-      command: 'node',
-      args: [mcpScript, '--project-root', resolvedRoot],
+      command: mcpCommand,
+      args: mcpArgs,
       cwd: resolvedRoot
     };
     writeJsonPretty(hermesMcpPath, hermesMcp);

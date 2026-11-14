@@ -42,7 +42,7 @@ export interface AstModel {
 }
 
 export interface AstParseResult {
-  parser: 'babel-ast-v1' | 'regex-fallback';
+  parser: 'babel-ast-v1' | 'tree-sitter-wasm-v1' | 'regex-fallback';
   imports: AstImport[];
   symbols: AstSymbol[];
   routes: AstRoute[];
@@ -388,4 +388,110 @@ function dedupeByName<T extends { name: string }>(items: T[]): T[] {
     out.push(item);
   }
   return out;
+}
+
+
+// Tree-sitter is initialized once by CLI/MCP/test entry points. Parsing itself
+// is synchronous after startup so existing indexer and MCP APIs remain stable.
+const treeSitterGrammars: Record<string, string> = {
+  '.js':'javascript', '.jsx':'javascript', '.mjs':'javascript', '.cjs':'javascript',
+  '.ts':'typescript', '.tsx':'tsx', '.py':'python', '.go':'go', '.rs':'rust',
+  '.java':'java', '.c':'c', '.h':'c', '.cc':'cpp', '.cpp':'cpp', '.cxx':'cpp',
+  '.hpp':'cpp', '.hh':'cpp', '.cs':'c_sharp', '.php':'php', '.rb':'ruby'
+};
+let treeSitterInitPromise: Promise<void> | null = null;
+let TreeSitterParser: any = null;
+let TreeSitterLanguage: any = null;
+const wasmParsers = new Map<string, any>();
+export function initializeTreeSitter(): Promise<void> {
+  if (!treeSitterInitPromise) treeSitterInitPromise = (async () => {
+    try {
+      const Parser = require('web-tree-sitter');
+      await Parser.init();
+      TreeSitterParser = Parser;
+      TreeSitterLanguage = Parser.Language;
+      const grammars = Array.from(new Set(Object.values(treeSitterGrammars).filter((g) => g !== 'javascript' && g !== 'typescript')));
+      for (const grammar of grammars) {
+        try {
+          const wasmPath = require.resolve(`tree-sitter-wasms/out/tree-sitter-${grammar}.wasm`);
+          const language = await TreeSitterLanguage.load(wasmPath);
+          const parser = new TreeSitterParser();
+          parser.setLanguage(language);
+          wasmParsers.set(grammar, parser);
+        } catch (_) { /* One unavailable grammar must never block other languages. */ }
+      }
+    } catch (_) {
+      // Optional runtime failure; indexer continues through regex extraction.
+      TreeSitterParser = null;
+    }
+  })();
+  return treeSitterInitPromise;
+}
+function getWasmParser(grammar: string): any | null {
+  if (!TreeSitterParser || !TreeSitterLanguage) return null;
+  return wasmParsers.get(grammar) || null;
+}
+export function parseTreeSitterModule(code: string, filename: string): AstParseResult | null {
+  const ext = filename.slice(filename.lastIndexOf('.')).toLowerCase();
+  const grammar = treeSitterGrammars[ext];
+  if (!grammar || grammar === 'javascript' || grammar === 'typescript') return null;
+  const parser = getWasmParser(grammar);
+  if (!parser && grammar !== 'ruby') return null;
+  try {
+    if (grammar === 'ruby' && !parser) throw new Error('Ruby grammar unavailable');
+    const tree = parser.parse(code);
+    if (!tree || !tree.rootNode) return null;
+    const symbols: AstSymbol[] = [];
+    const imports: AstImport[] = [];
+    const exportedNames: string[] = [];
+    const symbolTypes: Record<string, AstSymbol['kind']> = {
+      function_definition:'function', function_declaration:'function', function_item:'function', function_definition_item:'function',
+      method_definition:'method', method_declaration:'method', method:'method', class_definition:'class', class_declaration:'class',
+      class_specifier:'class', struct_specifier:'class', interface_declaration:'interface', trait_item:'interface',
+      enum_declaration:'enum', enum_item:'enum', type_declaration:'type', type_alias_declaration:'type',
+      function_definition_statement:'function'
+    };
+    const textOf = (node: any) => code.slice(node.startIndex, node.endIndex);
+    const field = (node: any, name: string) => { try { return node.childForFieldName(name); } catch (_) { return null; } };
+    const walk = (node: any) => {
+      const type = String(node.type || '');
+      const raw = textOf(node);
+      if (/^(import_statement|import_declaration|use_declaration|include_directive|namespace_use_declaration|using_directive)$/.test(type)) {
+        const match = raw.match(/(?:from\s+|import\s+|use\s+|#include\s*[<"]|require(?:_once)?\s*\(?\s*['"]?)([A-Za-z0-9_@./:\\-]+)/);
+        if (match) imports.push({ specifier:match[1].replace(/[>"')]+$/,''), kind:'import', line:node.startPosition.row+1, names:[] });
+      }
+      const kind = symbolTypes[type];
+      if (kind) {
+        const nameNode = field(node,'name') || field(node,'declarator') || field(node,'type');
+        let name = nameNode ? textOf(nameNode).replace(/^\*+/, '').trim() : '';
+        if (!name && node.namedChildCount) {
+          for (let i=0;i<node.namedChildCount;i++) { const child=node.namedChild(i); if (child && /identifier|name|type_identifier/.test(child.type)) { name=textOf(child); break; } }
+        }
+        name = name.split(/[\s(<:{[]/)[0].replace(/^[*&]+/,'');
+        if (name && /^[A-Za-z_$][\w$!?=:.]*$/.test(name)) {
+          const exported = /\b(export|pub|public)\b/.test(raw.slice(0, Math.min(raw.indexOf('{') < 0 ? 80 : raw.indexOf('{'),120))) || ['python','ruby'].includes(grammar);
+          symbols.push({ name, kind, line:node.startPosition.row+1, endLine:node.endPosition.row+1, exported, signature:raw.slice(0,Math.min(raw.indexOf('{')<0?raw.length:raw.indexOf('{'),160)).replace(/\s+/g,' ').trim() });
+          if(exported)exportedNames.push(name);
+        }
+      }
+      for(let i=0;i<(node.namedChildCount||0);i++){const child=node.namedChild(i);if(child)walk(child);}
+    };
+    walk(tree.rootNode);
+    const uniqueSymbols = dedupeSymbols(symbols);
+    const uniqueImports = dedupeImports(imports);
+    return { parser:'tree-sitter-wasm-v1', imports:uniqueImports, symbols:uniqueSymbols.slice(0,200), routes:[], models:[], exports:Array.from(new Set(exportedNames)), lineCount:code.split(/\r?\n/).length, errors:tree.rootNode.hasError?['Tree-sitter recovered from syntax errors']:[] };
+  } catch (_) {
+    if (grammar !== 'ruby') return null;
+    const symbols: AstSymbol[] = [];
+    const lines = code.split(/\r?\n/);
+    lines.forEach((line, i) => {
+      const klass = line.match(/^\s*class\s+([A-Z][A-Za-z0-9_:]*)/);
+      const fn = line.match(/^\s*def\s+(?:self\.)?([A-Za-z_][A-Za-z0-9_!?=]*)/);
+      if (klass) symbols.push({ name: klass[1], kind: 'class', line: i + 1, endLine: i + 1, exported: true, signature: line.trim() });
+      else if (fn) symbols.push({ name: fn[1], kind: 'function', line: i + 1, endLine: i + 1, exported: !fn[1].startsWith('_'), signature: line.trim() });
+    });
+    const imports: AstImport[] = [];
+    lines.forEach((line, i) => { const m = line.match(/^\s*require(?:_relative)?\s+['"]([^'"]+)['"]/); if (m) imports.push({ specifier:m[1], kind:'import', line:i+1, names:[] }); });
+    return { parser:'regex-fallback', imports, symbols, routes:[], models:[], exports:symbols.filter(s=>s.exported).map(s=>s.name), lineCount:lines.length, errors:['Ruby Tree-sitter grammar failed; used regex fallback'] };
+  }
 }

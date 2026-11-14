@@ -2,12 +2,12 @@ import * as path from 'path';
 import * as fs from 'fs';
 import * as crypto from 'crypto';
 
-export const PROJECTMIND_VERSION = '1.1.0';
+export const PROJECTMIND_VERSION = '2.0.0';
 export const MEMORY_SCHEMA_VERSION = 4;
 export const DEFAULT_DATA_DIR_NAME = '.projectmind';
 
 /** Version stamps embedded in every index artifact so stale data is never silently reused. */
-export const PARSER_VERSION = 'babel-ast-v1';
+export const PARSER_VERSION = 'babel-tree-sitter-wasm-v2';
 export const CHUNKER_VERSION = 'byte-window-64k-v1';
 export const RETRIEVAL_VERSION = 'hybrid-v1';
 export const EMBEDDING_MODEL = 'hash-feature-v2';

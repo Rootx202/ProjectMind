@@ -1,7 +1,7 @@
 {
-  "name": "projectmind",
-  "version": "1.1.0",
-  "description": "ProjectMind — Universal Local-First AI Project Intelligence and Persistent Context Engine",
+  "name": "@rootx202/projectmind",
+  "version": "2.0.0",
+  "description": "ProjectMind \u2014 Universal Local-First AI Project Intelligence and Persistent Context Engine",
   "private": false,
   "license": "MIT",
   "author": "Rootx202",
@@ -17,9 +17,31 @@
     "node": ">=18.0.0"
   },
   "bin": {
-    "projectmind": "./apps/cli/dist/index.js",
-    "projectmind-mcp": "./packages/mcp-server/dist/cli.js"
+    "projectmind": "./bin/projectmind.js",
+    "projectmind-mcp": "./bin/projectmind-mcp.js"
   },
+  "files": [
+    "apps",
+    "packages",
+    "adapters",
+    "skills",
+    "plugins",
+    "templates",
+    "scripts",
+    "docs",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "AGENTS.md",
+    "CLAUDE.md",
+    "GEMINI.md",
+    "tsconfig.json",
+    ".claude-plugin",
+    "bin",
+    ".agents/plugins/projectmind",
+    "gemini-extension.json",
+    ".mcp.json"
+  ],
   "workspaces": [
     "apps/*",
     "packages/*",
@@ -27,8 +49,8 @@
   ],
   "devDependencies": {
     "@babel/core": "^7.24.0",
-    "@babel/preset-typescript": "^7.24.0",
-    "@babel/plugin-transform-modules-commonjs": "^7.24.0"
+    "@babel/plugin-transform-modules-commonjs": "^7.24.0",
+    "@babel/preset-typescript": "^7.24.0"
   },
   "scripts": {
     "build": "node scripts/build.js",
@@ -37,9 +59,13 @@
     "setup": "node apps/setup/dist/index.js",
     "release:package": "node scripts/package-release.js",
     "benchmark": "node scripts/benchmark.js",
-    "test:clean": "node scripts/build.js && node scripts/test.js"
+    "test:clean": "node scripts/build.js && node scripts/test.js",
+    "postinstall": "node scripts/link-workspaces.js",
+    "prepack": "npm run build"
   },
   "dependencies": {
-    "@babel/parser": "^7.29.0"
+    "@babel/parser": "^7.29.0",
+    "tree-sitter-wasms": "^0.1.13",
+    "web-tree-sitter": "0.20.8"
   }
 }

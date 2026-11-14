@@ -16,6 +16,7 @@ import { KnowledgeEngine } from '@projectmind/knowledge';
 import { ImpactAnalyzer } from '@projectmind/impact-analysis';
 import { KnowledgeRetriever } from '@projectmind/retrieval';
 import { ContextEngine } from '@projectmind/context-engine';
+import { startDashboard } from './dashboard';
 
 export interface McpToolDefinition {
   name: string;
@@ -82,6 +83,11 @@ export class ProjectMindMcpServer {
 
   public listTools(): McpToolDefinition[] {
     return [
+      {
+        name: 'open_project_dashboard',
+        description: 'Starts the private, offline ProjectMind dashboard bound to 127.0.0.1 and returns its local URL.',
+        inputSchema: { type: 'object', properties: { projectRoot: { type: 'string' }, port: { type: 'number' } } }
+      },
       {
         name: 'initialize_project',
         description: 'Initializes ProjectMind persistent memory for an existing codebase (7-stage controlled analysis) or a brand-new project from a prompt/specification.',
@@ -223,10 +229,34 @@ export class ProjectMindMcpServer {
   public callTool(name: string, args: Record<string, unknown> = {}): McpToolResponse {
     try {
       const projectRootArg = typeof args.projectRoot === 'string' ? args.projectRoot : undefined;
+      if (name === 'open_project_dashboard') {
+        const root = path.resolve(projectRootArg || this.defaultProjectRoot);
+        if (!fs.existsSync(root) || !fs.statSync(root).isDirectory()) throw new Error(`Project root does not exist: ${root}`);
+        const requestedPort = typeof args.port === 'number' && Number.isInteger(args.port) && args.port > 0 && args.port <= 65535 ? args.port : 43127;
+        const dashboard = startDashboard(root, requestedPort, (tool, toolArgs) => this.callTool(tool, { ...toolArgs, projectRoot: root }));
+        return { content: [{ type: 'text', text: JSON.stringify({ started: true, url: dashboard.url, host: '127.0.0.1' }) }], structuredContent: { started: true, url: dashboard.url, host: '127.0.0.1' } };
+      }
       const ctx = this.getComponents(projectRootArg);
       let result: Record<string, unknown>;
 
       switch (name) {
+        case 'dashboard_data': {
+          const files = ctx.store.getAllFiles();
+          const symbols = files.flatMap((file) => ctx.store.getSymbolsForFile(file.relativePath));
+          const rawTokenEstimate = files.reduce((sum, file) => sum + Math.ceil((file.sizeBytes || 0) / 3.8), 0);
+          const summaryTokenEstimate = files.reduce((sum, file) => sum + estimateTokens(JSON.stringify({ summary: file.summary, symbols: file.symbols, exports: file.exports })).estimatedTokens, 0);
+          result = {
+            symbols: symbols.slice(0, 500),
+            tokenSavings: {
+              estimatedTokensSaved: Math.max(0, rawTokenEstimate - summaryTokenEstimate),
+              rawTokenEstimate,
+              summaryTokenEstimate,
+              savingsPercent: rawTokenEstimate ? Math.max(0, Math.round(((rawTokenEstimate - summaryTokenEstimate) / rawTokenEstimate) * 100)) : 0,
+              isApproximation: true
+            }
+          };
+          break;
+        }
         case 'initialize_project': {
           const mode = String(args.mode || 'auto');
           const promptText = typeof args.promptText === 'string' ? args.promptText.trim() : '';

@@ -35,7 +35,7 @@ const EXCLUDED_SEGMENTS = new Set([
   'dist', 'dist-tests', '.agents', '.claude', '.codex', '.cursor', '.gemini',
   '.deepseek', '.dsh', '.hermes', '.opencode', '.vscode', 'coverage'
 ]);
-const EXCLUDED_FILES = new Set(['.DS_Store', 'Thumbs.db', 'PROJECTMIND_REPAIR_REPORT.md']);
+const EXCLUDED_FILES = new Set(['.DS_Store', 'Thumbs.db']);
 const EXCLUDED_SUFFIXES = ['.log', '.db', '.db-wal', '.db-shm', '.bak', '.tsbuildinfo'];
 
 function sha256(data) {
@@ -107,7 +107,7 @@ function buildPluginBundles() {
       name: pluginManifest.name || id,
       version: VERSION,
       engineVersion: VERSION,
-      minEngineVersion: '1.1.0',
+      minEngineVersion: VERSION,
       description: pluginManifest.description || '',
       publishedAt: PUBLISHED_AT,
       assets: { instructions: 'assets/instructions.md', skill: 'assets/SKILL.md' },
@@ -126,7 +126,7 @@ function verifyCore(archive, expectedVersion) {
   try {
     const result = extractTarGz(archive, tmp);
     const stagePkg = JSON.parse(fs.readFileSync(path.join(tmp, 'package.json'), 'utf8'));
-    if (stagePkg.name !== 'projectmind') throw new Error('core archive package name mismatch');
+    if (stagePkg.name !== '@rootx202/projectmind') throw new Error('core archive package name mismatch');
     if (String(stagePkg.version) !== expectedVersion) throw new Error(`core archive version mismatch: ${stagePkg.version}`);
     for (const required of ['LICENSE', 'README.md', 'scripts/build.js', 'packages/shared/src/index.ts', 'apps/cli/src/index.ts', 'package-lock.json']) {
       if (!fs.existsSync(path.join(tmp, required))) throw new Error(`core archive missing ${required}`);
@@ -183,7 +183,7 @@ function main() {
       description: bundle.pluginManifest.description || '',
       downloadUrl,
       sha256: bundle.asset.sha256,
-      minEngineVersion: '1.1.0',
+      minEngineVersion: VERSION,
       supportedPlatforms: bundle.pluginManifest.supportedPlatforms || ['linux', 'windows', 'darwin']
     };
   }
@@ -191,7 +191,7 @@ function main() {
   const indexJson = {
     engineVersion: VERSION,
     publishedAt: PUBLISHED_AT,
-    changelog: 'ProjectMind v1.1.0: snapshot-bound context, secure verified updates, AST code graph, append-only memory events, temporal memory, and shared-agent namespaces.',
+    changelog: 'ProjectMind v2.0.0: native plugin release, unified npm package, npx MCP entry point, offline AST/WASM indexing, and loopback dashboard.',
     plugins,
     checksums
   };

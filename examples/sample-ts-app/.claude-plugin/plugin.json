@@ -1,0 +1,8 @@
+{
+  "name": "projectmind",
+  "version": "1.0.0",
+  "description": "ProjectMind universal project intelligence engine for Claude Code",
+  "skills": [
+    "../.claude/skills/projectmind"
+  ]
+}

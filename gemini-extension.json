@@ -1,0 +1,15 @@
+{
+  "name": "projectmind",
+  "version": "2.0.0",
+  "description": "Local-first project intelligence and persistent memory MCP server.",
+  "mcpServers": {
+    "projectmind": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@rootx202/projectmind",
+        "mcp"
+      ]
+    }
+  }
+}

@@ -64,6 +64,11 @@ export function runCli(argv: string[]): { exitCode: number; output: string } {
 
   try {
     switch (command) {
+      case 'ui': {
+        const mcp = new ProjectMindMcpServer(projectRoot, true);
+        const result = mcp.callTool('open_project_dashboard', { projectRoot, port: Number(getFlagValue('--port') || 43127) });
+        return { exitCode: result.isError ? 1 : 0, output: result.content[0]?.text || 'Dashboard started.' };
+      }
       case 'version':
       case '--version':
       case '-v': {
@@ -83,6 +88,8 @@ Usage:
 
 Core Commands:
   init                       Initialize ProjectMind memory in the current or target project
+  ui                         Start the private local ProjectMind dashboard
+  mcp                        Start the stdio MCP server for native plugins
   status                     Show ProjectMind index and memory status
   sync                       Synchronize incremental file changes to project memory
   context <task>             Retrieve smart project context for a task
@@ -705,6 +712,8 @@ export async function runCliAsync(argv: string[]): Promise<{ exitCode: number; o
 }
 
 if (require.main === module) {
+  const start = async () => {
+  await require('@projectmind/indexing/dist/ast').initializeTreeSitter();
   const result = runCli(process.argv);
   if (result && typeof (result as any).then === 'function') {
     (result as any).then(({ exitCode, output }: any) => {
@@ -716,6 +725,8 @@ if (require.main === module) {
     });
   } else {
     process.stdout.write((result as any).output + '\n');
-    process.exit((result as any).exitCode);
+    if ((process.argv[2] || '').toLowerCase() !== 'ui' || (result as any).exitCode !== 0) process.exit((result as any).exitCode);
   }
+  };
+  start().catch((err) => { process.stderr.write(`Error: ${err}\n`); process.exit(1); });
 }

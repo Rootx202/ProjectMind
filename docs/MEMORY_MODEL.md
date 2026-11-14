@@ -1,4 +1,4 @@
-# ProjectMind Memory Model (v1.1.0)
+# ProjectMind Memory Model (v2.0.0)
 
 ProjectMind separates **durable truth** from **derived views** and from
 **ephemeral task context**. Nothing in the derived layer is allowed to silently

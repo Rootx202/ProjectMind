@@ -27,7 +27,10 @@ export class CodexAdapter implements AgentAdapter {
 
   public install(projectRoot: string, options?: AdapterInstallOptions): AdapterInstallResult {
     const resolvedRoot = path.resolve(projectRoot);
-    const mcpScript = options?.mcpServerScriptPath || path.resolve(__dirname, '../../../packages/mcp-server/dist/cli.js');
+    const mcpCommand = options?.mcpServerScriptPath ? 'node' : 'npx';
+    const mcpArgs = options?.mcpServerScriptPath
+      ? [options.mcpServerScriptPath, '--project-root', resolvedRoot]
+      : ['-y', '@rootx202/projectmind', 'mcp', '--project-root', resolvedRoot];
     const filesCreatedOrUpdated: string[] = [];
     const backupsCreated: string[] = [];
 
@@ -38,8 +41,8 @@ export class CodexAdapter implements AgentAdapter {
     const tomlBlock = [
       TOML_MARKER_START,
       '[mcp_servers.projectmind]',
-      'command = "node"',
-      `args = [${JSON.stringify(mcpScript)}, "--project-root", ${JSON.stringify(resolvedRoot)}]`,
+      `command = ${JSON.stringify(mcpCommand)}`,
+      `args = ${JSON.stringify(mcpArgs)}`,
       `cwd = ${JSON.stringify(resolvedRoot)}`,
       'startup_timeout_sec = 15',
       'tool_timeout_sec = 60',

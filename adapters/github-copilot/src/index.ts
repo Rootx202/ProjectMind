@@ -25,7 +25,10 @@ export class GitHubCopilotAdapter implements AgentAdapter {
 
   public install(projectRoot: string, options?: AdapterInstallOptions): AdapterInstallResult {
     const resolvedRoot = path.resolve(projectRoot);
-    const mcpScript = options?.mcpServerScriptPath || path.resolve(__dirname, '../../../packages/mcp-server/dist/cli.js');
+    const mcpCommand = options?.mcpServerScriptPath ? 'node' : 'npx';
+    const mcpArgs = options?.mcpServerScriptPath
+      ? [options.mcpServerScriptPath, '--project-root', resolvedRoot]
+      : ['-y', '@rootx202/projectmind', 'mcp', '--project-root', resolvedRoot];
     const filesCreatedOrUpdated: string[] = [];
     const backupsCreated: string[] = [];
 
@@ -34,7 +37,7 @@ export class GitHubCopilotAdapter implements AgentAdapter {
     if (vscodeBackup) backupsCreated.push(vscodeBackup);
     const vscodeMcp = readJsonSafe(vscodeMcpPath);
     vscodeMcp.servers = vscodeMcp.servers || {};
-    vscodeMcp.servers.projectmind = { type: 'stdio', command: 'node', args: [mcpScript, '--project-root', resolvedRoot], cwd: '${workspaceFolder}' };
+    vscodeMcp.servers.projectmind = { type: 'stdio', command: mcpCommand, args: mcpArgs, cwd: '${workspaceFolder}' };
     writeJsonPretty(vscodeMcpPath, vscodeMcp);
     filesCreatedOrUpdated.push('.vscode/mcp.json');
 
@@ -43,7 +46,7 @@ export class GitHubCopilotAdapter implements AgentAdapter {
     if (portableBackup) backupsCreated.push(portableBackup);
     const portableMcp = readJsonSafe(portableMcpPath);
     portableMcp.mcpServers = portableMcp.mcpServers || {};
-    portableMcp.mcpServers.projectmind = { command: 'node', args: [mcpScript, '--project-root', resolvedRoot] };
+    portableMcp.mcpServers.projectmind = { command: mcpCommand, args: mcpArgs };
     writeJsonPretty(portableMcpPath, portableMcp);
     filesCreatedOrUpdated.push('.mcp.json');
 

@@ -19,7 +19,11 @@ projectmind.db-shm
 # Local developer environment / editor configurations containing machine-specific paths
 .agents/
 .claude/
-.claude-plugin/
+/.claude-plugin/
+!/.claude-plugin/
+/.claude-plugin/*
+!/.claude-plugin/plugin.json
+!/.claude-plugin/marketplace.json
 .codex/
 .cursor/
 .deepseek/

@@ -1,0 +1,21 @@
+{
+  "name": "projectmind",
+  "version": "2.0.0",
+  "description": "Local-first project memory, code intelligence, and MCP tools.",
+  "author": {
+    "name": "Rootx202"
+  },
+  "homepage": "https://github.com/Rootx202/ProjectMind",
+  "repository": "https://github.com/Rootx202/ProjectMind",
+  "license": "MIT",
+  "mcpServers": {
+    "projectmind": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@rootx202/projectmind",
+        "mcp"
+      ]
+    }
+  }
+}

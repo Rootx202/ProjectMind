@@ -27,7 +27,10 @@ export class ClaudeCodeAdapter implements AgentAdapter {
 
   public install(projectRoot: string, options?: AdapterInstallOptions): AdapterInstallResult {
     const resolvedRoot = path.resolve(projectRoot);
-    const mcpScript = options?.mcpServerScriptPath || path.resolve(__dirname, '../../../packages/mcp-server/dist/cli.js');
+    const mcpCommand = options?.mcpServerScriptPath ? 'node' : 'npx';
+    const mcpArgs = options?.mcpServerScriptPath
+      ? [options.mcpServerScriptPath, '--project-root', resolvedRoot]
+      : ['-y', '@rootx202/projectmind', 'mcp', '--project-root', resolvedRoot];
     const sdkDist = path.resolve(__dirname, '../../../packages/agent-sdk/dist/index.js');
     const filesCreatedOrUpdated: string[] = [];
     const backupsCreated: string[] = [];
@@ -40,7 +43,7 @@ export class ClaudeCodeAdapter implements AgentAdapter {
     if (mcpBackup) backupsCreated.push(mcpBackup);
     const mcpJson = readJsonSafe(mcpJsonPath);
     mcpJson.mcpServers = mcpJson.mcpServers || {};
-    mcpJson.mcpServers.projectmind = { command: 'node', args: [mcpScript, '--project-root', resolvedRoot] };
+    mcpJson.mcpServers.projectmind = { command: mcpCommand, args: mcpArgs };
     writeJsonPretty(mcpJsonPath, mcpJson);
     filesCreatedOrUpdated.push('.mcp.json');
 
@@ -68,7 +71,8 @@ export class ClaudeCodeAdapter implements AgentAdapter {
     filesCreatedOrUpdated.push('.claude/skills/projectmind/SKILL.md');
 
     writeJsonPretty(path.join(resolvedRoot, '.claude-plugin', 'plugin.json'), {
-      name: 'projectmind', version: '1.0.0',
+      name: 'projectmind', version: '2.0.0',
+      mcpServers: { projectmind: { command: mcpCommand, args: mcpArgs } },
       description: 'ProjectMind universal project intelligence engine for Claude Code',
       skills: ['../.claude/skills/projectmind']
     });

@@ -2,7 +2,7 @@
   "$schema": "../manifest.schema.json",
   "id": "hermes-agent",
   "name": "ProjectMind for Hermes Agent (Nous Research)",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Autonomous project intelligence, Native MCP client integration, HERMES.md instruction file, and self-improving memory loop.",
   "publisher": {
     "name": "Rootx202 (ProjectMind)",

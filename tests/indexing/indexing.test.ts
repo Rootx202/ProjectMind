@@ -6,6 +6,7 @@ import { ProjectMemoryStore } from '@projectmind/storage';
 import { ProjectIndexer } from '@projectmind/indexing';
 import { KnowledgeEngine } from '@projectmind/knowledge';
 import { PARSER_VERSION } from '@projectmind/shared';
+import { parseTreeSitterModule } from '@projectmind/indexing/dist/ast';
 
 export function runIndexingTests(): { passed: number; failed: number; details: string[] } {
   const details: string[] = [];
@@ -16,6 +17,25 @@ export function runIndexingTests(): { passed: number; failed: number; details: s
     catch (err) { failed++; details.push(`FAIL [Indexing] ${name}: ${err instanceof Error ? err.message : String(err)}`); }
   };
 
+  check('0. Tree-sitter WASM extracts structural symbols in supported languages; Ruby uses safe fallback', () => {
+    const samples: Array<[string, string, string]> = [
+      ['sample.py', 'def alpha(x):\n return x\nclass Box:\n pass', 'alpha'],
+      ['sample.go', 'package sample\nfunc Alpha() {}\ntype Box struct {}', 'Alpha'],
+      ['sample.rs', 'pub fn alpha() {}\npub struct Box {}', 'alpha'],
+      ['sample.java', 'public class Box { public void alpha() {} }', 'Box'],
+      ['sample.c', 'int alpha() { return 1; }\nstruct Box { int n; };', 'alpha'],
+      ['sample.cpp', 'class Box {}; int alpha() { return 1; }', 'Box'],
+      ['sample.cs', 'public class Box { public void Alpha() {} }', 'Box'],
+      ['sample.php', '<?php function alpha() {} class Box {}', 'alpha'],
+      ['sample.rb', 'class Box\n def alpha; end\nend', 'Box']
+    ];
+    for (const [file, code, expected] of samples) {
+      const parsed = parseTreeSitterModule(code, file);
+      assert.ok(parsed, `${file} should have a working WASM parser`);
+      assert.ok(parsed!.parser === 'tree-sitter-wasm-v1' || (file.endsWith('.rb') && parsed!.parser === 'regex-fallback'));
+      assert.ok(parsed!.symbols.some((symbol) => symbol.name === expected), `${file} should extract ${expected}: ${JSON.stringify(parsed!.symbols)}`);
+    }
+  });
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'pm-indexing-test-'));
   fs.mkdirSync(path.join(root, 'src', 'lib'), { recursive: true });
   fs.mkdirSync(path.join(root, 'src', 'orders'), { recursive: true });

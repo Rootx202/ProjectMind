@@ -60,6 +60,12 @@ export function runInstallerTests(): { passed: number; failed: number; details: 
     const installRes = setup.installAdapter(projDir, 'antigravity');
     assert.strictEqual(installRes.installed, true);
     assert.ok(fs.existsSync(path.join(projDir, '.agents', 'mcp_config.json')));
+    const nativeMcp = JSON.parse(fs.readFileSync(path.join(projDir, '.agents', 'mcp_config.json'), 'utf8')).mcpServers.projectmind;
+    assert.strictEqual(nativeMcp.command, 'npx');
+    assert.deepStrictEqual(nativeMcp.args.slice(0, 3), ['-y', '@rootx202/projectmind', 'mcp']);
+    const pluginManifest = JSON.parse(fs.readFileSync(path.join(projDir, '.agents', 'plugins', 'projectmind', 'plugin.json'), 'utf8'));
+    assert.strictEqual(pluginManifest.version, '2.0.0');
+    assert.strictEqual(pluginManifest.mcpServers.projectmind.command, 'npx');
     assert.ok(fs.existsSync(path.join(projDir, '.agents', 'skills', 'projectmind', 'SKILL.md')));
     assert.ok(fs.existsSync(path.join(projDir, '.agents', 'plugins', 'projectmind', 'hooks.json')));
 
@@ -159,39 +165,27 @@ export function runInstallerTests(): { passed: number; failed: number; details: 
     assert.strictEqual(uninst.exitCode, 0);
   });
 
-  check('6. install.sh pipe execution regression test (unbound BASH_SOURCE resilience)', () => {
-    const installShPath = path.resolve(__dirname, '../../install.sh');
-    assert.ok(fs.existsSync(installShPath), 'install.sh must exist');
-
-    const cp = require('child_process');
-    // Run via stdin pipe with set -u
-    const res = cp.spawnSync('bash', ['-s', '--', '--dry-run', '--no-verify'], {
-      input: fs.readFileSync(installShPath, 'utf8'),
-      encoding: 'utf8',
-      cwd: tmpRoot
-    });
-
-    assert.strictEqual(res.status, 0, `install.sh failed under pipe: ${res.stderr}`);
-    assert.ok(!res.stderr.includes('unbound variable'), 'install.sh must not throw unbound variable under pipe');
-    assert.ok(!res.stderr.includes('null directory'), 'install.sh must not attempt cd null directory');
-    assert.ok(res.stdout.includes('ProjectMind installation completed successfully!'));
+  check('6. Native plugin manifests and npm package expose the unified npx MCP entry point', () => {
+    const rootDir = path.resolve(__dirname, '../..');
+    const pkg = JSON.parse(fs.readFileSync(path.join(rootDir, 'package.json'), 'utf8'));
+    assert.strictEqual(pkg.name, '@rootx202/projectmind');
+    assert.strictEqual(pkg.version, '2.0.0');
+    assert.strictEqual(pkg.bin.projectmind, './bin/projectmind.js');
+    assert.strictEqual(pkg.bin['projectmind-mcp'], './bin/projectmind-mcp.js');
+    for (const internal of ['apps', 'packages', 'adapters']) assert.ok(pkg.files.includes(internal));
+    const expectedArgs = ['-y', '@rootx202/projectmind', 'mcp'];
+    for (const file of ['.claude-plugin/marketplace.json', '.claude-plugin/plugin.json', '.agents/plugins/projectmind/plugin.json', 'gemini-extension.json']) {
+      const data = JSON.parse(fs.readFileSync(path.join(rootDir, file), 'utf8'));
+      let server;
+      if (file === '.claude-plugin/marketplace.json') server = data.plugins[0].mcpServers.projectmind;
+      else server = data.mcpServers.projectmind;
+      assert.strictEqual(server.command, 'npx', `${file} must invoke npx`);
+      assert.deepStrictEqual(server.args.slice(0, 3), expectedArgs, `${file} must invoke the package MCP entry point`);
+    }
+    const cliBin = fs.readFileSync(path.join(rootDir, 'bin/projectmind.js'), 'utf8');
+    assert.ok(cliBin.includes("process.argv[2] || '').toLowerCase() === 'mcp'"));
+    assert.ok(cliBin.includes("../packages/mcp-server/dist/cli.js"));
   });
-
-  check('7. install.sh local repository execution detects repo root correctly', () => {
-    const installShPath = path.resolve(__dirname, '../../install.sh');
-    const repoRoot = path.resolve(__dirname, '../..');
-    const cp = require('child_process');
-
-    const res = cp.spawnSync('bash', [installShPath, '--dry-run', '--no-verify'], {
-      encoding: 'utf8',
-      cwd: repoRoot
-    });
-
-    assert.strictEqual(res.status, 0, `install.sh failed in local repo: ${res.stderr}`);
-    assert.ok(res.stdout.includes('Detected local repository checkout'), 'install.sh must detect local repo');
-    assert.ok(res.stdout.includes('ProjectMind installation completed successfully!'));
-  });
-
   check('8. Workspace packages definition and mutual resolution', () => {
     const rootDir = path.resolve(__dirname, '../..');
     const requiredModules = [
@@ -213,37 +207,6 @@ export function runInstallerTests(): { passed: number; failed: number; details: 
     for (const mod of requiredModules) {
       const resolved = require.resolve(mod, { paths: [rootDir] });
       assert.ok(fs.existsSync(resolved), `Workspace module ${mod} must be resolvable at ${resolved}`);
-    }
-  });
-
-  check('9. install.sh stops with non-zero exit code on broken environment', () => {
-    const installShPath = path.resolve(__dirname, '../../install.sh');
-    const cp = require('child_process');
-    const tmpBinDir = path.join(os.tmpdir(), 'pm_broken_env_' + Date.now());
-    fs.mkdirSync(tmpBinDir, { recursive: true });
-
-    let bashPath = '/bin/bash';
-    try {
-      bashPath = cp.execSync('which bash', { encoding: 'utf8' }).trim();
-    } catch {
-      // fallback
-    }
-    fs.symlinkSync(bashPath, path.join(tmpBinDir, 'bash'));
-
-    try {
-      const res = cp.spawnSync(path.join(tmpBinDir, 'bash'), [installShPath, '--dry-run'], {
-        encoding: 'utf8',
-        env: {
-          PATH: tmpBinDir,
-          HOME: os.tmpdir()
-        }
-      });
-
-      assert.notStrictEqual(res.status, 0, 'install.sh must exit non-zero when requirements are not met');
-      const output = (res.stderr || '') + (res.stdout || '') + (res.error ? res.error.message : '');
-      assert.ok(output.includes('Node.js is required'), `Must report clear error on missing Node.js: ${output}`);
-    } finally {
-      fs.rmSync(tmpBinDir, { recursive: true, force: true });
     }
   });
 

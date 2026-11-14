@@ -2,7 +2,7 @@
   "$schema": "../manifest.schema.json",
   "id": "claude-code",
   "name": "ProjectMind for Anthropic Claude Code",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Universal local-first project intelligence, MCP server, skills, and settings hooks for Anthropic Claude Code.",
   "publisher": {
     "name": "Rootx202 (ProjectMind)",

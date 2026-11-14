@@ -31,7 +31,7 @@ import {
 } from '@projectmind/shared';
 import { ProjectMemoryStore } from '@projectmind/storage';
 import { ProjectIdentityManager } from '@projectmind/core';
-import { parseJavaScriptModule, AstParseResult } from './ast';
+import { parseJavaScriptModule, parseTreeSitterModule, AstParseResult } from './ast';
 import {
   buildResolutionContext,
   resolveImportPath,
@@ -97,7 +97,7 @@ const MAX_SELECTIVE_READ_BYTES = 256 * 1024; // legacy prefix size retained for 
 const LANGUAGE_BY_EXT: Record<string, string> = {
   '.ts': 'typescript', '.tsx': 'typescript', '.js': 'javascript', '.jsx': 'javascript',
   '.mjs': 'javascript', '.cjs': 'javascript', '.py': 'python', '.go': 'go', '.rs': 'rust',
-  '.java': 'java', '.sql': 'sql', '.prisma': 'prisma', '.graphql': 'graphql', '.gql': 'graphql',
+  '.java': 'java', '.c': 'c', '.h': 'c', '.cc': 'cpp', '.cpp': 'cpp', '.cxx': 'cpp', '.hpp': 'cpp', '.hh': 'cpp', '.cs': 'csharp', '.php': 'php', '.rb': 'ruby', '.sql': 'sql', '.prisma': 'prisma', '.graphql': 'graphql', '.gql': 'graphql',
   '.json': 'json', '.yaml': 'yaml', '.yml': 'yaml', '.toml': 'toml', '.md': 'markdown'
 };
 
@@ -983,12 +983,10 @@ export class ProjectIndexer {
     const isJsTs = language === 'typescript' || language === 'javascript';
 
     let ast: AstParseResult | null = null;
-    if (isJsTs) {
-      try {
-        ast = parseJavaScriptModule(rawContent, relPath);
-      } catch (_) {
-        ast = null;
-      }
+    try {
+      ast = isJsTs ? parseJavaScriptModule(rawContent, relPath) : parseTreeSitterModule(rawContent, relPath);
+    } catch (_) {
+      ast = null;
     }
 
     const symbols: ExtractedSymbol[] = ast
@@ -1137,6 +1135,26 @@ export class ProjectIndexer {
         if (rsFn) { symbols.push({ name: rsFn[2], kind: 'function', line: lineNum, exported: Boolean(rsFn[1]) }); continue; }
         const rsStruct = line.match(/^\s*(pub\s+)?(?:struct|enum|trait)\s+([A-Za-z0-9_]+)/);
         if (rsStruct) { symbols.push({ name: rsStruct[2], kind: 'class', line: lineNum, exported: Boolean(rsStruct[1]) }); continue; }
+      } else if (language === 'csharp') {
+        const csType = line.match(/^\s*(?:public|internal|protected|private)?\s*(?:static\s+|abstract\s+|sealed\s+)*(class|struct|interface|enum)\s+([A-Za-z_][A-Za-z0-9_]*)/);
+        if (csType) { symbols.push({ name: csType[2], kind: csType[1] === 'interface' ? 'interface' : (csType[1] === 'enum' ? 'type' : 'class'), line: lineNum, exported: /public/.test(line) }); continue; }
+        const csMethod = line.match(/^\s*(?:public|internal|protected)\s+(?:static\s+|async\s+|virtual\s+|override\s+)*[\w<>?,.\[\]]+\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(/);
+        if (csMethod) { symbols.push({ name: csMethod[1], kind: 'method', line: lineNum, exported: true }); continue; }
+      } else if (language === 'php') {
+        const phpType = line.match(/^\s*(?:abstract\s+|final\s+)?class\s+([A-Za-z_][A-Za-z0-9_]*)/);
+        if (phpType) { symbols.push({ name: phpType[1], kind: 'class', line: lineNum, exported: true }); continue; }
+        const phpFn = line.match(/^\s*(?:(?:public|protected|private|static|abstract|final)\s+)*function\s+&?([A-Za-z_][A-Za-z0-9_]*)/);
+        if (phpFn) { symbols.push({ name: phpFn[1], kind: 'function', line: lineNum, exported: true }); continue; }
+      } else if (language === 'ruby') {
+        const rbClass = line.match(/^\s*class\s+([A-Z][A-Za-z0-9_:]*)/);
+        if (rbClass) { symbols.push({ name: rbClass[1], kind: 'class', line: lineNum, exported: true }); continue; }
+        const rbFn = line.match(/^\s*def\s+(?:self\.)?([A-Za-z_][A-Za-z0-9_!?=]*)/);
+        if (rbFn) { symbols.push({ name: rbFn[1], kind: 'function', line: lineNum, exported: !rbFn[1].startsWith('_') }); continue; }
+      } else if (language === 'c' || language === 'cpp') {
+        const cType = line.match(/^\s*(?:typedef\s+)?(?:struct|class|union|enum)\s+([A-Za-z_][A-Za-z0-9_]*)/);
+        if (cType) { symbols.push({ name: cType[1], kind: 'class', line: lineNum, exported: true }); continue; }
+        const cFn = line.match(/^\s*(?:static\s+)?[\w:*&<>]+\s+([A-Za-z_][A-Za-z0-9_]*)\s*\([^;]*\)\s*(?:\{|$)/);
+        if (cFn && !['if','while','switch','for','return'].includes(cFn[1])) { symbols.push({ name: cFn[1], kind: 'function', line: lineNum, exported: !/^\s*static\b/.test(line) }); continue; }
       } else if (language === 'java') {
         const javaClass = line.match(/^\s*(?:public\s+)?(?:final\s+)?class\s+([A-Za-z0-9_]+)/);
         if (javaClass) { symbols.push({ name: javaClass[1], kind: 'class', line: lineNum, exported: true }); continue; }
@@ -1176,6 +1194,14 @@ export class ProjectIndexer {
       const useRx = /^\s*use\s+([A-Za-z0-9_:]+)/gm;
       let m: RegExpExecArray | null;
       while ((m = useRx.exec(content)) !== null) imports.add(m[1]);
+    } else if (language === 'c' || language === 'cpp') {
+      const includeRx = /^\s*#include\s*[<\"]([^>\"]+)[>\"]/gm; let m: RegExpExecArray | null; while ((m = includeRx.exec(content)) !== null) imports.add(m[1]);
+    } else if (language === 'csharp') {
+      const rx = /^\s*using\s+([A-Za-z0-9_.]+)\s*;/gm; let m: RegExpExecArray | null; while ((m = rx.exec(content)) !== null) imports.add(m[1]);
+    } else if (language === 'php') {
+      const rx = /^\s*(?:use|require|include)(?:_once)?\s+(?:['\"]([^'\"]+)['\"]|([A-Za-z_\\][A-Za-z0-9_\\]*))/gm; let m: RegExpExecArray | null; while ((m = rx.exec(content)) !== null) imports.add(m[1] || m[2]);
+    } else if (language === 'ruby') {
+      const rx = /^\s*require(?:_relative)?\s+['\"]([^'\"]+)['\"]/gm; let m: RegExpExecArray | null; while ((m = rx.exec(content)) !== null) imports.add(m[1]);
     } else if (language === 'java') {
       const javaRx = /^\s*import\s+([A-Za-z0-9_.]+)\s*;/gm;
       let m: RegExpExecArray | null;

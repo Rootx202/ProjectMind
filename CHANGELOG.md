@@ -3,6 +3,17 @@
 All notable changes to the **ProjectMind** platform are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2026-11-14
+
+### Native Plugin and npm release
+
+- Publish as the unified `@rootx202/projectmind` package with `projectmind` and `projectmind-mcp` entry points; npx bootstrap links bundled internal workspaces without depending on install lifecycle hooks.
+- Add a stdio MCP entry point (`npx -y @rootx202/projectmind mcp`) and use it in native Claude Code, Antigravity, Gemini, and generated adapter configurations.
+- Remove shell/PowerShell installers and their platform-specific setup guides in favor of a single npm-backed native integration command.
+- Keep offline Tree-sitter/WASM parsing and the loopback-only local dashboard; parser failures retain fallback extraction.
+
+---
+
 ---
 
 ## [1.1.0] - 2026-11-06

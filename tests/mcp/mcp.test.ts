@@ -28,7 +28,7 @@ export function runMcpTests(): { passed: number; failed: number; details: string
     for (const required of [
       'initialize_project', 'get_relevant_context', 'search_project_knowledge',
       'get_health', 'get_memory_events', 'record_memory_event',
-      'get_memory_conflicts', 'resolve_memory_conflict', 'get_context_manifest'
+      'get_memory_conflicts', 'resolve_memory_conflict', 'get_context_manifest', 'open_project_dashboard'
     ]) {
       assert.ok(tools.some((t) => t.name === required), `missing tool ${required}`);
     }

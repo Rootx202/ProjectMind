@@ -10,6 +10,8 @@ const { runUpdaterTests } = require('../dist-tests/updater/updater.test.js');
 const { runMemoryTests } = require('../dist-tests/memory/memory.test.js');
 const { runIndexingTests } = require('../dist-tests/indexing/indexing.test.js');
 const { runRetrievalTests } = require('../dist-tests/retrieval/retrieval.test.js');
+const { initializeTreeSitter } = require('../packages/indexing/dist/ast.js');
+const { runDashboardTests } = require('../dist-tests/dashboard/dashboard.test.js');
 
 let totalPassed = 0;
 let totalFailed = 0;
@@ -24,10 +26,12 @@ const suites = [
   runUpdaterTests,
   runMemoryTests,
   runIndexingTests,
-  runRetrievalTests
+  runRetrievalTests,
+  runDashboardTests
 ];
 
 async function main() {
+  await initializeTreeSitter();
   for (const suite of suites) {
     const res = await suite();
     for (const d of res.details) console.log('  ' + d);

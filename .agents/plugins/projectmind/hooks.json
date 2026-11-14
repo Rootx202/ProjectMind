@@ -1,0 +1,38 @@
+{
+  "projectmind-auto-lifecycle": {
+    "enabled": true,
+    "SessionStart": [
+      {
+        "type": "command",
+        "command": "npx -y @rootx202/projectmind hook antigravity SessionStart",
+        "timeout": 15
+      }
+    ],
+    "PreInvocation": [
+      {
+        "type": "command",
+        "command": "npx -y @rootx202/projectmind hook antigravity PreInvocation",
+        "timeout": 15
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "edit_file|write_to_file|replace_file_content|run_command",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx -y @rootx202/projectmind hook antigravity PostToolUse",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "type": "command",
+        "command": "npx -y @rootx202/projectmind hook antigravity Stop",
+        "timeout": 15
+      }
+    ]
+  }
+}

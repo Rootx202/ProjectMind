@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "projectmind": {
+      "command": "node",
+      "args": [
+        "/working_dir/c_c4b92c3e2248bd57/projectmind/packages/mcp-server/dist/cli.js",
+        "--project-root",
+        "/working_dir/c_c4b92c3e2248bd57/projectmind/examples/sample-ts-app"
+      ],
+      "timeoutSeconds": 180
+    }
+  }
+}

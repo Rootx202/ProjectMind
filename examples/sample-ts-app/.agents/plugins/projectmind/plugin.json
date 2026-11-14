@@ -1,0 +1,23 @@
+{
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
+  "name": "projectmind",
+  "displayName": "ProjectMind",
+  "version": "1.0.0",
+  "description": "Universal local-first project intelligence and persistent context engine for AI coding agents.",
+  "logo": "assets/logo.svg",
+  "suggestedPrompts": [
+    "Get the ProjectMind architecture overview for this repository"
+  ],
+  "author": {
+    "name": "ProjectMind Engineering",
+    "url": "https://example.com/projectmind"
+  },
+  "license": "MIT",
+  "keywords": [
+    "project-intelligence",
+    "memory",
+    "context",
+    "mcp",
+    "architecture"
+  ]
+}

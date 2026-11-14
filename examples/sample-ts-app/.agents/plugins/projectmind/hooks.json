@@ -1,0 +1,38 @@
+{
+  "projectmind-auto-lifecycle": {
+    "enabled": true,
+    "SessionStart": [
+      {
+        "type": "command",
+        "command": "node \"/working_dir/c_c4b92c3e2248bd57/projectmind/examples/sample-ts-app/.projectmind/hooks/antigravity-hook.js\" SessionStart",
+        "timeout": 15
+      }
+    ],
+    "PreInvocation": [
+      {
+        "type": "command",
+        "command": "node \"/working_dir/c_c4b92c3e2248bd57/projectmind/examples/sample-ts-app/.projectmind/hooks/antigravity-hook.js\" PreInvocation",
+        "timeout": 15
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "edit_file|write_to_file|replace_file_content|run_command",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/working_dir/c_c4b92c3e2248bd57/projectmind/examples/sample-ts-app/.projectmind/hooks/antigravity-hook.js\" PostToolUse",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "type": "command",
+        "command": "node \"/working_dir/c_c4b92c3e2248bd57/projectmind/examples/sample-ts-app/.projectmind/hooks/antigravity-hook.js\" Stop",
+        "timeout": 15
+      }
+    ]
+  }
+}

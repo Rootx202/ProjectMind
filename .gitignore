@@ -17,7 +17,13 @@ projectmind.db-shm
 *.bak
 
 # Local developer environment / editor configurations containing machine-specific paths
-.agents/
+/.agents/
+!/.agents/
+/.agents/*
+!/.agents/plugins/
+/.agents/plugins/*
+!/.agents/plugins/projectmind/
+!/.agents/plugins/projectmind/**
 .claude/
 /.claude-plugin/
 !/.claude-plugin/

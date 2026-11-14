@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "projectmind": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@rootx202/projectmind",
+        "mcp"
+      ]
+    }
+  }
+}

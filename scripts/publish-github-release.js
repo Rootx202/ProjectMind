@@ -9,8 +9,9 @@ if (!TOKEN) {
   process.exit(1);
 }
 
+const pkg = require('../package.json');
 const REPO = 'Rootx202/ProjectMind';
-const TAG = 'v1.1.0';
+const TAG = `v${pkg.version}`;
 const RELEASE_DIR = path.resolve(__dirname, '..', '.release');
 
 function request(url, options = {}, data = null) {
@@ -96,24 +97,24 @@ async function uploadAsset(uploadUrlTemplate, filePath) {
 }
 
 async function main() {
-  console.log(`Checking existing releases for ${REPO}...`);
+  console.log(`Checking existing releases for ${REPO} tag ${TAG}...`);
   let release;
   try {
     release = await request(`https://api.github.com/repos/${REPO}/releases/tags/${TAG}`);
     console.log(`Found existing release for ${TAG} (id: ${release.id})`);
   } catch (err) {
     console.log(`Creating new release for ${TAG}...`);
-    const releaseBody = `## ProjectMind v1.1.0 — Architecture Hardening & High-Confidence Memory
+    const releaseBody = `## ProjectMind v2.0.0 — Native Plugin & Unified npm Package
 
-ProjectMind v1.1.0 delivers critical enterprise and production guarantees across context freshness, update integrity, code indexing, and multi-agent memory persistence.
+ProjectMind v2.0.0 transitions to a native plugin and npm-first architecture for all supported AI coding agents.
 
 ### Key Highlights
-- **100% Passing Automated Tests**: 93 automated tests passing (0 failures), covering clean-room build, multi-agent memory events, installer pipe/local execution, and updater security.
-- **Snapshot-Bound Fresh Context (P0.1)**: Freshness is evaluated *before* cache lookup; outdated context is never returned silently.
-- **Verified Package Updates & Cryptographic Checksum Enforcement (P0.2 & P0.3)**: SHA-256 is strictly enforced for all remote updates. Downloaded bundles are verified and staged before atomic activation with full rollback protection.
-- **TypeScript/JavaScript AST & Path Resolver (P1.1 & P1.2)**: Streaming full-file hashing guarantees changes at file tails are never missed. AST structural parser extracts interfaces, types, multi-line exports, and tsconfig path aliases.
-- **Append-Only Memory Events & Concurrency (P2)**: Schema v4 introduces immutable \`memory_events\` with cryptographic hash-chaining, actor tracking, and optimistic concurrency.
-- **Explainable Hybrid Retrieval & Stored Embeddings (P3)**: Pre-indexed vector embeddings stored in SQLite with bi-temporal validity filtering and transparent retrieval reasons.
+- **Unified npm Package**: Published as \`@rootx202/projectmind\` with direct \`projectmind\` and \`projectmind-mcp\` executables.
+- **Single Stdio MCP Transport**: Connects via \`npx -y @rootx202/projectmind mcp\` across Claude Code, Antigravity, Gemini CLI, Cursor, and Copilot.
+- **Global Scope Support**: Install once globally with \`--scope global\` to automatically enable ProjectMind across all projects.
+- **100% Offline & Private**: Zero mandatory cloud accounts, zero paid APIs, local SQLite+FTS5 storage.
+- **Tree-sitter WASM AST Indexing**: Resilient multi-language symbol extraction and dependency graph.
+- **Standalone Dashboard**: Local-only loopback dashboard served on \`127.0.0.1\`.
 
 ### Distribution Artifacts & Checksums
 All official release artifacts are listed in \`SHA256SUMS\` and \`release-manifest.json\`.
@@ -125,7 +126,7 @@ All official release artifacts are listed in \`SHA256SUMS\` and \`release-manife
     }, JSON.stringify({
       tag_name: TAG,
       target_commitish: 'main',
-      name: 'ProjectMind v1.1.0',
+      name: `ProjectMind v${pkg.version}`,
       body: releaseBody,
       draft: false,
       prerelease: false
@@ -163,4 +164,3 @@ main().catch((err) => {
   console.error('Release publication failed:', err);
   process.exit(1);
 });
-

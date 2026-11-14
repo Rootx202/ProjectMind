@@ -1,0 +1,33 @@
+{
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
+  "name": "projectmind",
+  "displayName": "ProjectMind",
+  "version": "2.0.0",
+  "description": "Universal local-first project intelligence and persistent context engine for AI coding agents.",
+  "logo": "assets/logo.svg",
+  "suggestedPrompts": [
+    "Get the ProjectMind architecture overview for this repository"
+  ],
+  "author": {
+    "name": "Rootx202",
+    "url": "https://github.com/Rootx202/ProjectMind"
+  },
+  "license": "MIT",
+  "keywords": [
+    "project-intelligence",
+    "memory",
+    "context",
+    "mcp",
+    "architecture"
+  ],
+  "mcpServers": {
+    "projectmind": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@rootx202/projectmind",
+        "mcp"
+      ]
+    }
+  }
+}
